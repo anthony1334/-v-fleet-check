@@ -7,3 +7,6 @@ vFleet/node_modules
 # Exclude specific Symfony
 web/vendor
 web/var
+
+# Exclude .env configuration files
+api/.env
