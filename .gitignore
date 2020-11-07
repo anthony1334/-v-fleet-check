@@ -1,4 +1,9 @@
 # exclude api modules
 api/node_modules
+
 # exclude client modules
 vFleet/node_modules
+
+# Exclude specific Symfony
+web/vendor
+web/var
