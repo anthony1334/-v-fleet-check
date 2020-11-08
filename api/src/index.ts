@@ -3,6 +3,11 @@ import * as debug from 'debug'
 
 import App from './App'
 
+/**
+ * Create a node server
+ * and bootstrap to App class
+ */
+
 debug('ts-express:server')
 
 const normalizePort = (val: number | string): number | string | boolean => {

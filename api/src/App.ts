@@ -1,3 +1,4 @@
+import VehicleRouter from './routes/vehicle-router';
 import DefaultRouter  from './routes/default-router';
 import { dbOptions, corsOptions, apiVersion } from './environment/environment';
 import * as cors from 'cors'
@@ -5,6 +6,13 @@ import * as express from 'express'
 import * as logger from 'morgan'
 import { createConnection } from 'typeorm';
 
+/**
+ * App core
+ *  Create an express app
+ *  Configure rules at startup
+ *  Gather routers
+ *  Create a persistent connection to database
+ */
 class App {
     public app: express.Application
 
@@ -13,8 +21,6 @@ class App {
         this.middleWare()
         this.createConnexion()
         this.configureRouter()
-
-
     }
 
     private middleWare(): void {
@@ -35,6 +41,8 @@ class App {
         DefaultRouter.use(cors(corsOptions))
         this.app.use('/', DefaultRouter)
 
+        VehicleRouter.arguments(cors(corsOptions))
+        this.app.use(`${apiVersion}/vehicle`, VehicleRouter)
 
     }
 }
