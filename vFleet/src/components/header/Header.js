@@ -15,7 +15,7 @@ const Header = ({ navigation, titleText } ) => {
       <Appbar.Header style={styles.headerContainer}>
         {backButton}
         <View style={styles.headerContainer}>
-          <Title style={styles.title}>{titleText}</Title>
+          <Title style={styles.headerContainerTitle}>{titleText}</Title>
         </View>
       </Appbar.Header>
     )

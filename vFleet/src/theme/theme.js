@@ -6,7 +6,7 @@ export const colors = {
     dark: 'rgba(47, 72, 88, 1)',
     warning: 'rgba(246, 174, 45, 1)',
     danger: 'rgba(242, 100, 25, 1)',
-
+    light: 'rgba(255, 255, 255, 1)'
 }
 
 const styles = StyleSheet.create({
@@ -23,17 +23,25 @@ const styles = StyleSheet.create({
     },
     title: {
       fontSize: 20,
-      color: colors.primary
+      color: colors.secondary
+    },
+    lottieView: {
+        position: 'absolute',
+        top: -60
     },
     fab: {
       position: 'absolute',
       margin: 20,
       right: 0,
-      bottom: 10
+      bottom: 10,
+      backgroundColor: colors.warning
     },
     headerContainer: {
-        backgroundColor: colors.danger
-      }
+        backgroundColor: colors.warning
+    },
+    headerContainerTitle: {
+        color: colors.light
+    }
   })
 
   export default styles

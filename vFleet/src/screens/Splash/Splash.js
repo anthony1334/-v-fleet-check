@@ -15,15 +15,12 @@ const Splash = ({ navigation }) => {
         <>
           <Header titleText="vFleetCheck" navigation={navigation} />
           <View style={styles.container}>
-              <LottieView
-                source={anim}
-                loop={true}
-                autoPlay={true}
-              />
-              
-              <View style={styles.titleContainer}>
-                  <Text style={styles.title}>vFleetCheck</Text>
-              </View>
+            <LottieView
+              style={styles.lottieView}
+              source={anim}
+              loop={true}
+              autoPlay={true}
+            />
 
               <FAB
                 style={styles.fab}
