@@ -1,6 +1,8 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { Text, FAB } from 'react-native-paper'
+
+import styles from './../../theme/theme'
 
 import LottieView from 'lottie-react-native'
 
@@ -35,27 +37,6 @@ const Splash = ({ navigation }) => {
     )
 }
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      paddingHorizontal: 10,
-      paddingVertical: 20
-    },
-    titleContainer: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      flex: 1
-    },
-    title: {
-      fontSize: 20
-    },
-    fab: {
-      position: 'absolute',
-      margin: 20,
-      right: 0,
-      bottom: 10
-    }
-  })
+
 
   export default Splash
