@@ -2,13 +2,23 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Text, FAB } from 'react-native-paper'
 
+import LottieView from 'lottie-react-native'
+
 import Header from './../../components/header/Header'
 
 const Splash = ({ navigation }) => {
+  const anim = require('./../../../assets/animations/3970-scanning-animation.json')
+
     return (
         <>
           <Header titleText='vFleetCheck' />
           <View style={styles.container}>
+              <LottieView
+                source={anim}
+                loop={true}
+                autoPlay={true}
+              />
+              
               <View style={styles.titleContainer}>
                   <Text style={styles.title}>vFleetCheck</Text>
               </View>
