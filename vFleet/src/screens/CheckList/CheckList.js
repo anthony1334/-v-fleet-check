@@ -4,10 +4,10 @@ import { Text } from 'react-native-paper'
 
 import Header from './../../components/header/Header'
 
-const CheckList = () => {
+const CheckList = ({ navigation }) => {
     return (
       <>
-        <Header titleText="Points de contrôles" />
+        <Header titleText="Points de contrôles" navigation={navigation} />
         <View style={styles.container}>
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>Check List</Text>

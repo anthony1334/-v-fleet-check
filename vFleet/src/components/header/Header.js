@@ -1,12 +1,19 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Appbar, Title } from 'react-native-paper'
-
 import styles from './../../theme/theme'
+import { StackNavigator } from 'react-navigation'
 
-const Header = ({ titleText }) => {
+const Header = ({ navigation, titleText } ) => {
+    const backButton = navigation.state.routeName !== 'Splash' ? <Appbar.BackAction
+        onPress={() => {
+            navigation.navigate('Splash')
+        }}
+    /> : null
+
     return (
       <Appbar.Header style={styles.headerContainer}>
+        {backButton}
         <View style={styles.headerContainer}>
           <Title style={styles.title}>{titleText}</Title>
         </View>
