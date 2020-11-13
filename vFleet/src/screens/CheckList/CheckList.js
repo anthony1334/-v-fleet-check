@@ -10,8 +10,8 @@ import Header from './../../components/header/Header'
 
 
 const CheckList = ({ navigation }) => {
-  const[indice, setIndice]= useState (2)
-  const [items, setItems]= useState([
+  const [indice, setIndice] = useState(0)
+  const [items, setItems] = useState([
     {
       "title": "Nb. Kilomètres",
       "detail": "Blah blah blah",
@@ -30,21 +30,37 @@ const CheckList = ({ navigation }) => {
       "previous": 0.25,
       "done": false
     },
-    
+
     {
-      "title": "Jauge carburant",
+      "title": "Jauge huile",
       "detail": "Blah blah blah",
       "previous": 0.25,
       "done": false
     }
   ])
 
-const [item, setItem] = useState(items[indice])
+  const [item, setItem] = useState(items[indice])
 
 
 
   const [text, setText] = React.useState('');
-  const title = 'points de contrôles 1/'+ items.length
+  const title = 'points de contrôles ' +(indice+1)+ "/" + items.length
+
+
+  
+  const handleClick = () => {
+    const newIndice = new Number(indice + 1)
+    if(newIndice> items.length){
+      alert("Donnés validées!!")
+    }
+    else{
+    setIndice(newIndice)
+    setItem(items[newIndice])
+    console.log(JSON.stringify(item))
+  }
+  }
+
+
   return (
     <>
       <Header titleText="Points de contrôles" navigation={navigation} />
@@ -54,15 +70,15 @@ const [item, setItem] = useState(items[indice])
         </Appbar.Header>
       </View>
       <View style={styles.Headline}>
-  <Headline>{item.title}</Headline>
+        <Headline>{item.title}</Headline>
       </View>
       <View>
         <Subheading>Valeur précédente :{item.previous} </Subheading>
       </View>
       <View>
         <TextInput
-        mode
-        keyboardType='numeric'
+          mode
+          keyboardType='numeric'
           label="Nouvelle valeur: 250"
           value={text}
           onChangeText={text => setText(text)}
@@ -74,18 +90,18 @@ const [item, setItem] = useState(items[indice])
         <View style={styles.titleContainer}>
           <Text style={styles.title}> <IconButton
             icon="check-underline-circle"
-            color={Colors.grey100}
+            color={Colors.grey300}
             size={100}
-            onPress={text => setText(text)}
+            onPress={() =>handleClick()}
           /></Text>
 
         </View>
       </View>
       <View style={styles.para}>
-      
-      <Paragraph><List.Icon color={Colors.dark} icon="alert" /> Long body text - Minantia non modo formaeque inmeis acervo formaeque gravitate erat indigestaquehabentia fixo mutatas aliud orbis retinebat qui nonalta
+
+        <Paragraph><List.Icon color={Colors.dark} icon="alert" /> Long body text - Minantia non modo formaeque inmeis acervo formaeque gravitate erat indigestaquehabentia fixo mutatas aliud orbis retinebat qui nonalta
 </Paragraph>
-</View>
+      </View>
     </>
   )
 }
@@ -110,14 +126,14 @@ const styles = StyleSheet.create({
 
   },
   checkPoint: {
-    
+
 
     marginTop: 30,
-     backgroundColor: '#fff'
-  
+    backgroundColor: '#fff'
+
 
   },
-   para :{
+  para: {
     marginTop: 16,
     paddingVertical: 8,
     borderWidth: 4,
@@ -126,10 +142,10 @@ const styles = StyleSheet.create({
     color: "#20232a",
     textAlign: "center",
     fontSize: 30,
-    margin:40,
+    margin: 40,
     fontWeight: "bold",
-    padding:80
-   }
+    padding: 80
+  }
 })
 
 export default CheckList
