@@ -41,7 +41,12 @@ const styles = StyleSheet.create({
     },
     headerContainerTitle: {
         color: colors.light
-    }
+    },
+    // title: {
+    //   flex: 1,
+    //   color: colors.black,
+    //   backgroundColor: colors.warning
+    // }
   })
 
-  export default styles
+  export default styles;
