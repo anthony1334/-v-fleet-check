@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/backoffice",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "backoffice"
+    }
+  },
+  "defaultProject": "backoffice",
+  "cli": {
+    "analytics": "bac7ceee-e650-4c79-8055-8c5436073140"
+  }
 }
