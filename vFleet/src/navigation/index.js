@@ -4,6 +4,7 @@ import CheckList from '../screens/CheckList/CheckList'
 
 import Splash from './../screens/Splash/Splash'
 
+
 const StackNavigator = createSwitchNavigator(
     {
         Splash: {

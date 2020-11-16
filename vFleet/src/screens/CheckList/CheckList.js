@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Text, Appbar, TextInput, IconButton, Colors, Paragraph, Button } from 'react-native-paper'
 import { colors } from '../../theme/theme'
@@ -6,7 +6,11 @@ import { colors } from '../../theme/theme'
 import Header from './../../components/header/Header'
 
 
+
+
 const CheckList = ({ navigation }) => {
+
+  const[indice, setIndice]= useState (0)
   const [items, setItems] = useState(
     [
       {
@@ -30,12 +34,31 @@ const CheckList = ({ navigation }) => {
     ]
   )
 
-  const [item, setItem] = useState(items[0])
+  const [item, setItem] = useState(items[indice])
 
   const [text, setText] = React.useState('')
 
-  const title = 'point de contrôle 1/'+items.length
+  const title = 'points de contrôles ' +(indice+1)+ "/" + items.length
 
+
+  useEffect(() => {
+    if(indice> items.length-1){
+      alert("Donnés validées!!")
+    }
+    console.log("item courant"+ JSON.stringify(item))
+    console.log(indice)
+  })
+
+  const handleClick = () => {
+    const newIndice = (indice + 1)
+    if(newIndice<items.length){
+      setIndice(newIndice)
+      setItem(items[newIndice])
+      console.log(JSON.stringify(item))
+
+    }
+  }
+ 
     return (
       <>
         <Header titleText="CheckList" navigation={navigation} />
@@ -45,7 +68,7 @@ const CheckList = ({ navigation }) => {
         <Appbar.Header>
           <Appbar.Content 
             style={styles.title} 
-            title="{title}" 
+            title={title} 
             subtitle={'XXX 999 XXX'}
             // color={Colors.black} 
             // backgroundColor={colors.orange}
@@ -53,10 +76,11 @@ const CheckList = ({ navigation }) => {
         </Appbar.Header>
 
         <Text style={styles.title}>Nb. Kilomètres:</Text>
-        <Text style={styles.title}>Valeur précédente: 81 250</Text>
+        <Text style={styles.title}>Valeur précédente: {item.previous}</Text>
 
         <TextInput
           label="Nouvelle valeur"
+          keyboardType='numeric'
           value={text}
           onChangeText={text => setText(text)}
           type='flat'
@@ -66,7 +90,7 @@ const CheckList = ({ navigation }) => {
           icon="check-box-outline"
           color={Colors.black}
           size={60}
-          onPress={() => console.log('Pressed')}
+          onPress={() => handleClick()}
           alignItems= 'center'
           justifyContent= 'center'
  
@@ -89,6 +113,8 @@ const CheckList = ({ navigation }) => {
       </>
     )
 }
+
+////////////////////////// STYLESHEET ////////////////////////////
 
 const styles = StyleSheet.create({
     container: {
@@ -130,5 +156,7 @@ const styles = StyleSheet.create({
     }
 
   })
+
+  ///////////////////////////END STYLESHEET///////////////////////////////
 
   export default CheckList
