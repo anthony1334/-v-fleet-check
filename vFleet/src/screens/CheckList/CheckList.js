@@ -7,7 +7,6 @@ import Header from './../../components/header/Header'
 
 
 
-
 const CheckList = ({ navigation }) => {
 
   const[indice, setIndice]= useState (0)
@@ -65,13 +64,16 @@ const CheckList = ({ navigation }) => {
 
         <View style={styles.container}>
           
-        <Appbar.Header>
+        <Appbar.Header
+          style={styles.pointsdecontroles}
+
+          >
           <Appbar.Content 
-            style={styles.title} 
+            style={styles.pointsdecontroles} 
             title={title} 
             subtitle={'XXX 999 XXX'}
-            // color={Colors.black} 
-            // backgroundColor={colors.orange}
+ 
+            backgroundColor={colors.orange}
           />
         </Appbar.Header>
 
@@ -117,12 +119,11 @@ const CheckList = ({ navigation }) => {
 ////////////////////////// STYLESHEET ////////////////////////////
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      paddingHorizontal: 10,
-      paddingVertical: 20,
-      
+
+    pointsdecontroles: {
+      fontSize: 20,
+      marginTop: 30,
+      backgroundColor: colors.warning
     },
 
     valid: {
