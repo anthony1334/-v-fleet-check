@@ -6,9 +6,20 @@ import LottieView from 'lottie-react-native'
 import Header from './../../components/header/Header'
 import LoginScreen from '../LoginScreen/LoginScreen'
 import CreateAccountScreen from '../CreateAccountScreen/CreateAccountScreen'
+import Login from './../../components/login/Login'
 
 const Splash = ({ navigation }) => {
   const anim = require('./../../../assets/animations/3970-scanning-animation.json')
+  const [disabledStatus, setDisabledStatus] = useState(true)
+
+  const recievedFromLogin = (text) => {
+    console.log(`Hey, something came from Login component : ${text}`)
+    setDisabledStatus(false)
+  }
+
+  const loginComponent = disabledStatus ? 
+      <Login updateCheckButton={recievedFromLogin} />
+    : null
 
   return (
     <>
