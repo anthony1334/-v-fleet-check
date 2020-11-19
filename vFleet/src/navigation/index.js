@@ -10,7 +10,7 @@ const StackNavigator = createSwitchNavigator(
             screen: Splash
         },
         CheckList: {
-            screen: CheckList
+            screen: CheckList 
         }
     },
     {

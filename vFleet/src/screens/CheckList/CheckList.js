@@ -5,9 +5,11 @@ import { Text } from 'react-native-paper'
 import Header from './../../components/header/Header'
 
 const CheckList = ({ navigation }) => {
+    const title = navigation.getParam('title')
+
     return (
       <>
-        <Header titleText="Points de contrôles" navigation={navigation} />
+        <Header titleText={title} navigation={navigation} />
         <View style={styles.container}>
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>Check List</Text>

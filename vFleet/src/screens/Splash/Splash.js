@@ -40,7 +40,7 @@ const Splash = ({ navigation }) => {
                 small
                 icon='check'
                 label='Accéder à la checklist'
-                onPress={() => navigation.navigate('CheckList')}
+                onPress={() => navigation.navigate('CheckList', {title: 'Test'})}
                 disabled={disabledStatus}
               />
           </View>
