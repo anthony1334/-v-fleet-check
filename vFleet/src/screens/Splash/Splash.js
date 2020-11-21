@@ -11,15 +11,26 @@ import Header from './../../components/header/Header'
 import Login from '../../components/Login'
 
 
+
 const Splash = ({ navigation }) => {
   const anim = require('./../../../assets/animations/3970-scanning-animation.json')
 
   const [disabledStatus, setDisabledStatus] = useState(true)
 
-  const receivedFromLogin = (item) => {
+  const receivedFromLogin = (item, rememberMe) => {
     console.log(`Hey, something came from Login component : ${JSON.stringify(item)}`)
     setDisabledStatus(false)
+    if(rememberMe){
+      localStorage.setItem("vFleetUser",JSON.stringify(item))
+    }
   } 
+
+  useEffect(()=>{
+    const user = localStorage.getItem("vFleetUser")
+    if (user !== null) {
+      setDisabledStatus(false)
+    }
+  },[])
 
   const loginView = disabledStatus ?  <Login navigation={navigation} updateCheckButton={receivedFromLogin}></Login> : null
 

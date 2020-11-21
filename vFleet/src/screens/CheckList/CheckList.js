@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Text, Appbar, TextInput, IconButton, Colors, Paragraph, Button } from 'react-native-paper'
-import { colors } from '../../theme/theme'
 
+
+import { colors } from '../../theme/theme'
 import Header from './../../components/header/Header'
 
 
