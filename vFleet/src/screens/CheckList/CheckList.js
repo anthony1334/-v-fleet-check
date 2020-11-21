@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, SafeAreaView, TouchableOpacity } from 'react-native'
-import { Text, Appbar, Headline, Subheading, TextInput, IconButton, Paragraph, List, Colors } from 'react-native-paper'
+import { StyleSheet, View } from 'react-native'
+import { Text, Appbar, TextInput, IconButton, Colors, Paragraph, Button } from 'react-native-paper'
 import { colors } from '../../theme/theme'
 import Header from './../../components/header/Header'
 import { Rating, AirbnbRating, Slider, Icon } from 'react-native-elements';
 import RNSpeedometer from 'react-native-speedometer'
 import { Camera } from 'expo-camera';
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 const CheckList = ({ navigation }) => {

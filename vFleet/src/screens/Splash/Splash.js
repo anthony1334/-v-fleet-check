@@ -1,7 +1,10 @@
-import React, {useState} from 'react'
-import { View, Button } from 'react-native'
-import { Text, FAB } from 'react-native-paper'
-import styles from './../../theme/theme'
+import React, { useState, useEffect } from 'react'
+
+import { View } from 'react-native'
+import { Text, FAB, Button } from 'react-native-paper'
+
+import styles, { colors } from './../../theme/theme'
+
 import LottieView from 'lottie-react-native'
 import Header from './../../components/header/Header'
 import LoginScreen from '../LoginScreen/LoginScreen'
@@ -38,15 +41,18 @@ const Splash = ({ navigation }) => {
               autoPlay={true}
             /> */}
 
+        </View>
+        {loginView}
+        <View style={styles.container}>
         <FAB
           style={styles.fab}
           small
           icon='check'
           label='Accéder à la checklist'
+          disabled={disabledStatus}
           onPress={() => navigation.navigate('CheckList')}
         />
       </View>
-
     </>
   )
 }
