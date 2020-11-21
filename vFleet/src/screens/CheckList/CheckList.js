@@ -87,7 +87,15 @@ const CheckList = ({ navigation }) => {
 
   })
   
-
+  /**
+   * Update Item value for the current Rating Item
+   * @param {*} rating 
+   */
+  const ratingCompleted = (rating) => {
+    const currentItem = items[indice]
+    currentItem.value = rating
+    items[indice] = currentItem
+  }
 
 //methode qui accede a l item suivant
 const handleClick = () => {
@@ -152,7 +160,12 @@ const controle = () => {
         onChangeText={(text) => handleChange(text)}
       />
     case "starRating":
-      return <Rating showRating fractions="{1}" startingValue={item.previous} />
+      return <Rating 
+        showRating 
+        fractions="{1}" 
+        startingValue={item.previous} 
+        onFinishRating={ratingCompleted}
+        />
 
 
 

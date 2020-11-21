@@ -9,6 +9,7 @@ import CheckList from'../CheckList/CheckList'
 const Recap = ({ navigation }) => {
     const items = navigation.getParam('recap')
     console.log(JSON.stringify(items))
+
     
     const handleBack = () => {
         console.log("je suis la",[indice])
