@@ -104,7 +104,7 @@ const handleClick = () => {
     setItem(items[newIndice])
   }
   if(newIndice>=items.length){
-    navigation.navigate('Recap',{recap:items})
+    navigation.navigate('Recap',{recap: items})
 
   }
 

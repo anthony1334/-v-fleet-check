@@ -5,7 +5,7 @@ import CheckList from '../screens/CheckList/CheckList'
 import Splash from './../screens/Splash/Splash'
 import LoginScreen from './../screens/LoginScreen/LoginScreen'
 import CreateAccountScreen from './../screens/CreateAccountScreen/CreateAccountScreen'
-import Recap from '../screens/recap.js/recap'
+import Recap from '../screens/Recap/Recap'
 
 const StackNavigator = createSwitchNavigator(
     {
