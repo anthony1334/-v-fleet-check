@@ -11,18 +11,27 @@ import LoginScreen from '../LoginScreen/LoginScreen'
 import CreateAccountScreen from '../CreateAccountScreen/CreateAccountScreen'
 import Login from './../../components/login/Login'
 
+
 const Splash = ({ navigation }) => {
   const anim = require('./../../../assets/animations/3970-scanning-animation.json')
   const [disabledStatus, setDisabledStatus] = useState(true)
 
-  const recievedFromLogin = (text) => {
-    console.log(`Hey, something came from Login component : ${text}`)
+  const receivedFromLogin = (item, rememberMe) => {
+    console.log(`Hey, something came from Login component : ${JSON.stringify(item)}`)
     setDisabledStatus(false)
-  }
+    if(rememberMe){
+      localStorage.setItem("vFleetUser",JSON.stringify(item))
+    }
+  } 
 
-  const loginComponent = disabledStatus ? 
-      <Login updateCheckButton={recievedFromLogin} />
-    : null
+  useEffect(()=>{
+    const user = localStorage.getItem("vFleetUser")
+    if (user !== null) {
+      setDisabledStatus(false)
+    }
+  },[])
+
+  const loginView = disabledStatus ?  <Login navigation={navigation} updateCheckButton={receivedFromLogin}></Login> : null
 
   return (
     <>

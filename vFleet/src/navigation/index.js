@@ -11,13 +11,7 @@ import LoginScreen from '../components/Login'
 const StackNavigator = createSwitchNavigator(
     {
         Splash: {
-            screen: Splash,
-            Login: LoginScreen,
-            
-        },
-
-        LoginScreen: {
-            screen: LoginScreen
+            screen: Splash,            
         },
 
         CheckList: {
