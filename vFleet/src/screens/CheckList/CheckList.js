@@ -8,21 +8,9 @@ import RNSpeedometer from 'react-native-speedometer'
 import { Camera } from 'expo-camera';
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 const CheckList = ({ navigation }) => {
 
-  
+
 
   const [indice, setIndice] = useState(0)
   const [items, setItems] = useState([
@@ -39,7 +27,7 @@ const CheckList = ({ navigation }) => {
       "validator": "",
       "title": "Etat des pneumatiques",
       "detail": "Blah blah blah",
-      "previous": 4.5,
+      "previous": 4.1,
       "value": "",
       "done": false,
       "controle": "starRating"
@@ -73,7 +61,7 @@ const CheckList = ({ navigation }) => {
   const [number, setNumber] = React.useState('');
   const title = 'points de contrôles ' + (indice + 1) + "/" + items.length
   const [meterValue, setMeterValue] = useState(20)
- 
+
 
 
 
@@ -86,197 +74,230 @@ const CheckList = ({ navigation }) => {
     console.log(indice)
 
   })
+
+
+
+  //methode qui accede a l item suivant
+  const handleClick = () => {
+    console.log("je suis la", [indice])
+    const itemCourant = item
+    itemCourant.value = value
+    items[indice] = itemCourant
+    setItems(items)
+
+    console.log(JSON.stringify(items))
+    const newIndice = (indice + 1)
+    if (newIndice < items.length) {
+      setIndice(newIndice)
+      setItem(items[newIndice])
+    }
+    if (newIndice >= items.length) {
+      navigation.navigate('Recap', { recap: items })
+     
+
+    }
+
+  }
+
+  //active button fuel
+  const numberGranted = (value) => {
+    if (value != "") {
+      if (value >= 0 && value <= 100) {
+        setButtonDisabledState(false)
+      }
+      else {
+        setButtonDisabledState(true)
+      }
+    }
+
+    setMeterValue(value)
+    console.log("toto", value)
+    setValue(value)
+
+  }
+
+  const numberGranted2 = (value) => {
+    console.log("fuck",value)
+    if (value != "") {
+      if (value >= 0 && value <= 5) {
+        setButtonDisabledState(false)
+      }
+      else {
+        setButtonDisabledState(true)
+      }
+    }
+
+    setMeterValue(value)
+    setPrevious(value)
+    console.log("toto", value)
+    setValue(value)
+
+  }
+
+  //active button kilometre
+  const handleChange = (text) => {
+    if (item.validator != "") {
+      if (value > item.previous) {
+        setButtonDisabledState(false)
+      }
+      else {
+        setButtonDisabledState(true)
+      }
+    }
+    setValue(text)
+    console.log("check", text)
+  }
+
+  const ratingCompleted=(rating) =>{
+    setValue(rating)
+    console.log("bitch",rating)
+   
   
-
-
-//methode qui accede a l item suivant
-const handleClick = () => {
-  console.log("je suis la",[indice])
-  const itemCourant = item
-  itemCourant.value = value
-  items[indice] = itemCourant
-  setItems(items)
-
-  console.log(JSON.stringify(items))
-  const newIndice = (indice + 1)
-  if (newIndice < items.length) {
-    setIndice(newIndice)
-    setItem(items[newIndice])
-  }
-  if(newIndice>=items.length){
-    navigation.navigate('Recap',{recap:items})
-
+    
+    
   }
 
-}
-
-//active button fuel
-const numberGranted = (value) => {
-  if (value != "") {
-    if (value >= 0 && value <= 100) {
-      setButtonDisabledState(false)
-    }
-    else {
-      setButtonDisabledState(true)
-    }
-  }
-
-  setMeterValue(value)
-  setPrevious(value)
-  console.log("toto", value)
-
-}
-
-//active button kilometre
-const handleChange = (text) => {
-  if (item.validator != "") {
-    if (value > item.previous) {
-      setButtonDisabledState(false)
-    }
-    else {
-      setButtonDisabledState(true)
-    }
-  }
-  setValue(text)
-  console.log("check", text)
-}
-
-
-const controle = () => {
-  switch (item.controle) {
-    case "textInput":
-      return <TextInput
-        keyboardType={'numeric'}
-        placeholder={item.title}
-        value={value}
-        onChangeText={(text) => handleChange(text)}
-      />
-    case "starRating":
-      return <Rating showRating fractions="{1}" startingValue={item.previous} />
+  const controle = () => {
+    switch (item.controle) {
+      //nbr de kilometre
+      case "textInput":
+        return <TextInput
+          keyboardType={'numeric'}
+          placeholder={item.title}
+          value={value}
+          onChangeText={(text) => handleChange(text)}
+        />
+      //STARRATING
+      case "starRating":
+        return <Rating showRating fractions={1}
+         startingValue={item.previous}
+          onFinishRating={ratingCompleted} />
+          
 
 
 
-    case "progressBar":
-      return <SafeAreaView style={{ flex: 1 }}>
-        <View style={styles.containerss}>
-          <RNSpeedometer
-            value={meterValue}
-            //value for Speedometer
-            size={200}
-            //Size of Speedometer
-            minValue={0}
-            //Min value for Speedometer
-            maxValue={100}
-            //Max value for Speedometer
-            allowedDecimals={0}
-            //Decimals value allowed or not
-            labels={[
-              {
-                name: 'E',
-                labelColor: '#ff2900',
-                activeBarColor: '#ff2900',
-              },
-              {
-                name: '1/2',
-                labelColor: '#f4ab44',
-                activeBarColor: '#f4ab44',
-              },
-              {
-                name: 'F',
-                labelColor: '#00ff6b',
-                activeBarColor: '#00ff6b',
-              },
-            ]}
-          //Labels for the different steps of Speedometer
-          />
-          <View style={{ marginTop: 70, padding: 20 }}>
-            <Text style={{ fontSize: 20 }}>
-              Veuillez entrez le niveau de carburant{' '}
+      case "progressBar":
+        return <SafeAreaView style={{ flex: 1 }}>
+          <View style={styles.containerss}>
+            <RNSpeedometer
+              value={meterValue}
+              //value for Speedometer
+              size={200}
+              //Size of Speedometer
+              minValue={0}
+              //Min value for Speedometer
+              maxValue={100}
+              //Max value for Speedometer
+              allowedDecimals={0}
+              //Decimals value allowed or not
+              labels={[
+                {
+                  name: 'E',
+                  labelColor: '#ff2900',
+                  activeBarColor: '#ff2900',
+                },
+                {
+                  name: '1/2',
+                  labelColor: '#f4ab44',
+                  activeBarColor: '#f4ab44',
+                },
+                {
+                  name: 'F',
+                  labelColor: '#00ff6b',
+                  activeBarColor: '#00ff6b',
+                },
+              ]}
+            //Labels for the different steps of Speedometer
+            />
+            <View style={{ marginTop: 70, padding: 20 }}>
+              <Text style={{ fontSize: 20 }}>
+                Veuillez entrez le niveau de carburant{' '}
               de 0 à 100
             </Text>
-            <TextInput
-              placeholder="Entrez le niveau de carburant"
-              style={styles.textInputs}
-              keyboardType={'numeric'}
-              maxLength ="3"
-              onChangeText={(value) => numberGranted(value)}
-            />
-           
+              <TextInput
+                placeholder="Entrez le niveau de carburant"
+                style={styles.textInputs}
+                keyboardType={'numeric'}
+                value={value}
+                maxLength="3"
+                onChangeText={(value) => numberGranted(value)}
+              />
+              
+            </View>
           </View>
+        </SafeAreaView>
+
+
+
+
+    }
+  }
+
+  const handleBack = () => {
+    console.log("je suis la", [indice])
+    const itemCourant = item
+    itemCourant.value = value
+    items[indice] = itemCourant
+    setItems(items)
+
+    console.log(JSON.stringify(items))
+    const newIndice = (indice - 1)
+    if (newIndice < items.length) {
+      setIndice(newIndice)
+      setItem(items[newIndice])
+      setValue(item.value)
+
+
+    }
+    if (indice < 1) {
+
+      navigation.navigate('Splash')
+
+    }
+
+
+  }
+
+
+  return (
+    <>
+
+      <Header handleBack={handleBack} titleText="Points de contrôles" navigation={navigation} />
+      <View style={styles.checkPoint}>
+        <Appbar.Header style={styles.checkPoint} >
+          <Appbar.Content title={title} />
+        </Appbar.Header>
+      </View>
+      <View style={styles.Headline}>
+        <Headline>{item.title}</Headline>
+      </View>
+      <View>
+        <Subheading>Valeur précédente :{item.previous} </Subheading>
+      </View>
+      <View>
+        {controle()}
+      </View>
+      <View style={styles.container}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>
+            <IconButton
+              disabled={buttonDisabledState}
+              icon="check-underline-circle"
+              color={Colors.grey300}
+              size={100}
+              onPress={() => handleClick()}
+            /></Text>
+
         </View>
-      </SafeAreaView>
+      </View>
+      <View style={styles.para}>
 
-
-
-
-  }
-}
-
-const handleBack = () => {
-  console.log("je suis la",[indice])
-  const itemCourant = item
-  itemCourant.value = value
-  items[indice] = itemCourant
-  setItems(items)
-
-  console.log(JSON.stringify(items))
-  const newIndice = (indice - 1)
-  if (newIndice < items.length) {
-    setIndice(newIndice)
-    setItem(items[newIndice])
-    setValue(item.value)
-    
-    
-  }
-    if(indice<1){
-      
-            navigation.navigate('Splash')
-
-   } 
-    
-  
-}
-
-  
-return (
-  <>
-
-    <Header handleBack={handleBack} titleText="Points de contrôles" navigation={navigation} />
-    <View style={styles.checkPoint}>
-      <Appbar.Header style={styles.checkPoint} >
-        <Appbar.Content title={title} />
-      </Appbar.Header>
-    </View>
-    <View style={styles.Headline}>
-      <Headline>{item.title}</Headline>
-    </View>
-    <View>
-      <Subheading>Valeur précédente :{item.previous} </Subheading>
-    </View>
-    <View>
-      {controle()}
-    </View>
-    <View style={styles.container}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>
-          <IconButton
-            disabled={buttonDisabledState}
-            icon="check-underline-circle"
-            color={Colors.grey300}
-            size={100}
-            onPress={() => handleClick()}
-          /></Text>
+        <Paragraph><List.Icon color={Colors.dark} icon="alert" /> Long body text - Minantia non modo formaeque inmeis acervo formaeque gravitate erat indigestaquehabentia fixo mutatas aliud orbis retinebat qui nonalta</Paragraph>
 
       </View>
-    </View>
-    <View style={styles.para}>
+    </>
+  )
 
-      <Paragraph><List.Icon color={Colors.dark} icon="alert" /> Long body text - Minantia non modo formaeque inmeis acervo formaeque gravitate erat indigestaquehabentia fixo mutatas aliud orbis retinebat qui nonalta</Paragraph>
-
-    </View>
-  </>
-)
-  
 }
 
 
