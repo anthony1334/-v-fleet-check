@@ -1,23 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, SafeAreaView, TouchableOpacity } from 'react-native'
-import { Text, Appbar, Headline, Subheading, TextInput, IconButton, Paragraph, List, Colors } from 'react-native-paper'
+import { StyleSheet, View } from 'react-native'
+import { Text, Appbar, TextInput, IconButton, Colors, Paragraph, Button, Headline, Subheading, List, SafeAreaView } from 'react-native-paper'
+
+
 import { colors } from '../../theme/theme'
 import Header from './../../components/header/Header'
 import { Rating, AirbnbRating, Slider, Icon } from 'react-native-elements';
 import RNSpeedometer from 'react-native-speedometer'
 import { Camera } from 'expo-camera';
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 const CheckList = ({ navigation }) => {
@@ -87,7 +77,15 @@ const CheckList = ({ navigation }) => {
 
   })
   
-
+  /**
+   * Update Item value for the current Rating Item
+   * @param {*} rating 
+   */
+  const ratingCompleted = (rating) => {
+    const currentItem = items[indice]
+    currentItem.value = rating
+    items[indice] = currentItem
+  }
 
 //methode qui accede a l item suivant
 const handleClick = () => {
@@ -104,7 +102,7 @@ const handleClick = () => {
     setItem(items[newIndice])
   }
   if(newIndice>=items.length){
-    navigation.navigate('Recap',{recap:items})
+    navigation.navigate('Recap',{recap: items})
 
   }
 
@@ -152,7 +150,12 @@ const controle = () => {
         onChangeText={(text) => handleChange(text)}
       />
     case "starRating":
-      return <Rating showRating fractions="{1}" startingValue={item.previous} />
+      return <Rating 
+        showRating 
+        fractions="{1}" 
+        startingValue={item.previous} 
+        onFinishRating={ratingCompleted}
+        />
 
 
 
