@@ -23,10 +23,7 @@ export class VehicleRouter {
                 `/:matriculation`,
                 this.controller.findByImmat
             )
-
-
     }
-
 }
 
 const routes: VehicleRouter = new VehicleRouter()

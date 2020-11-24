@@ -1,10 +1,12 @@
 import VehicleRouter from './routes/vehicle-router';
+import UserRouter from './routes/user-router';
 import DefaultRouter  from './routes/default-router';
 import { dbOptions, corsOptions, apiVersion } from './environment/environment';
 import * as cors from 'cors'
 import * as express from 'express'
 import * as logger from 'morgan'
 import { createConnection } from 'typeorm';
+
 
 /**
  * App core
@@ -19,7 +21,7 @@ class App {
     public constructor() {
         this.app = express()
         this.middleWare()
-        this.createConnexion()
+        // this.createConnexion()
         this.configureRouter()
     }
 
@@ -43,6 +45,9 @@ class App {
 
         VehicleRouter.arguments(cors(corsOptions))
         this.app.use(`${apiVersion}/vehicle`, VehicleRouter)
+
+        UserRouter.arguments(cors(corsOptions))
+        this.app.use(`${apiVersion}/user`, UserRouter)
 
     }
 }
