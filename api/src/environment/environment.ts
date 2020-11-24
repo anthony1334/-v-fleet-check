@@ -1,5 +1,8 @@
+
 import { ConnectionOptions } from "typeorm";
-import * as cors from 'cors'
+import * as cors from 'cors';
+
+
 
 /**
  * environment
@@ -18,7 +21,7 @@ export const dbOptions: ConnectionOptions = {
     entities: [
         './entities/*.js'
     ],
-    synchronize: true
+    synchronize: false
 }
 
 // Définition des options CORS
@@ -30,5 +33,5 @@ export const corsOptions: cors.CorsOptions = {
     preflightContinue: false
 }
 
-export const apiVersion = 'api/v1/'
+export const apiVersion = '/api/v1'
 

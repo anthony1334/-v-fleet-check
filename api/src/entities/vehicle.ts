@@ -6,6 +6,7 @@ export class Vehicle {
     public id: number
 
     @Column({
+        type:'varchar',
         length: 10,
         nullable: false,
         unique: true

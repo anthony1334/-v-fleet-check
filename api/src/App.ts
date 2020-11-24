@@ -41,7 +41,7 @@ class App {
         DefaultRouter.use(cors(corsOptions))
         this.app.use('/', DefaultRouter)
 
-        VehicleRouter.arguments(cors(corsOptions))
+        VehicleRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/vehicle`, VehicleRouter)
 
     }

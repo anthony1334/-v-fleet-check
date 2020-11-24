@@ -8,7 +8,7 @@ export class VehicleController {
         this.repository = new VehicleRepository()
     }
     async findAll(request: Request, response: Response) {
-
+        this.repository = new VehicleRepository()
         // Call the findAll method of the repository
         this.repository.all().then((result: any) => {
             if (!result) {
