@@ -21,7 +21,7 @@ class App {
     public constructor() {
         this.app = express()
         this.middleWare()
-        // this.createConnexion()
+        this.createConnexion()
         this.configureRouter()
     }
 
