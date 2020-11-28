@@ -8,7 +8,6 @@ export class VehicleRouter {
 
     public constructor() {
         this.controller = new VehicleController()
-        console.log("vehiculeRouter: constructor")
 
         this.router = Router()
         this.setRoutes()

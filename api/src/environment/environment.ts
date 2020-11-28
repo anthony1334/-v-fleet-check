@@ -1,4 +1,3 @@
-
 import { ConnectionOptions } from "typeorm";
 import * as cors from 'cors';
 
@@ -19,7 +18,7 @@ export const dbOptions: ConnectionOptions = {
     password: '!5o3aSy2F!nd*',
     database: 'v-fleet-repo',
     entities: [
-        './entities/*.js'
+        __dirname + '/../entities/*{.ts,.js}'
     ],
     synchronize: false
 }
