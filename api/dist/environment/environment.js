@@ -8,9 +8,9 @@ exports.apiVersion = exports.corsOptions = exports.dbOptions = void 0;
  *  @author Jean-Luc Aubert <jean-luc.a@ideafactory.fr>
  */
 exports.dbOptions = {
-    type: 'mysql',
+    type: 'mariadb',
     host: '127.0.0.1',
-    port: 3306,
+    port: 3307,
     username: 'v-fleet-db-admin',
     password: '!5o3aSy2F!nd*',
     database: 'v-fleet-repo',

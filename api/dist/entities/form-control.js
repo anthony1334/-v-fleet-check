@@ -9,16 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.FormControl = void 0;
 const typeorm_1 = require("typeorm");
-let User = class User {
+let FormControl = class FormControl {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
+    __metadata("design:type", Number)
+], FormControl.prototype, "id", void 0);
+__decorate([
+    typeorm_1.Column({
+        type: 'varchar',
+        length: 75,
+        nullable: false,
+        unique: true
+    }),
     __metadata("design:type", String)
-], User.prototype, "id", void 0);
-User = __decorate([
-    typeorm_1.Entity('user')
-], User);
-exports.User = User;
-//# sourceMappingURL=user.js.map
+], FormControl.prototype, "uiType", void 0);
+FormControl = __decorate([
+    typeorm_1.Entity('form-control')
+], FormControl);
+exports.FormControl = FormControl;
+//# sourceMappingURL=form-control.js.map

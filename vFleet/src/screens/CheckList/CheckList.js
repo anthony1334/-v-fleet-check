@@ -139,7 +139,6 @@ const handleChange = (text) => {
   console.log("check", text)
 }
 
-
 const controle = () => {
   switch (item.controle) {
     case "textInput":

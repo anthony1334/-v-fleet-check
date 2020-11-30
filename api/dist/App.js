@@ -44,9 +44,9 @@ class App {
     configureRouter() {
         default_router_1.default.use(cors(environment_1.corsOptions));
         this.app.use('/', default_router_1.default);
-        vehicle_router_1.default.arguments(cors(environment_1.corsOptions));
+        vehicle_router_1.default.use(cors(environment_1.corsOptions));
         this.app.use(`${environment_1.apiVersion}/vehicle`, vehicle_router_1.default);
-        user_router_1.default.arguments(cors(environment_1.corsOptions));
+        user_router_1.default.use(cors(environment_1.corsOptions));
         this.app.use(`${environment_1.apiVersion}/user`, user_router_1.default);
     }
 }

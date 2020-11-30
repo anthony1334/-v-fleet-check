@@ -9,16 +9,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.CheckItemValue = void 0;
 const typeorm_1 = require("typeorm");
-let User = class User {
+const item_1 = require("./item");
+const Checking_1 = require("./Checking");
+let CheckItemValue = class CheckItemValue {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
+    __metadata("design:type", Number)
+], CheckItemValue.prototype, "id", void 0);
+__decorate([
+    typeorm_1.Column({
+        type: 'varchar',
+        length: 255,
+        nullable: false,
+    }),
     __metadata("design:type", String)
-], User.prototype, "id", void 0);
-User = __decorate([
-    typeorm_1.Entity('user')
-], User);
-exports.User = User;
-//# sourceMappingURL=user.js.map
+], CheckItemValue.prototype, "value", void 0);
+__decorate([
+    typeorm_1.ManyToOne(() => item_1.Item, item => item.itemValues),
+    __metadata("design:type", item_1.Item)
+], CheckItemValue.prototype, "item", void 0);
+__decorate([
+    typeorm_1.ManyToOne(() => Checking_1.Checking),
+    __metadata("design:type", Checking_1.Checking)
+], CheckItemValue.prototype, "checking", void 0);
+CheckItemValue = __decorate([
+    typeorm_1.Entity('check-item-value')
+], CheckItemValue);
+exports.CheckItemValue = CheckItemValue;
+//# sourceMappingURL=check-item-value.js.map
