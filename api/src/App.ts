@@ -7,7 +7,6 @@ import * as express from 'express'
 import * as logger from 'morgan'
 import { createConnection } from 'typeorm';
 
-
 /**
  * App core
  *  Create an express app
@@ -43,10 +42,10 @@ class App {
         DefaultRouter.use(cors(corsOptions))
         this.app.use('/', DefaultRouter)
 
-        VehicleRouter.arguments(cors(corsOptions))
+        VehicleRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/vehicle`, VehicleRouter)
 
-        UserRouter.arguments(cors(corsOptions))
+        UserRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/user`, UserRouter)
 
     }
