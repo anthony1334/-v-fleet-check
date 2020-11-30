@@ -16,7 +16,7 @@ export class VehicleRouter {
     private setRoutes() {
         this.router
             .get(
-                `/vehicle`,
+                `/`,
                 this.controller.findAll
             )
             .get(

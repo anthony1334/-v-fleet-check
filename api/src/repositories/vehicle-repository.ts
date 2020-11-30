@@ -1,13 +1,15 @@
+import { connection } from './../database/connection';
 import { Vehicle } from './../entities/vehicle';
-import { getManager } from "typeorm";
+import { EntityRepository, getManager, Repository } from "typeorm";
 
-export class VehicleRepository {
+@EntityRepository(Vehicle)
+export class VehicleRepository extends Repository<Vehicle> {
     public all(): Promise<Vehicle[]> {
-        return getManager().getRepository(Vehicle).find()
+        return this.find()
     }
 
-    public byImmat(matriculation: string) {
-        return getManager().getRepository(Vehicle).find(
+    public byImmat(matriculation: string): Promise<Vehicle[]> {
+        return this.find(
             {
                 where: {matriculation}
             }

@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react'
-
 import { View } from 'react-native'
 import { Text, FAB, Button } from 'react-native-paper'
-
 import styles, { colors } from './../../theme/theme'
-
 import LottieView from 'lottie-react-native'
 import Header from './../../components/header/Header'
 import LoginScreen from '../LoginScreen/LoginScreen'
