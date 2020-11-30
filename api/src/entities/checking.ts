@@ -3,6 +3,7 @@ import { CheckItemValue } from './check-item-value'
 import { Vehicle } from './vehicle'
 
 @Entity('checking')
+
 export class Checking {
     @PrimaryGeneratedColumn()
     public id: number
@@ -39,7 +40,7 @@ export class Checking {
         srid: 4326
     })
 
-    @OneToMany(() => CheckItemValue, checkItemValues => checkItemValues.checking)
+    @OneToMany(() => CheckItemValue, checkItemValue =>checkItemValue.checking)
     public checkItemValues: CheckItemValue[]
 
 

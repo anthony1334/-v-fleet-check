@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
+import { Item } from './item'
 
 @Entity('form-control')
 
@@ -14,6 +15,6 @@ export class FormControl {
         unique: true
     })
     public uiType: string
-    
+
 
 }

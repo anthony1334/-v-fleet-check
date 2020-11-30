@@ -1,4 +1,8 @@
 import VehicleRouter from './routes/vehicle-router';
+import ItemRouter from './routes/item-router';
+import FormControlRouter from './routes/form-control-router';
+import CheckItemValueRouter from './routes/check-item-value-router';
+import CheckingRouter from './routes/checking-router';
 import DefaultRouter  from './routes/default-router';
 import { corsOptions, apiVersion } from './environment/environment';
 import * as cors from 'cors'
@@ -30,6 +34,18 @@ class App {
 
         VehicleRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/vehicle`, VehicleRouter)
+
+        ItemRouter.use(cors(corsOptions))
+        this.app.use(`${apiVersion}/items`, ItemRouter)
+
+        FormControlRouter.use(cors(corsOptions))
+        this.app.use(`${apiVersion}/form-control`, FormControlRouter)
+
+        CheckItemValueRouter.use(cors(corsOptions))
+        this.app.use(`${apiVersion}/check-item-value`, CheckItemValueRouter)
+
+        CheckingRouter.use(cors(corsOptions))
+        this.app.use(`${apiVersion}/checking`, CheckingRouter)
 
     }
 }

@@ -1,61 +1,24 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Text, Appbar, TextInput, IconButton, Colors, Paragraph, Button, Headline, Subheading, List, SafeAreaView } from 'react-native-paper'
+import { StyleSheet, View, SafeAreaView } from 'react-native'
+import { Text, Appbar, TextInput, IconButton, Colors, Paragraph, Button, Headline, Subheading, List  } from 'react-native-paper'
 
 
 import { colors } from '../../theme/theme'
 import Header from './../../components/header/Header'
 import { Rating, AirbnbRating, Slider, Icon } from 'react-native-elements';
 import RNSpeedometer from 'react-native-speedometer'
-import { Camera } from 'expo-camera';
+
 
 
 const CheckList = ({ navigation }) => {
 
 
-
+  const [error, setError] = useState(null);
+    const [isLoaded, setIsLoaded] = useState(false);
   const [indice, setIndice] = useState(0)
-  const [items, setItems] = useState([
-    {
-      "validator": "must be superior",
-      "title": "Nb. Kilomètres",
-      "detail": "Blah blah blah",
-      "previous": 81200,
-      "value": "",
-      "done": false,
-      "controle": "textInput"
-    },
-    {
-      "validator": "",
-      "title": "Etat des pneumatiques",
-      "detail": "Blah blah blah",
-      "previous": 4.1,
-      "value": "",
-      "done": false,
-      "controle": "starRating"
-    },
-    {
-      "validator": "",
-      "title": "Jauge carburant",
-      "detail": "Blah blah blah",
-      "previous": 0.25,
-      "value": "",
-      "done": false,
-      "controle": "progressBar"
-    },
-
-    {
-      "validator": "",
-      "title": "Jauge huile",
-      "detail": "Blah blah blah",
-      "previous": 0.25,
-      "value": "",
-      "done": false,
-      "controle": "progressBar"
-    }
-  ])
-
-  const [item, setItem] = useState(items[indice])
+ 
+  const [items, setItems] = useState([])
+  const [item, setItem] = useState()
   const [buttonDisabledState, setButtonDisabledState] = useState(item.validator != "" ? true : false)
   const [value, setValue] = useState(item.value)
   const [previous, setPrevious] = useState(item.previous)
@@ -63,11 +26,7 @@ const CheckList = ({ navigation }) => {
   const [number, setNumber] = React.useState('');
   const title = 'points de contrôles ' + (indice + 1) + "/" + items.length
   const [meterValue, setMeterValue] = useState(20)
-
-
-
-
-
+  
   useEffect(() => {
     if (indice > items.length - 1) {
       alert("Donnés validées!!")
@@ -76,11 +35,6 @@ const CheckList = ({ navigation }) => {
     console.log(indice)
 
   })
-
-  /**
-   * Update Item value for the current Rating Item
-   * @param {*} rating 
-   */
   const ratingCompleted = (rating) => {
     const currentItem = items[indice]
     currentItem.value = rating
@@ -165,19 +119,19 @@ const CheckList = ({ navigation }) => {
     }
 
     const controle = () => {
-      switch (item.controle) {
+      switch (item.uiType.uiType) {
         //nbr de kilometre
         case "textInput":
           return <TextInput
             keyboardType={'numeric'}
-            placeholder={item.title}
+            placeholder={item.label}
             value={value}
             onChangeText={(text) => handleChange(text)}
           />
         //STARRATING
         case "starRating":
           return <Rating showRating fractions={1}
-            startingValue={item.previous}
+            startingValue={0}
             onFinishRating={ratingCompleted} />
 
 
@@ -222,7 +176,7 @@ const CheckList = ({ navigation }) => {
               de 0 à 100
             </Text>
                 <TextInput
-                  placeholder="Entrez le niveau de carburant"
+                  placeholder={item.hinting}
                   style={styles.textInputs}
                   keyboardType={'numeric'}
                   value={value}
@@ -266,7 +220,34 @@ const CheckList = ({ navigation }) => {
     }
 
 
-    return (
+    // Remarque : le tableau vide de dépendances [] indique
+    // que useEffect ne s’exécutera qu’une fois, un peu comme
+    // componentDidMount()
+    useEffect(() => {
+      fetch("http://127.0.0.1:3000/api/v1/items")
+        .then(res => res.json())
+        .then(
+          (result) => {
+            console.log(JSON.stringify(result))
+            setIsLoaded(true);
+            setItems(result);
+          },
+          // Remarque : il faut gérer les erreurs ici plutôt que dans
+          // un bloc catch() afin que nous n’avalions pas les exceptions
+          // dues à de véritables bugs dans les composants.
+          (error) => {
+            setIsLoaded(true);
+            setError(error);
+          }
+        )
+    }, [])
+  
+    if (error) {
+      return <div>Erreur : {error.message}</div>;
+    } else if (!isLoaded) {
+      return <div>Chargement...</div>;
+    } else {
+      return (
       <>
 
         <Header handleBack={handleBack} titleText="Points de contrôles" navigation={navigation} />
@@ -276,7 +257,7 @@ const CheckList = ({ navigation }) => {
           </Appbar.Header>
         </View>
         <View style={styles.Headline}>
-          <Headline>{item.title}</Headline>
+          <Headline>{item.label}</Headline>
         </View>
         <View>
           <Subheading>Valeur précédente :{item.previous} </Subheading>
@@ -299,7 +280,7 @@ const CheckList = ({ navigation }) => {
         </View>
         <View style={styles.para}>
 
-          <Paragraph><List.Icon color={Colors.dark} icon="alert" /> Long body text - Minantia non modo formaeque inmeis acervo formaeque gravitate erat indigestaquehabentia fixo mutatas aliud orbis retinebat qui nonalta</Paragraph>
+          <Paragraph><List.Icon color={Colors.dark} icon="alert" /> {item.hinting}</Paragraph>
 
         </View>
       </>
@@ -307,6 +288,24 @@ const CheckList = ({ navigation }) => {
 
   }
 
+    }
+  
+
+
+ 
+
+
+
+
+
+ 
+
+  /**
+   * Update Item value for the current Rating Item
+   * @param {*} rating 
+   */
+ 
+    
 
   const styles = StyleSheet.create({
     containerss: {

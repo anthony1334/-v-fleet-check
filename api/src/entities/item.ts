@@ -24,10 +24,10 @@ export class Item {
     })
     public hinting: string
 
-    @ManyToOne(()=>FormControl)
+    @ManyToOne(()=>FormControl,{eager:true})
     public uiType: FormControl
 
-    @OneToMany(()=>CheckItemValue,itemValues=>itemValues.item)
+    @OneToMany(()=>CheckItemValue,itemValues=>itemValues.item,{eager:true})
     public itemValues:CheckItemValue[]
 
 }
