@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { UserRepository } from './../repositories/user-repository';
 
-
 export class UserController {
 
     private repository: UserRepository
@@ -17,7 +16,7 @@ export class UserController {
                     message: 'No user available at this time'
                 })
             } else {
-                response.status(200).send("coucou")
+                response.status(200).send("petit message pour user controller")
             }
         })
     }

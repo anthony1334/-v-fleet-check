@@ -1,5 +1,7 @@
 import VehicleRouter from './routes/vehicle-router';
 import UserRouter from './routes/user-router';
+import CompanyRouter from './routes/company-router';
+import VehicleFleetRouter from './routes/vehicle-fleet-router';
 import DefaultRouter  from './routes/default-router';
 import { corsOptions, apiVersion } from './environment/environment';
 import * as cors from 'cors'
@@ -34,6 +36,12 @@ class App {
 
         UserRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/user`, UserRouter)
+
+        UserRouter.use(cors(corsOptions))
+        this.app.use(`${apiVersion}/company`, CompanyRouter)
+
+        UserRouter.use(cors(corsOptions))
+        this.app.use(`${apiVersion}/vehicle-fleet`, VehicleFleetRouter)
 
     }
 }

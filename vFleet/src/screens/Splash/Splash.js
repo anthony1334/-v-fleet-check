@@ -9,6 +9,7 @@ import CreateAccountScreen from '../CreateAccountScreen/CreateAccountScreen'
 import Login from './../../components/login/Login'
 
 
+
 const Splash = ({ navigation }) => {
   const anim = require('./../../../assets/animations/3970-scanning-animation.json')
   const [disabledStatus, setDisabledStatus] = useState(true)

@@ -1,7 +1,6 @@
 import { ConnectionOptions } from "typeorm";
 import * as cors from 'cors';
-
-
+// import {Checklist} from './../../../vFleet/src/screens/CheckList/CheckList'
 
 /**
  * environment
@@ -22,6 +21,7 @@ export const dbOptions: ConnectionOptions = {
     ],
     synchronize: false
 }
+
 
 // Définition des options CORS
 export const corsOptions: cors.CorsOptions = {

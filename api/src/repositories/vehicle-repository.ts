@@ -15,6 +15,4 @@ export class VehicleRepository extends Repository<Vehicle> {
             }
         )
     }
-
-
 }
