@@ -47,6 +47,8 @@ class App {
         CheckingRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/checking`, CheckingRouter)
 
+    
+
     }
 }
 

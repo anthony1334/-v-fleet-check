@@ -19,6 +19,10 @@ export class ItemRouter {
                 `/`,
                 this.controller.findAll
             )
+            .get(
+                `/label`,
+                this.controller.findByLabel
+            )
 
     }
 
