@@ -14,24 +14,29 @@ const Login = ({ updateCheckButton }) => {
   const [isValidPassword, setIsValidPassword] = React.useState(false)
   const [checked, setChecked] = React.useState(false);
 
-  const [data, setData] = React.useState({
+  const [user, setUser] = React.useState({
     username:'',
     password:'',
   });
 
-  // BOUTON VALIDER
+  /**
+   * Gère la validation du formulaire de login
+   */
   const handleClick = () => {
-    updateCheckButton(data, checked)
+    /**
+     * Appelle la callback de Splash.js (receivedFromLogin)
+     */
+    updateCheckButton(user, checked)
   }
   ////// AFFICHER DONNEES
-  const handleChange = (text) => {
-    console.log(text)
+  const handleChange = (data) => {
+    console.log(data)
   }
   /////////// Gestion de l'identifiant 
   const handleLogin = (text) => {
     console.log('handleLogin')
     setUsername(text)
-    setData(data => ({...data, username:text}))
+    setData((user) => ({...user, username:text}))
 
     if(text.trim().length <= 4){
       setIsValidUsername(false)
@@ -47,7 +52,7 @@ const Login = ({ updateCheckButton }) => {
     console.log('handlePassword')
 
     setPassword(text)
-    setData(data => ({...data, password:text}))
+    setData(user => ({...user, password:text}))
 
     if(text.trim().length <= 8){
       setIsValidPassword(false)

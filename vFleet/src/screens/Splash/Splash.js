@@ -7,18 +7,26 @@ import Header from './../../components/header/Header'
 import LoginScreen from '../LoginScreen/LoginScreen'
 import CreateAccountScreen from '../CreateAccountScreen/CreateAccountScreen'
 import Login from './../../components/login/Login'
-
+import axios from 'axios'
 
 const Splash = ({ navigation }) => {
   const anim = require('./../../../assets/animations/3970-scanning-animation.json')
   const [disabledStatus, setDisabledStatus] = useState(true)
 
-  const receivedFromLogin = (item, rememberMe) => {
-    console.log(`Hey, something came from Login component : ${JSON.stringify(item)}`)
-    setDisabledStatus(false)
-    if(rememberMe){
-      localStorage.setItem("vFleetUser",JSON.stringify(item))
-    }
+  // Fonction qui sera appelée à partir de Login.js (callback)
+  const receivedFromLogin = (user, rememberMe) => {
+    console.log(`Hey, something came from Login component : ${JSON.stringify(user)}`)
+    axios.post(
+      'http://localhost:3000/api/v1/user',
+      { user }
+    ).then((response) => {
+      if (response.status === 200) {
+        setDisabledStatus(false)
+        if(rememberMe){
+          localStorage.setItem("vFleetUser",JSON.stringify(item))
+        }
+      }
+    })
   } 
 
   useEffect(()=>{
