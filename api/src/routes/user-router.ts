@@ -16,9 +16,13 @@ export class UserRouter {
 
     private setRoutes() {
         this.router
-            .post(
-                `/user`,
+            .get(
+                `/`,
                 this.controller.login
+            )
+            .post(
+                '/',
+                this.controller.signin
             )
     }
 

@@ -13,22 +13,6 @@ export class User {
         nullable: false,
         unique: true
     })
-    public name: string
-
-    @Column({
-        type:'number',
-        length: 150,
-        nullable: false,
-        unique: true
-    })
-    public licenceNumber: number
-
-    @Column({
-        type:'varchar',
-        length: 150,
-        nullable: false,
-        unique: true
-    })
     public userLog: string
 
     @Column({
