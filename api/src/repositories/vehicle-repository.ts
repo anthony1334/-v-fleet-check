@@ -17,5 +17,9 @@ export class VehicleRepository extends Repository<Vehicle> {
         )
     }
 
-
+    public findControlByImmat(immat:any): Promise<Vehicle[]> {
+        console.log(JSON.stringify(immat))
+        return getManager().getRepository(Vehicle).find({where:{matriculation:immat.immatriculation}})
+        // return getManager().getRepository(Vehicle).find({where:{immatriculation: vehicle.matriculation}})
+    }
 }

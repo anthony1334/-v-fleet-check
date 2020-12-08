@@ -23,10 +23,12 @@ export class VehicleRouter {
                 `/:matriculation`,
                 this.controller.findByImmat
             )
-
+            .post(
+                '/',
+                this.controller.controlByImmat
+            )
 
     }
-
 }
 
 const routes: VehicleRouter = new VehicleRouter()

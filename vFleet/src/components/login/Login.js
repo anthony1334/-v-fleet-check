@@ -13,30 +13,27 @@ const Login = ({ updateCheckButton }) => {
   const [isValidUsername, setIsValidUsername] = React.useState(false)
   const [isValidPassword, setIsValidPassword] = React.useState(false)
   const [checked, setChecked] = React.useState(false);
-
-  const [user, setUser] = React.useState({
+  const [data, setData] = React.useState({
     username:'',
     password:'',
   });
 
   /**
-   * Gère la validation du formulaire de login
+   * HandleClick => Bouton valider, correspond à la méthode ReceivedFromLogin, dans Splash
    */
   const handleClick = () => {
-    /**
-     * Appelle la callback de Splash.js (receivedFromLogin)
-     */
-    updateCheckButton(user, checked)
+    updateCheckButton(data, checked)
   }
-  ////// AFFICHER DONNEES
-  const handleChange = (data) => {
-    console.log(data)
-  }
-  /////////// Gestion de l'identifiant 
+
+  /**
+   * handleLogin sert à récupérer ce qui a été tapé dans identifiant et à le mettre dans le tableau de data
+   * + messages lorsqu'il n'y a pas assez de caractères
+   * @param {texte tapé dans le login} text 
+   */
+
   const handleLogin = (text) => {
-    console.log('handleLogin')
     setUsername(text)
-    setData((user) => ({...user, username:text}))
+    setData(data => ({...data, username:text}))
 
     if(text.trim().length <= 4){
       setIsValidUsername(false)
@@ -44,15 +41,17 @@ const Login = ({ updateCheckButton }) => {
     else{
       setIsValidUsername(true)
     }
-
   }
-  //////////// Gestion du mot de passe
+  
+   /**
+   * handlePassword sert à récupérer ce qui a été tapé dans identifiant et à le mettre dans le tableau de data
+   * + messages lorsqu'il n'y a pas assez de caractères
+   * @param {texte tapé dans le login} text 
+   */
 
   const handlePassword = (text) => {
-    console.log('handlePassword')
-
     setPassword(text)
-    setData(user => ({...user, password:text}))
+    setData(data => ({...data, password:text}))
 
     if(text.trim().length <= 8){
       setIsValidPassword(false)
@@ -61,28 +60,23 @@ const Login = ({ updateCheckButton }) => {
       setIsValidPassword(true)
     } 
   }
- //////////: BONNE QUESTION
+
+
+  /**
+  * NEED MORE EXPLICATIONS
+  */
   useEffect(()=> {
     if (isValidUsername && isValidPassword) {
-      console.log('handlePassword ok')
       setDisabled(false)
     } else {
       setDisabled(true)
     }
     console.log(JSON.stringify(data))
   })
-  
-  const InutileMaisIneffacable = (text)=>{
-    if (text.trim().length>= 4) {
-      setIsValidUsername({ isValidUsername: true
-      });
-    } else {
-      setIsValidUsername ({ isValidUsername : false
-      });
-    };
-  };
-
-  //////// TERNAIRES MESSAGES D ERREURS
+    
+  /**
+   * Ternaires qui ajoutent des messages d'erreurs dépendants des methodes handleLogin et handlePassword
+   */
   const validUsername = isValidUsername ? null:
   <Text style={styles.errorMsg}>Le nom d'utilisateur doit contenir minimum 4 caractères.</Text>
   
@@ -126,7 +120,7 @@ const Login = ({ updateCheckButton }) => {
             disabled={disabled}
             style={styles.fabvalid}
             icon='check'
-            label='Valider'
+            label='Identifier mon véhicule'
             onPress={() => handleClick()}        
           />
     </View>
@@ -135,10 +129,4 @@ const Login = ({ updateCheckButton }) => {
 
 export default Login;
 
-//// 5 ELEMENT
-// CHAMP Login
-// MDP 
-// BOUTON VALIDER QUI DOIT S ActivER 
-// UN LIEN MDP OUBLIE
-// UN LIEN
 

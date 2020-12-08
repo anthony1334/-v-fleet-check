@@ -27,25 +27,6 @@ const Recap = ({ navigation }) => {
     setItems(items)
 
     console.log(JSON.stringify(items))
-<<<<<<< HEAD:vFleet/src/screens/recap.js/Recap.js
-    const newIndice = (indice - 1)
-    if (newIndice < items.length) {
-      setIndice(newIndice)
-      setItem(items[newIndice])
-      setValue(item.value)
-      setPrevious(value)
-
-    }
-    if (indice < 1) {
-
-      navigation.navigate('Splash')
-
-    }
-
-
-  }
-
-=======
 
     
     const handleBack = () => {
@@ -73,7 +54,6 @@ const Recap = ({ navigation }) => {
         
       }
   
->>>>>>> 9a0667f7986e631aa111763705843bbe6e7c6ed9:vFleet/src/screens/Recap/Recap.js
 
   return (
     <>
@@ -104,8 +84,6 @@ const Recap = ({ navigation }) => {
     </>
   )
 }
-
-
-
+}
 export default Recap
 

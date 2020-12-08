@@ -10,3 +10,5 @@ web/var
 
 # Exclude .env configuration files
 api/.env
+
+api/dist
