@@ -1,114 +1,91 @@
 import React from 'react'
 import { View, Button } from 'react-native'
 
-import { Text, FAB, Paragraph } from 'react-native-paper'
+import { Text, FAB, Paragraph, Title } from 'react-native-paper'
 import styles from '../../theme/theme'
 import Header from '../../components/header/Header'
 import CheckList from '../CheckList/CheckList'
+ import axios from'axios' 
 
 
 const Recap = ({ navigation }) => {
 
   const items = navigation.getParam('recap')
-  /* const item = navigation.getParam('recap') */
-  /* items.array.forEach(element => {
-    console.log(item.value)
-    
-  }); */
 
-  console.log("wtf", items)
+  const itemFromChecklist = items.map((item) => {
+    return <Paragraph key={item.id}>{item.title}:{item.value}{item.validator}</Paragraph>
+  })
 
+    console.log(`Hey, something came from Login component : ${JSON.stringify(items)}`)
+         axios.post(`http://localhost:3000/api/v1/items`, {items})
+         .then((response) => {
+            setItems(items)
+         }).catch(() => {
+           console.log("désolé je ne vous connais pas")
+          
+         }) 
 
   const handleBack = () => {
-    console.log("je suis la", [indice])
     const itemCourant = item
     itemCourant.value = value
     items[indice] = itemCourant
     setItems(items)
 
-    console.log(JSON.stringify(items))
 
-
-    const handleBack = () => {
-      console.log("je suis la", [indice])
-      const itemCourant = item
-      itemCourant.value = value
-      items[indice] = itemCourant
-      setItems(items)
-
-      console.log(JSON.stringify(items))
-      const newIndice = (indice - 1)
-      if (newIndice < items.length) {
-        setIndice(newIndice)
-        setItem(items[newIndice])
-        setValue(item.value)
-        setPrevious(value)
-
-      }
-      if (indice < 1) {
-
-        navigation.navigate('Splash')
-
-      }
-
-
+    const newIndice = (indice - 1)
+    if (newIndice < items.length) {
+      setIndice(newIndice)
+      setItem(items[newIndice])
+      setValue(item.value)
     }
-//  main.js 
-   
-// POST request using fetch() 
-fetch("http://127.0.0.1:3000/api/v1/check-item-value", { 
-      
-    // Adding method type 
-    method: "POST", 
-      
-    // Adding body or contents to send 
-    body: JSON.stringify({ 
-      data
-    }), 
-      
-    // Adding headers to the request 
-    headers: { 
-        "Content-type": "application/json; charset=UTF-8"
-    } 
-}) 
-  
-// Converting to JSON 
-.then(response => response.json()) 
-  
-// Displaying results to console 
-.then(json => console.log(json)); 
+    if (indice < 1) {
 
-    return (
-      <>
-
-
-        <Header titleText="vFleetCheck" navigation={navigation} />
-        <View style={styles.container}>
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      navigation.navigate('CheckList')
+    }
+  }
 
 
 
-          </View>
-          <View>
-            <Paragraph>keys={items}</Paragraph>
 
-          </View>
-
-
+  return (
+    <>
+      <Header titleText="vFleetCheck" navigation={navigation} />
+      <View style={styles.container}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        </View>
+        <View>
+          <Title>Vous avez saisi les valeurs suivantes :</Title>
+        </View>
+        <View >
+          {itemFromChecklist}
+        </View>
+        <View>
           <FAB
             style={styles.fab}
             small
             icon='check'
             label='Valider'
-            onPress={() => navigation.navigate('Splash')}
+            onPress={() =>navigation.navigate('Splash')/* , console.log("atchoum!") */}
           />
         </View>
 
-      </>
-    )
-  }
+        
+      </View>
+      <FAB
+          style={styles.fab}
+          small
+          icon='check'
+          label='Modifier'
+          onPress={() => navigation.navigate('CheckList')}
+        />
 
+
+
+    </>
+  )
 }
+
+
 
 export default Recap
 

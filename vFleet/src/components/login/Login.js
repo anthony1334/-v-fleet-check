@@ -23,13 +23,10 @@ const Login = ({ updateCheckButton }) => {
   const handleClick = () => {
     updateCheckButton(data, checked)
   }
-  ////// AFFICHER DONNEES
-  const handleChange = (text) => {
-    console.log(text)
-  }
+ 
+  
   /////////// Gestion de l'identifiant 
   const handleLogin = (text) => {
-    console.log('handleLogin')
     setUsername(text)
     setData(data => ({...data, username:text}))
 
@@ -44,8 +41,6 @@ const Login = ({ updateCheckButton }) => {
   //////////// Gestion du mot de passe
 
   const handlePassword = (text) => {
-    console.log('handlePassword')
-
     setPassword(text)
     setData(data => ({...data, password:text}))
 
@@ -59,12 +54,10 @@ const Login = ({ updateCheckButton }) => {
  //////////: BONNE QUESTION
   useEffect(()=> {
     if (isValidUsername && isValidPassword) {
-      console.log('handlePassword ok')
       setDisabled(false)
     } else {
       setDisabled(true)
     }
-    console.log(JSON.stringify(data))
   })
   
   const InutileMaisIneffacable = (text)=>{

@@ -14,7 +14,6 @@ const Splash = ({ navigation }) => {
   const [disabledStatus, setDisabledStatus] = useState(true)
 
   const receivedFromLogin = (item, rememberMe) => {
-    console.log(`Hey, something came from Login component : ${JSON.stringify(item)}`)
     setDisabledStatus(false)
     if(rememberMe){
       localStorage.setItem("vFleetUser",JSON.stringify(item))
