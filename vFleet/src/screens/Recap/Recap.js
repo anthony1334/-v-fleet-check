@@ -1,26 +1,31 @@
 import React from 'react'
 import { View, Button } from 'react-native'
 
-import { Text, FAB,Paragraph  } from 'react-native-paper'
+import { Text, FAB, Paragraph, Title } from 'react-native-paper'
 import styles from '../../theme/theme'
 import Header from '../../components/header/Header'
 import CheckList from '../CheckList/CheckList'
+import axios from 'axios'
 
 
 const Recap = ({ navigation }) => {
 
   const items = navigation.getParam('recap')
-  /* const item = navigation.getParam('recap') */
-  /* items.array.forEach(element => {
-    console.log(item.value)
-    
-  }); */
 
-  console.log("wtf", items)
+  const itemFromChecklist = items.map((item) => {
+    return <Paragraph key={item.id}>{item.title}:{item.value}{item.validator}</Paragraph>
+  })
 
+  console.log(`Hey, something came from Login component : ${JSON.stringify(items)}`)
+  axios.post(`http://localhost:3000/api/v1/items`, { items })
+    .then((response) => {
+      setItems(items)
+    }).catch(() => {
+      console.log("désolé je ne vous connais pas")
+
+    })
 
   const handleBack = () => {
-    console.log("je suis la", [indice])
     const itemCourant = item
     itemCourant.value = value
     items[indice] = itemCourant
@@ -57,29 +62,37 @@ const Recap = ({ navigation }) => {
 
   return (
     <>
-
-
       <Header titleText="vFleetCheck" navigation={navigation} />
       <View style={styles.container}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-
-
-
         </View>
         <View>
-          <Paragraph>keys={items}</Paragraph>
-          
+          <Title>Vous avez saisi les valeurs suivantes :</Title>
+        </View>
+        <View >
+          {itemFromChecklist}
+        </View>
+        <View>
+          <FAB
+            style={styles.fab}
+            small
+            icon='check'
+            label='Valider'
+            onPress={() => navigation.navigate('Splash')/* , console.log("atchoum!") */}
+          />
         </View>
 
 
-        <FAB
-          style={styles.fab}
-          small
-          icon='check'
-          label='Valider'
-          onPress={() => navigation.navigate('Splash')}
-        />
       </View>
+      <FAB
+        style={styles.fab}
+        small
+        icon='check'
+        label='Modifier'
+        onPress={() => navigation.navigate('CheckList')}
+      />
+
+
 
     </>
   )

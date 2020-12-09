@@ -38,6 +38,12 @@ const Splash = ({ navigation }) => {
       })
   }
 
+  const receivedFromLogin = (item, rememberMe) => {
+    setDisabledStatus(false)
+    if(rememberMe){
+      localStorage.setItem("vFleetUser",JSON.stringify(item))
+    }
+  } 
 
   const receivedFromImmat = (immat) => {
     console.log(`Hey, something came from Login component : ${JSON.stringify(immat)}`)
