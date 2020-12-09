@@ -12,9 +12,12 @@ export class ItemRepository extends Repository<Item> {
     public byLabel(): Promise<Item[]> {
         return this.find(
             {
-               select:["label"]
+                select: ["label"]
             }
         )
     }
 
+    public byId(id: any): Promise<Item> {
+        return this.findOne({id})
+    }
 }

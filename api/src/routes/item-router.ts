@@ -23,6 +23,11 @@ export class ItemRouter {
                 `/label`,
                 this.controller.findByLabel
             )
+            .post(
+                `/`,
+                this.controller.putIn
+
+            )
 
     }
 

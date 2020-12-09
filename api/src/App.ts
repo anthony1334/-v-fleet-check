@@ -8,6 +8,7 @@ import { corsOptions, apiVersion } from './environment/environment';
 import * as cors from 'cors'
 import * as express from 'express'
 import * as logger from 'morgan'
+import * as bodyParser from 'body-parser'
 
 /**
  * App core
@@ -26,6 +27,8 @@ class App {
 
     private middleWare(): void {
         this.app.use(logger('dev'))
+        this.app.use(express.json());
+        this.app.use(bodyParser.urlencoded({extended: true}));
     }
 
     private configureRouter(): void {
@@ -37,6 +40,7 @@ class App {
 
         ItemRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/items`, ItemRouter)
+     
 
         FormControlRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/form-control`, FormControlRouter)

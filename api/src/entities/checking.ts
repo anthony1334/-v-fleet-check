@@ -21,7 +21,7 @@ export class Checking {
       })
       public time: Time */
     @Column('time', {
-        nullable: false,
+        nullable: true,
         name: 'elapsed_time'
     })
    public elapsedTime: Date;
@@ -39,6 +39,7 @@ export class Checking {
         spatialFeatureType: 'Point',
         srid: 4326
     })
+    public geometry:Geolocation
 
     @OneToMany(() => CheckItemValue, checkItemValue =>checkItemValue.checking)
     public checkItemValues: CheckItemValue[]
