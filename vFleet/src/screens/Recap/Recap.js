@@ -5,7 +5,7 @@ import { Text, FAB, Paragraph, Title } from 'react-native-paper'
 import styles from '../../theme/theme'
 import Header from '../../components/header/Header'
 import CheckList from '../CheckList/CheckList'
- import axios from'axios' 
+import axios from 'axios'
 
 
 const Recap = ({ navigation }) => {
@@ -16,14 +16,14 @@ const Recap = ({ navigation }) => {
     return <Paragraph key={item.id}>{item.title}:{item.value}{item.validator}</Paragraph>
   })
 
-    console.log(`Hey, something came from Login component : ${JSON.stringify(items)}`)
-         axios.post(`http://localhost:3000/api/v1/items`, {items})
-         .then((response) => {
-            setItems(items)
-         }).catch(() => {
-           console.log("désolé je ne vous connais pas")
-          
-         }) 
+  console.log(`Hey, something came from Login component : ${JSON.stringify(items)}`)
+  axios.post(`http://localhost:3000/api/v1/items`, { items })
+    .then((response) => {
+      setItems(items)
+    }).catch(() => {
+      console.log("désolé je ne vous connais pas")
+
+    })
 
   const handleBack = () => {
     const itemCourant = item
@@ -65,19 +65,19 @@ const Recap = ({ navigation }) => {
             small
             icon='check'
             label='Valider'
-            onPress={() =>navigation.navigate('Splash')/* , console.log("atchoum!") */}
+            onPress={() => navigation.navigate('Splash')/* , console.log("atchoum!") */}
           />
         </View>
 
-        
+
       </View>
       <FAB
-          style={styles.fab}
-          small
-          icon='check'
-          label='Modifier'
-          onPress={() => navigation.navigate('CheckList')}
-        />
+        style={styles.fab}
+        small
+        icon='check'
+        label='Modifier'
+        onPress={() => navigation.navigate('CheckList')}
+      />
 
 
 
