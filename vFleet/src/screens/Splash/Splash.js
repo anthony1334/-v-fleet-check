@@ -24,7 +24,6 @@ const Splash = ({ navigation }) => {
    */
 
   const receivedFromLogin = (user, rememberMe) => {
-    console.log(`Hey, something came from Login component : ${JSON.stringify(user)}`)
     axios.post(`http://localhost:3000/api/v1/user`, user)
       .then((response) => {
         setAddLoginVehicle(false)
@@ -34,13 +33,11 @@ const Splash = ({ navigation }) => {
           setAddLoginVehicle(false)
         }
       }).catch(() => {
-        setUnknownUser(false)
       })
   }
 
 
   const receivedFromImmat = (immat) => {
-    console.log(`Hey, something came from Login component : ${JSON.stringify(immat)}`)
     axios.post(`http://localhost:3000/api/v1/vehicle`, immat)
       .then((response) => {
         setDisabledStatus(false)
@@ -86,8 +83,12 @@ const Splash = ({ navigation }) => {
       {loginView}
       {addVehicle}
       <View style={styles.container}>
+        <Text
+          style={styles.welcome}
+          Bonjour machinbidule il est temps de checker votre véhicule machinbidule
+        />
         <FAB
-          style={styles.fab}
+          style={styles.fabvalid}
           small
           icon='check'
           label='Accéder à la checklist'
