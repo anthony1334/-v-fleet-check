@@ -10,21 +10,33 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
+const company_repository_1 = require("./../repositories/company-repository");
+const connection_1 = require("./../database/connection");
 const user_repository_1 = require("./../repositories/user-repository");
+let repository;
+let companyRepository;
+connection_1.connection.then((db) => __awaiter(void 0, void 0, void 0, function* () {
+    repository = yield db.getCustomRepository(user_repository_1.UserRepository);
+    companyRepository = yield db.getCustomRepository(company_repository_1.CompanyRepository);
+}));
 class UserController {
     constructor() {
-        this.repository = new user_repository_1.UserRepository();
     }
     login(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.repository.all().then((result) => {
-                if (!result) {
-                    response.status(404).send({
-                        message: 'No user available at this time'
-                    });
+            response.status(403).send("Coucou");
+        });
+    }
+    signin(request, response) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(JSON.stringify(request.body));
+            repository.findUser(request.body)
+                .then(users => {
+                if (users.length > 0) {
+                    response.status(200).send(users[0]);
                 }
                 else {
-                    response.status(200).send("coucou");
+                    response.status(403).send({ message: "aucun utilisateur" });
                 }
             });
         });

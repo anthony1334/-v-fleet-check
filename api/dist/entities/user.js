@@ -11,12 +11,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
+const company_1 = require("./company");
 let User = class User {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], User.prototype, "id", void 0);
+__decorate([
+    typeorm_1.Column({
+        type: 'varchar',
+        length: 150,
+        nullable: false,
+        unique: true
+    }),
+    __metadata("design:type", String)
+], User.prototype, "userLog", void 0);
+__decorate([
+    typeorm_1.Column({
+        type: 'varchar',
+        length: 150,
+        nullable: false,
+        unique: true
+    }),
+    __metadata("design:type", String)
+], User.prototype, "passwordLog", void 0);
+__decorate([
+    typeorm_1.ManyToOne(() => company_1.Company),
+    __metadata("design:type", company_1.Company)
+], User.prototype, "CompanyId", void 0);
 User = __decorate([
     typeorm_1.Entity('user')
 ], User);

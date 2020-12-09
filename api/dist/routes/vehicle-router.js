@@ -11,8 +11,9 @@ class VehicleRouter {
     }
     setRoutes() {
         this.router
-            .get(`/vehicle`, this.controller.findAll)
-            .get(`/:matriculation`, this.controller.findByImmat);
+            .get(`/`, this.controller.findAll)
+            .get(`/:matriculation`, this.controller.findByImmat)
+            .post('/', this.controller.controlByImmat);
     }
 }
 exports.VehicleRouter = VehicleRouter;

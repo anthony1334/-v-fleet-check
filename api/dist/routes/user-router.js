@@ -11,7 +11,8 @@ class UserRouter {
     }
     setRoutes() {
         this.router
-            .post(`/user`, this.controller.login);
+            .get(`/`, this.controller.login)
+            .post('/', this.controller.signin);
     }
 }
 exports.UserRouter = UserRouter;

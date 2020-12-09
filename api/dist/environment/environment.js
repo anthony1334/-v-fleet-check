@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.apiVersion = exports.corsOptions = exports.dbOptions = void 0;
+// import {Checklist} from './../../../vFleet/src/screens/CheckList/CheckList'
 /**
  * environment
  *  Gather all environement vars needed to build and run application
@@ -15,9 +16,9 @@ exports.dbOptions = {
     password: '!5o3aSy2F!nd*',
     database: 'v-fleet-repo',
     entities: [
-        './entities/*.js'
+        __dirname + '/../entities/*{.ts,.js}'
     ],
-    synchronize: true
+    synchronize: false
 };
 // Définition des options CORS
 exports.corsOptions = {
@@ -27,5 +28,5 @@ exports.corsOptions = {
     origin: '*',
     preflightContinue: false
 };
-exports.apiVersion = 'api/v1/';
+exports.apiVersion = '/api/v1';
 //# sourceMappingURL=environment.js.map
