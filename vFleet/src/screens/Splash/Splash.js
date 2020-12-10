@@ -11,10 +11,12 @@ import axios from 'axios';
 
 const Splash = ({ navigation }) => {
 
-  const [unknownUser, setUnknownUser] = React.useState(true)
   const anim = require('./../../../assets/animations/3970-scanning-animation.json')
+  const [unknownUser, setUnknownUser] = React.useState(true)
   const [disabledStatus, setDisabledStatus] = useState(true)
   const [addLoginVehicle, setAddLoginVehicle] = useState(true)
+  const [isUserLoad, setIsUserLoad] = useState(false)
+  const [isImmatLoad, setImmatLoad] = useState(false)
 
   /**
    * receivedFromLogin => Sert à faire correspondre le front avec le back grâce à Axios, 
@@ -25,25 +27,39 @@ const Splash = ({ navigation }) => {
 
   const receivedFromLogin = (user, rememberMe) => {
     axios.post(`http://localhost:3000/api/v1/user`, user)
+      // Si utilisateur connu
       .then((response) => {
         setAddLoginVehicle(false)
+        console.log("coucou123")
         setUnknownUser(false)
+        setIsUserLoad(false)
+        // si utilisateur connu + case cochée se souvenir de moi
         if (rememberMe) {
           localStorage.setItem("vFleetUser", JSON.stringify(user))
-          setAddLoginVehicle(false)
+          // setAddLoginVehicle(false)
         }
+      // erreur = donc utilisateur inconnu
       }).catch(() => {
+        if (user=unknownUser){
+          console.log("coucou789")
+          setIsUserLoad(true)
+        }
+
+        // setAddLoginVehicle(false)
       })
   }
-
 
   const receivedFromImmat = (immat) => {
     axios.post(`http://localhost:3000/api/v1/vehicle`, immat)
       .then((response) => {
         setDisabledStatus(false)
         setAddLoginVehicle(true)
+        setImmatLoad (false)
       }).catch(() => {
-        setUnknownUser(false)
+        if (immat=!isImmatLoad){
+        console.log("coucou234")
+        setImmatLoad (true)
+      }
       })
   }
 
@@ -58,20 +74,27 @@ const Splash = ({ navigation }) => {
   }, [])
 
   /**
-   * 
+   * Si utilisateur inconnu, alors on passe dans la méthode receivedFromLogin
    */
   const loginView = unknownUser ? <Login navigation={navigation} updateCheckButton={receivedFromLogin}></Login> : null
+    /**
+   * Si ça passe pas à l'input immat, alors on passe dans la methode receivedFromLogin
+   */
   const addVehicle = !addLoginVehicle ? <LoginVehicle navigation={navigation} updateCheckButtonImmat={receivedFromImmat}></LoginVehicle> : null
-
-  const addUnknownUser = unknownUser ? null :
-    <Text style={styles.errorMsg}> Veuillez entrer un identifiant valide. </Text>
+   /**
+   * Si utilisateur inconnu, rien, sinon message erreur s'affiche
+   */
+  const loginErrorMessage = isUserLoad ? <Text style={styles.errorMsg}> Veuillez entrer un identifiant valide. </Text> : null 
+  const immatErrorMessage = isImmatLoad ? <Text style={styles.errorMsg}> Veuillez entrer une immatriculation connue. </Text> : null
+    
 
   return (
     <>
       <Header titleText="vFleetCheck" navigation={navigation} />
       <View style={styles.container}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          {addUnknownUser}
+          {loginErrorMessage}
+          {immatErrorMessage}
         </View>
         {/*  <LottieView
               style={styles.lottieView}
