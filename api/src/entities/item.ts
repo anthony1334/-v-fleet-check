@@ -24,10 +24,17 @@ export class Item {
     })
     public hinting: string
 
+<<<<<<< HEAD
     @ManyToOne(()=>FormControl)
     public uiType: FormControl
 
     @OneToMany(()=>CheckItemValue,itemValues=>itemValues.item)
+=======
+    @ManyToOne(()=>FormControl,{eager:true})
+    public uiType: FormControl
+
+    @OneToMany(()=>CheckItemValue,itemValues=>itemValues.item,{eager:true})
+>>>>>>> entityRepository
     public itemValues:CheckItemValue[]
 
 }

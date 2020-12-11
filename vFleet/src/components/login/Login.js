@@ -24,13 +24,9 @@ const Login = ({ updateCheckButton }) => {
   const handleClick = () => {
     updateCheckButton(data, checked)
   }
-
-  /**
-   * handleLogin sert à récupérer ce qui a été tapé dans identifiant et à le mettre dans le tableau de data
-   * + messages lorsqu'il n'y a pas assez de caractères
-   * @param {texte tapé dans le login} text 
-   */
-
+ 
+  
+  /////////// Gestion de l'identifiant 
   const handleLogin = (text) => {
     setUsername(text)
     setData(data => ({...data, username:text}))
@@ -71,7 +67,6 @@ const Login = ({ updateCheckButton }) => {
     } else {
       setDisabled(true)
     }
-    console.log(JSON.stringify(data))
   })
     
   /**
