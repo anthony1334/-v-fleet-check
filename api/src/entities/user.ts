@@ -23,6 +23,6 @@ export class User {
     })
     public passwordLog: string
 
-    @ManyToOne (()=>Company)
-    public CompanyId: Company
+    @ManyToOne (()=>Company, company=>company.users)
+    public company: Company
 }
