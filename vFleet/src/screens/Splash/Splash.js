@@ -5,8 +5,9 @@ import styles, { colors } from './../../theme/theme'
 import LottieView from 'lottie-react-native'
 import Header from './../../components/header/Header'
 import Login from './../../components/login/Login'
-import LoginVehicle from './../../components/LoginVehicle/LoginVehicle'
+import LoginVehicle from './../../components/loginVehicle/LoginVehicle'
 import axios from 'axios';
+import AsyncStorage from '@react-native/community/async-storage'
 
 
 const Splash = ({ navigation }) => {
@@ -28,20 +29,18 @@ const Splash = ({ navigation }) => {
   const receivedFromLogin = (user, rememberMe) => {
     axios.post(`http://localhost:3000/api/v1/user`, user)
       // Si utilisateur connu
-      .then((response) => {
+      .then( async(response) => {
         setAddLoginVehicle(false)
-        console.log("coucou123")
         setUnknownUser(false)
         setIsUserLoad(false)
         // si utilisateur connu + case cochée se souvenir de moi
         if (rememberMe) {
-          localStorage.setItem("vFleetUser", JSON.stringify(user))
+          await AsyncStorage.setItem("vFleetUser", JSON.stringify(user))
           // setAddLoginVehicle(false)
         }
       // erreur = donc utilisateur inconnu
       }).catch(() => {
         if (user=unknownUser){
-          console.log("coucou789")
           setIsUserLoad(true)
         }
 
@@ -66,10 +65,12 @@ const Splash = ({ navigation }) => {
   /**
    * 
    */
-  useEffect(() => {
-    const user = localStorage.getItem("vFleetUser")
+  useEffect(async() => {
+    const user = await AsyncStorage.getItem("vFleetUser")
     if (user !== null) {
-      setDisabledStatus(false)
+      setAddLoginVehicle(false)
+      setUnknownUser(false)
+      setIsUserLoad(false)
     }
   }, [])
 
