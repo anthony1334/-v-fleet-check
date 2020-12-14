@@ -7,7 +7,7 @@ import Header from './../../components/header/Header'
 import Login from './../../components/login/Login'
 import LoginVehicle from './../../components/loginVehicle/LoginVehicle'
 import axios from 'axios';
-import AsyncStorage from '@react-native/community/async-storage'
+import AsyncStorage from '@react-native-community/async-storage'
 
 
 const Splash = ({ navigation }) => {
@@ -29,22 +29,19 @@ const Splash = ({ navigation }) => {
   const receivedFromLogin = (user, rememberMe) => {
     axios.post(`http://localhost:3000/api/v1/user`, user)
       // Si utilisateur connu
-      .then( async(response) => {
+      .then( (response) => {
         setAddLoginVehicle(false)
         setUnknownUser(false)
         setIsUserLoad(false)
         // si utilisateur connu + case cochée se souvenir de moi
         if (rememberMe) {
-          await AsyncStorage.setItem("vFleetUser", JSON.stringify(user))
-          // setAddLoginVehicle(false)
+          AsyncStorage.setItem("vFleetUser", JSON.stringify(user))
         }
       // erreur = donc utilisateur inconnu
       }).catch(() => {
         if (user=unknownUser){
           setIsUserLoad(true)
         }
-
-        // setAddLoginVehicle(false)
       })
   }
 
@@ -56,7 +53,6 @@ const Splash = ({ navigation }) => {
         setImmatLoad (false)
       }).catch(() => {
         if (immat=!isImmatLoad){
-        console.log("coucou234")
         setImmatLoad (true)
       }
       })
@@ -65,13 +61,16 @@ const Splash = ({ navigation }) => {
   /**
    * 
    */
-  useEffect(async() => {
-    const user = await AsyncStorage.getItem("vFleetUser")
-    if (user !== null) {
-      setAddLoginVehicle(false)
-      setUnknownUser(false)
-      setIsUserLoad(false)
+  useEffect(() => {
+    async function fetchUser() {
+      const user = await AsyncStorage.getItem("vFleetUser")
+      if (user !== null) {
+        setAddLoginVehicle(false)
+        setUnknownUser(false)
+        setIsUserLoad(false)
+      }
     }
+    fetchUser()
   }, [])
 
   /**
