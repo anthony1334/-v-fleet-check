@@ -40,8 +40,8 @@ const Splash = ({ navigation }) => {
 
   const receivedFromLogin = (item, rememberMe) => {
     setDisabledStatus(false)
-    if(rememberMe){
-      localStorage.setItem("vFleetUser",JSON.stringify(item))
+/*     if(rememberMe){
+      localStorage.setItem("vFleetUser",JSON.stringify(item)) */
     }
   } 
 
