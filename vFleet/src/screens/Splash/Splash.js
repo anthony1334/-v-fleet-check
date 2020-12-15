@@ -39,7 +39,7 @@ const Splash = ({ navigation }) => {
         }
       // erreur = donc utilisateur inconnu
       }).catch(() => {
-        if (user=unknownUser){
+        if (user==unknownUser){
           setIsUserLoad(true)
         }
       })
