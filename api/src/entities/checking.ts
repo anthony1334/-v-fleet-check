@@ -1,15 +1,10 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
-import { CheckItemValue } from './check-item-value'
-<<<<<<< HEAD
-// import { Vehicle } from './vehicle'
+/* import { CheckItemValue } from './check-item-value' */
+import {CheckItemValue} from './check-item-value'
 
-@Entity('checking')
-=======
-import { Vehicle } from './vehicle'
 
 @Entity('checking')
 
->>>>>>> entityRepository
 export class Checking {
     @PrimaryGeneratedColumn()
     public id: number
@@ -20,20 +15,8 @@ export class Checking {
     })
     public date: Date
 
-    /*   @Column({
-          type: 'varchar',
-          length: 10,
-          nullable: false,
-      })
-      public time: Time */
-<<<<<<< HEAD
-
-    @Column('time', {
-        nullable: false,
-=======
     @Column('time', {
         nullable: true,
->>>>>>> entityRepository
         name: 'elapsed_time'
     })
    public elapsedTime: Date;
@@ -51,17 +34,8 @@ export class Checking {
         spatialFeatureType: 'Point',
         srid: 4326
     })
-<<<<<<< HEAD
 
     @OneToMany(() => CheckItemValue, checkItemValues => checkItemValues.checking)
     public checkItemValues: CheckItemValue[]
 
-=======
-    public geometry:Geolocation
-
-    @OneToMany(() => CheckItemValue, checkItemValue =>checkItemValue.checking)
-    public checkItemValues: CheckItemValue[]
-
-
->>>>>>> entityRepository
 }
