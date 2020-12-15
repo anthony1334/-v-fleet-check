@@ -85,7 +85,8 @@ const Login = ({ updateCheckButton }) => {
 
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.loginStyle}>
+    {/* <View style={{ flex: 1 }}> */}
         <TextInput
           style={styles.idMdp}
           name="username"

@@ -6,7 +6,7 @@ import LottieView from 'lottie-react-native'
 import Header from './../../components/header/Header'
 import Login from './../../components/login/Login'
 import LoginVehicle from './../../components/loginVehicle/LoginVehicle'
-import axios from 'axios';
+import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
 
 
@@ -87,7 +87,6 @@ const Splash = ({ navigation }) => {
   const loginErrorMessage = isUserLoad ? <Text style={styles.errorMsg}> Veuillez entrer un identifiant valide. </Text> : null 
   const immatErrorMessage = isImmatLoad ? <Text style={styles.errorMsg}> Veuillez entrer une immatriculation connue. </Text> : null
     
-
   return (
     <>
       <Header titleText="vFleetCheck" navigation={navigation} />
