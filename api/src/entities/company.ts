@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm'
+import { User } from './user'
 
 @Entity('company')
 export class Company {
@@ -13,4 +14,7 @@ export class Company {
         unique: true
     })
     public name: string
+
+    @OneToMany (()=>User, user=>user.company)
+    public users: User[]
 }

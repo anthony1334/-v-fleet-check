@@ -55,7 +55,7 @@ export class VehicleController {
             if (immats.length>0) {
                 response.status(200).send(immats[0])
             } else {
-                response.status(403).send({message:"aucun véhicule avec cette immat"})
+                response.status(404).send({message:"aucun véhicule avec cette immat"})
             }
         })
     }

@@ -5,16 +5,19 @@ import styles, { colors } from './../../theme/theme'
 import LottieView from 'lottie-react-native'
 import Header from './../../components/header/Header'
 import Login from './../../components/login/Login'
-import LoginVehicle from './../../components/LoginVehicle/LoginVehicle'
+import LoginVehicle from './../../components/loginVehicle/LoginVehicle'
 import axios from 'axios';
+import AsyncStorage from '@react-native/community/async-storage'
 
 
 const Splash = ({ navigation }) => {
 
-  const [unknownUser, setUnknownUser] = React.useState(true)
   const anim = require('./../../../assets/animations/3970-scanning-animation.json')
+  const [unknownUser, setUnknownUser] = React.useState(true)
   const [disabledStatus, setDisabledStatus] = useState(true)
   const [addLoginVehicle, setAddLoginVehicle] = useState(true)
+  const [isUserLoad, setIsUserLoad] = useState(false)
+  const [isImmatLoad, setImmatLoad] = useState(false)
 
   /**
    * receivedFromLogin => Sert à faire correspondre le front avec le back grâce à Axios, 
@@ -24,63 +27,75 @@ const Splash = ({ navigation }) => {
    */
 
   const receivedFromLogin = (user, rememberMe) => {
-    console.log(`Hey, something came from Login component : ${JSON.stringify(user)}`)
     axios.post(`http://localhost:3000/api/v1/user`, user)
-      .then((response) => {
+      // Si utilisateur connu
+      .then( async(response) => {
         setAddLoginVehicle(false)
         setUnknownUser(false)
+        setIsUserLoad(false)
+        // si utilisateur connu + case cochée se souvenir de moi
         if (rememberMe) {
-          localStorage.setItem("vFleetUser", JSON.stringify(user))
-          setAddLoginVehicle(false)
+          await AsyncStorage.setItem("vFleetUser", JSON.stringify(user))
+          // setAddLoginVehicle(false)
         }
+      // erreur = donc utilisateur inconnu
       }).catch(() => {
-        setUnknownUser(false)
+        if (user=unknownUser){
+          setIsUserLoad(true)
+        }
+
+        // setAddLoginVehicle(false)
       })
   }
 
-  const receivedFromLogin = (item, rememberMe) => {
-    setDisabledStatus(false)
-/*     if(rememberMe){
-      localStorage.setItem("vFleetUser",JSON.stringify(item)) */
-    }
-  } 
-
   const receivedFromImmat = (immat) => {
-    console.log(`Hey, something came from Login component : ${JSON.stringify(immat)}`)
     axios.post(`http://localhost:3000/api/v1/vehicle`, immat)
       .then((response) => {
         setDisabledStatus(false)
         setAddLoginVehicle(true)
+        setImmatLoad (false)
       }).catch(() => {
-        setUnknownUser(false)
+        if (immat=!isImmatLoad){
+        console.log("coucou234")
+        setImmatLoad (true)
+      }
       })
   }
 
   /**
    * 
    */
-  useEffect(() => {
-    const user = localStorage.getItem("vFleetUser")
+  useEffect(async() => {
+    const user = await AsyncStorage.getItem("vFleetUser")
     if (user !== null) {
-      setDisabledStatus(false)
+      setAddLoginVehicle(false)
+      setUnknownUser(false)
+      setIsUserLoad(false)
     }
   }, [])
 
   /**
-   * 
+   * Si utilisateur inconnu, alors on passe dans la méthode receivedFromLogin
    */
   const loginView = unknownUser ? <Login navigation={navigation} updateCheckButton={receivedFromLogin}></Login> : null
+    /**
+   * Si ça passe pas à l'input immat, alors on passe dans la methode receivedFromLogin
+   */
   const addVehicle = !addLoginVehicle ? <LoginVehicle navigation={navigation} updateCheckButtonImmat={receivedFromImmat}></LoginVehicle> : null
-
-  const addUnknownUser = unknownUser ? null :
-    <Text style={styles.errorMsg}> Veuillez entrer un identifiant valide. </Text>
+   /**
+   * Si utilisateur inconnu, rien, sinon message erreur s'affiche
+   */
+  const loginErrorMessage = isUserLoad ? <Text style={styles.errorMsg}> Veuillez entrer un identifiant valide. </Text> : null 
+  const immatErrorMessage = isImmatLoad ? <Text style={styles.errorMsg}> Veuillez entrer une immatriculation connue. </Text> : null
+    
 
   return (
     <>
       <Header titleText="vFleetCheck" navigation={navigation} />
       <View style={styles.container}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          {addUnknownUser}
+          {loginErrorMessage}
+          {immatErrorMessage}
         </View>
         {/*  <LottieView
               style={styles.lottieView}
@@ -92,8 +107,12 @@ const Splash = ({ navigation }) => {
       {loginView}
       {addVehicle}
       <View style={styles.container}>
+        <Text
+          style={styles.welcome}
+          Bonjour machinbidule il est temps de checker votre véhicule machinbidule
+        />
         <FAB
-          style={styles.fab}
+          style={styles.fabvalid}
           small
           icon='check'
           label='Accéder à la checklist'
