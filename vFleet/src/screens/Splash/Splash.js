@@ -7,7 +7,7 @@ import Header from './../../components/header/Header'
 import Login from './../../components/login/Login'
 import LoginVehicle from './../../components/loginVehicle/LoginVehicle'
 import axios from 'axios';
-import AsyncStorage from '@react-native/community/async-storage'
+import AsyncStorage from '@react-native-community/async-storage'
 
 
 const Splash = ({ navigation }) => {
@@ -65,13 +65,25 @@ const Splash = ({ navigation }) => {
   /**
    * 
    */
-  useEffect(async() => {
+/*   useEffect(() => {
     const user = await AsyncStorage.getItem("vFleetUser")
     if (user !== null) {
       setAddLoginVehicle(false)
       setUnknownUser(false)
       setIsUserLoad(false)
     }
+  }, []) */
+
+  useEffect(() => {
+    async function fetchUser() {
+      const user = await AsyncStorage.getItem("vFleetUser")
+      if (user !== null) {
+        setAddLoginVehicle(false)
+        setUnknownUser(false)
+        setIsUserLoad(false)
+      }
+    }
+    fetchUser()
   }, [])
 
   /**
