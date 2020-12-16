@@ -6,6 +6,7 @@ import styles from '../../theme/theme'
 import Header from '../../components/header/Header'
 import CheckList from '../CheckList/CheckList'
 import axios from 'axios'
+const Environment=require('./../../../environment.js')
 
 
 const Recap = ({ navigation }) => {
@@ -17,7 +18,7 @@ const Recap = ({ navigation }) => {
   })
 
   console.log(`Hey, something came from Login component : ${JSON.stringify(items)}`)
-  axios.post(`http://192.168.1.50:3000/api/v1/items`, { items })
+  axios.post(`${Environment.API}items`, { items })
     .then((response) => {
       setItems(items)
     }).catch(() => {

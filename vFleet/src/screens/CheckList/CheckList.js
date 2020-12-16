@@ -7,6 +7,7 @@ import { colors } from '../../theme/theme'
 import Header from './../../components/header/Header'
 import { Rating, AirbnbRating, Slider, Icon } from 'react-native-elements';
 import RNSpeedometer from 'react-native-speedometer'
+const Environment=require('./../../../environment.js')
 
 
 
@@ -217,7 +218,7 @@ const CheckList = ({ navigation }) => {
   // que useEffect ne s’exécutera qu’une fois, un peu comme
   // componentDidMount()
   useEffect(() => {
-    fetch(`http://192.168.1.50:3000/api/v1/items`)
+    fetch(`${Environment.API}items`)
       .then(res => res.json())
       .then(
         (result) => {
