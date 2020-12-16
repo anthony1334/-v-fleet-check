@@ -51,6 +51,7 @@ class App {
 
         UserRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/vehicle-fleet`, VehicleFleetRouter)
+        
         ItemRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/items`, ItemRouter)
      
