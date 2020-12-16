@@ -29,7 +29,7 @@ const Splash = ({ navigation }) => {
   const receivedFromLogin = (user, rememberMe) => {
     axios.post(`http://localhost:3000/api/v1/user`, user)
       // Si utilisateur connu
-      .then( async(response) => {
+      .then(async (response) => {
         setAddLoginVehicle(false)
         setUnknownUser(false)
         setIsUserLoad(false)
@@ -38,9 +38,9 @@ const Splash = ({ navigation }) => {
           await AsyncStorage.setItem("vFleetUser", JSON.stringify(user))
           // setAddLoginVehicle(false)
         }
-      // erreur = donc utilisateur inconnu
+        // erreur = donc utilisateur inconnu
       }).catch(() => {
-        if (user=unknownUser){
+        if (user = unknownUser) {
           setIsUserLoad(true)
         }
 
@@ -53,87 +53,24 @@ const Splash = ({ navigation }) => {
       .then((response) => {
         setDisabledStatus(false)
         setAddLoginVehicle(true)
-        setImmatLoad (false)
+        setImmatLoad(false)
       }).catch(() => {
-        if (immat=!isImmatLoad){
-        console.log("coucou234")
-        setImmatLoad (true)
-      }
+        if (immat = !isImmatLoad) {
+          console.log("coucou234")
+          setImmatLoad(true)
+        }
       })
   }
 
   /**
    * 
    */
-/*   useEffect(() => {
+  useEffect(async () => {
     const user = await AsyncStorage.getItem("vFleetUser")
     if (user !== null) {
       setAddLoginVehicle(false)
       setUnknownUser(false)
       setIsUserLoad(false)
     }
-  }, []) */
-
-  useEffect(() => {
-    async function fetchUser() {
-      const user = await AsyncStorage.getItem("vFleetUser")
-      if (user !== null) {
-        setAddLoginVehicle(false)
-        setUnknownUser(false)
-        setIsUserLoad(false)
-      }
-    }
-    fetchUser()
-  }, [])
-
-  /**
-   * Si utilisateur inconnu, alors on passe dans la méthode receivedFromLogin
-   */
-  const loginView = unknownUser ? <Login navigation={navigation} updateCheckButton={receivedFromLogin}></Login> : null
-    /**
-   * Si ça passe pas à l'input immat, alors on passe dans la methode receivedFromLogin
-   */
-  const addVehicle = !addLoginVehicle ? <LoginVehicle navigation={navigation} updateCheckButtonImmat={receivedFromImmat}></LoginVehicle> : null
-   /**
-   * Si utilisateur inconnu, rien, sinon message erreur s'affiche
-   */
-  const loginErrorMessage = isUserLoad ? <Text style={styles.errorMsg}> Veuillez entrer un identifiant valide. </Text> : null 
-  const immatErrorMessage = isImmatLoad ? <Text style={styles.errorMsg}> Veuillez entrer une immatriculation connue. </Text> : null
-    
-
-  return (
-    <>
-      <Header titleText="vFleetCheck" navigation={navigation} />
-      <View style={styles.container}>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          {loginErrorMessage}
-          {immatErrorMessage}
-        </View>
-        {/*  <LottieView
-              style={styles.lottieView}
-              source={anim}
-              loop={true}
-              autoPlay={true}
-            /> */}
-      </View>
-      {loginView}
-      {addVehicle}
-      <View style={styles.container}>
-        <Text
-          style={styles.welcome}
-          Bonjour machinbidule il est temps de checker votre véhicule machinbidule
-        />
-        <FAB
-          style={styles.fabvalid}
-          small
-          icon='check'
-          label='Accéder à la checklist'
-          disabled={disabledStatus}
-          onPress={() => navigation.navigate('CheckList')}
-        />
-      </View>
-    </>
-  )
+  })
 }
-
-export default Splash
