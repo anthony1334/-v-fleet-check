@@ -64,21 +64,19 @@ const styles = StyleSheet.create({
       color: colors.warning,
       marginBottom: 15,
       fontSize: 8,
-
     },
     textRemember: {
       color: colors.dark,
       marginLeft: 130,
       fontSize: 10,
-      // marginBottom: 100
     },
     remember: {
       color: colors.warning,
       backgroundColor: colors.warning
-
+    },
+    loginStyle: {
+      marginTop: 40
     }
-
-
   })
 
   export default styles
