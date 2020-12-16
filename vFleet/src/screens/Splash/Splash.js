@@ -9,7 +9,6 @@ import LoginVehicle from './../../components/loginVehicle/LoginVehicle'
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
 
-
 const Splash = ({ navigation }) => {
 
   const anim = require('./../../../assets/animations/3970-scanning-animation.json')
@@ -27,9 +26,10 @@ const Splash = ({ navigation }) => {
    */
 
   const receivedFromLogin = (user, rememberMe) => {
-    axios.post(`http://localhost:3000/api/v1/user`, user)
+    axios.post(`http://192.168.1.50:3000/api/v1/user`, user)
       // Si utilisateur connu
       .then( (response) => {
+        console.log(response)
         setAddLoginVehicle(false)
         setUnknownUser(false)
         setIsUserLoad(false)
@@ -38,7 +38,8 @@ const Splash = ({ navigation }) => {
           AsyncStorage.setItem("vFleetUser", JSON.stringify(user))
         }
       // erreur = donc utilisateur inconnu
-      }).catch(() => {
+      }).catch((error) => {
+        console.log(error)
         if (user==unknownUser){
           setIsUserLoad(true)
         }
@@ -46,7 +47,7 @@ const Splash = ({ navigation }) => {
   }
 
   const receivedFromImmat = (immat) => {
-    axios.post(`http://localhost:3000/api/v1/vehicle`, immat)
+    axios.post(`http://192.168.1.50:3000/api/v1/vehicle`, immat)
       .then((response) => {
         setDisabledStatus(false)
         setAddLoginVehicle(true)
