@@ -1,0 +1,10 @@
+const _Environments={
+    development: {API: 'http://192.168.1.50:3000/api/v1/'},
+    production: {API: 'http://192.168.1.50:3000/api/v1/'}
+}
+function getEnvironment () {
+    const platform = 'development'
+    return _Environments[platform]
+}
+const Environment = getEnvironment()
+module.exports=Environment

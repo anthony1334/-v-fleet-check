@@ -7,6 +7,7 @@ import { colors } from '../../theme/theme'
 import Header from './../../components/header/Header'
 import { Rating, AirbnbRating, Slider, Icon } from 'react-native-elements';
 import RNSpeedometer from 'react-native-speedometer'
+const Environment=require('./../../../environment.js')
 
 
 
@@ -213,12 +214,11 @@ const CheckList = ({ navigation }) => {
     }
   }
 
-
   // Remarque : le tableau vide de dépendances [] indique
   // que useEffect ne s’exécutera qu’une fois, un peu comme
   // componentDidMount()
   useEffect(() => {
-    fetch("http://127.0.0.1:3000/api/v1/items")
+    fetch(`${Environment.API}items`)
       .then(res => res.json())
       .then(
         (result) => {
@@ -241,9 +241,9 @@ const CheckList = ({ navigation }) => {
   }, [])
 
   if (error) {
-    return <div>Erreur : {error.message}</div>;
+    return <View><Text>Erreur : {error.message}</Text></View>;
   } else if (!isLoaded) {
-    return <div>Chargement...</div>;
+    return <View><Text>Chargement...</Text></View>;
   } else {
     return (
       <>
