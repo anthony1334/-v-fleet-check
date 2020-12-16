@@ -27,7 +27,7 @@ const Splash = ({ navigation }) => {
    */
 
   const receivedFromLogin = (user, rememberMe) => {
-    axios.post(`http://localhost:3000/api/v1/user`, user)
+    axios.post(`http://192.168.0.50:3000/api/v1/user`, user)
       // Si utilisateur connu
       .then( (response) => {
         setAddLoginVehicle(false)
@@ -46,7 +46,7 @@ const Splash = ({ navigation }) => {
   }
 
   const receivedFromImmat = (immat) => {
-    axios.post(`http://localhost:3000/api/v1/vehicle`, immat)
+    axios.post(`http://192.168.0.50:3000/api/v1/vehicle`, immat)
       .then((response) => {
         setDisabledStatus(false)
         setAddLoginVehicle(true)
@@ -122,3 +122,5 @@ const Splash = ({ navigation }) => {
     </>
   )
 }
+
+export default Splash

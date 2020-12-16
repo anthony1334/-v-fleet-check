@@ -17,7 +17,7 @@ const Recap = ({ navigation }) => {
   })
 
   console.log(`Hey, something came from Login component : ${JSON.stringify(items)}`)
-  axios.post(`http://localhost:3000/api/v1/items`, { items })
+  axios.post(`http://192.168.0.50:3000/api/v1/items`, { items })
     .then((response) => {
       setItems(items)
     }).catch(() => {

@@ -218,7 +218,7 @@ const CheckList = ({ navigation }) => {
   // que useEffect ne s’exécutera qu’une fois, un peu comme
   // componentDidMount()
   useEffect(() => {
-    fetch("http://127.0.0.1:3000/api/v1/items")
+    fetch("http://192.168.0.50:3000/api/v1/items")
       .then(res => res.json())
       .then(
         (result) => {
@@ -241,9 +241,9 @@ const CheckList = ({ navigation }) => {
   }, [])
 
   if (error) {
-    return <div>Erreur : {error.message}</div>;
+    return <View><Text>Erreur : {error.message}</Text></View>;
   } else if (!isLoaded) {
-    return <div>Chargement...</div>;
+    return <View><Text>Chargement...</Text></View>;
   } else {
     return (
       <>
