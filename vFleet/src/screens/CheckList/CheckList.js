@@ -1,23 +1,37 @@
-import React, { useState, useEffect, Component } from 'react'
-import { StyleSheet, View, SafeAreaView, Platform, Alert, TouchableOpacity } from 'react-native'
-import { Text, Appbar, TextInput, IconButton, Colors, Paragraph, Button, Headline, Subheading, List } from 'react-native-paper'
-
-
-import { colors } from '../../theme/theme'
+import React, { useState, useEffect } from 'react'
+import {
+  StyleSheet,
+  View, SafeAreaView
+} from 'react-native'
+import {
+  Text,
+  Appbar,
+  TextInput,
+  IconButton,
+  Colors,
+  Paragraph,
+  Headline,
+  Subheading,
+  List
+} from 'react-native-paper'
 import Header from './../../components/header/Header'
-import { Rating, AirbnbRating, Slider, Icon } from 'react-native-elements';
+import {
+  Rating
+} from 'react-native-elements';
 import RNSpeedometer from 'react-native-speedometer'
 
-
-
-
+/**
+ * main function
+ * @param {*} navigation 
+ */
 const CheckList = ({ navigation }) => {
-
+  /**
+  * definition des variables d'états
+  */
 
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [indice, setIndice] = useState(0)
-
   const [items, setItems] = useState([])
   const [item, setItem] = useState({})
   const [buttonDisabledState, setButtonDisabledState] = useState(true)
@@ -28,14 +42,10 @@ const CheckList = ({ navigation }) => {
   const title = 'points de contrôles ' + (indice + 1) + "/" + items.length
   const [meterValue, setMeterValue] = useState(20)
 
-  useEffect(() => {
-    if (indice > items.length - 1) {
 
-    }
-    console.log("item courant" + JSON.stringify(item))
-    console.log(indice)
-
-  })
+  /** 
+   * mise a jour de la valeur saisie dans le starRating
+  */
   const ratingCompleted = (rating) => {
     const currentItem = items[indice]
     currentItem.value = rating
@@ -74,18 +84,11 @@ const CheckList = ({ navigation }) => {
         setButtonDisabledState(true)
       }
     }
-
     setMeterValue(value)
-    console.log("toto", value)
     setValue(value)
   }
 
-
-
-
-
-
-  //active button kilometre
+  //active button kilometre + mise a jour de la valeur saisie
   const handleChange = (text) => {
     if (item.validator != "") {
       if (value > item.previous) {
@@ -94,20 +97,16 @@ const CheckList = ({ navigation }) => {
       else {
         setButtonDisabledState(true)
       }
-
     }
     else {
       setButtonDisabledState(false)
     }
     setValue(text)
-    console.log("check", text)
   }
 
-  /* const ratingCompleted = (rating) => {
-    setValue(rating)
-    console.log("bitch", rating)
-  } */
-
+  /**
+   * definit les differents formControl
+   */
   const controle = () => {
     switch (item.controle) {
       //nbr de kilometre
@@ -123,9 +122,6 @@ const CheckList = ({ navigation }) => {
         return <Rating showRating fractions={1}
           startingValue={0}
           onFinishRating={ratingCompleted} />
-
-
-
 
       case "progressBar":
         return <SafeAreaView style={{ flex: 1 }}>
@@ -173,41 +169,42 @@ const CheckList = ({ navigation }) => {
                 maxLength="3"
                 onChangeText={(value) => numberGranted(value)}
               />
-
             </View>
           </View>
         </SafeAreaView>
     }
   }
 
+  /**
+   * permet de revenir a l item precedent
+   */
   const handleBack = () => {
-    console.log("je suis la", [indice])
     const itemCourant = item
     itemCourant.value = value
     items[indice] = itemCourant
     setItems(items)
 
-    console.log(JSON.stringify(items))
     const newIndice = (indice - 1)
     if (newIndice < items.length) {
       setIndice(newIndice)
       setItem(items[newIndice])
       setValue(item.value)
     }
+    //revient a splash le cas echeant
+    //@todo    if (indice < 1) stay indice 1
     if (indice < 1) {
       navigation.navigate('Splash')
     }
   }
 
-  // Remarque : le tableau vide de dépendances [] indique
-  // que useEffect ne s’exécutera qu’une fois, un peu comme
-  // componentDidMount()
+  /**
+    *permet de récupérer l ensemble des items a verifier depuis l API
+    */
   useEffect(() => {
     fetch("http://192.168.0.50:3000/api/v1/items")
       .then(res => res.json())
       .then(
         (result) => {
-          console.log(JSON.stringify(result))
           setIsLoaded(true);
           setItems(result);
           setItem(result[0]);
@@ -215,7 +212,7 @@ const CheckList = ({ navigation }) => {
           setValue("")
           setButtonDisabledState(item.validator != "" ? true : false)
         },
-        // Remarque : il faut gérer les erreurs ici plutôt que dans
+        // @Todo: il faut gérer les erreurs ici plutôt que dans
         // un bloc catch() afin que nous n’avalions pas les exceptions
         // dues à de véritables bugs dans les composants.
         (error) => {
@@ -224,15 +221,18 @@ const CheckList = ({ navigation }) => {
         }
       )
   }, [])
-
+  /**
+   * affiche un message d erreur en cas de probleme de recuperation des items depuis l API
+   * 
+   */
   if (error) {
     return <View><Text>Erreur : {error.message}</Text></View>;
   } else if (!isLoaded) {
     return <View><Text>Chargement...</Text></View>;
   } else {
+    //render
     return (
       <>
-
         <Header handleBack={handleBack} titleText="Points de contrôles" navigation={navigation} />
         <View style={styles.checkPoint}>
           <Appbar.Header style={styles.checkPoint} >
@@ -270,85 +270,72 @@ const CheckList = ({ navigation }) => {
     )
 
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /**
-   * Update Item value for the current Rating Item
-   * @param {*} rating 
-   */
-
-
-
-  const styles = StyleSheet.create({
-    containerss: {
-      flex: 1,
-      alignItems: 'center',
-    },
-    textInputs: {
-      height: 25,
-      fontSize: 16,
-      marginTop: 30,
-      borderBottomWidth: 0.3,
-      borderBottomColor: 'black',
-    },
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      paddingHorizontal: 10,
-      paddingVertical: 20
-    },
-    titleContainer: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      flex: 1
-    },
-    title: {
-      fontSize: 20
-    },
-    Headline: {
-      marginTop: 30
-
-    },
-
-    checkPoint: {
-      marginTop: 30,
-      backgroundColor: '#fff'
-
-    },
-
-    para: {
-      marginTop: 16,
-      paddingVertical: 8,
-      borderWidth: 4,
-      borderColor: "#ebae34",
-      backgroundColor: "#61dafb",
-      color: "#20232a",
-      textAlign: "center",
-      fontSize: 30,
-      margin: 40,
-      fontWeight: "bold",
-      padding: 8
-    },
-
-    containers: {
-      flex: 1,
-      justifyContent: 'space-evenly',
-      padding: 10,
-    }
-
-
-  })
 }
+
+
+/**
+ * css
+ */
+
+const styles = StyleSheet.create({
+  containerss: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  textInputs: {
+    height: 25,
+    fontSize: 16,
+    marginTop: 30,
+    borderBottomWidth: 0.3,
+    borderBottomColor: 'black',
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingHorizontal: 10,
+    paddingVertical: 20
+  },
+  titleContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1
+  },
+  title: {
+    fontSize: 20
+  },
+  Headline: {
+    marginTop: 30
+
+  },
+
+  checkPoint: {
+    marginTop: 30,
+    backgroundColor: '#fff'
+
+  },
+
+  para: {
+    marginTop: 16,
+    paddingVertical: 8,
+    borderWidth: 4,
+    borderColor: "#ebae34",
+    backgroundColor: "#61dafb",
+    color: "#20232a",
+    textAlign: "center",
+    fontSize: 30,
+    margin: 40,
+    fontWeight: "bold",
+    padding: 8
+  },
+
+  containers: {
+    flex: 1,
+    justifyContent: 'space-evenly',
+    padding: 10,
+  }
+
+
+})
+
 
 export default CheckList
