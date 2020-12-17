@@ -15,19 +15,16 @@ const styles = StyleSheet.create({
     backgroundColor: colors.dark,
     paddingHorizontal: 10,
     paddingVertical: 20
-  },
-
+    },
     titleContainer: {
       alignItems: 'center',
       justifyContent: 'center',
       flex: 1
     },
- 
     lottieView: {
         position: 'absolute',
         top: -60
     },
-
     fab: {
       position: 'absolute',
       margin: 20,
@@ -76,6 +73,14 @@ const styles = StyleSheet.create({
     },
     loginStyle: {
       marginTop: 40
+    },
+    immatInput: {
+      marginTop: 60,
+    },
+    welcomeMsg: {
+      color: colors.warning,
+      borderWidth: 2,
+      borderColor:colors.warning
     }
   })
 

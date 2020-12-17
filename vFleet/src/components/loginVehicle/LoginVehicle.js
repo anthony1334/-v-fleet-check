@@ -59,7 +59,7 @@ const LoginVehicle = ({ updateCheckButtonImmat }) => {
 
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.immatInput}>
         <TextInput
           style={styles.idMdp}
           name="immatriculation"
