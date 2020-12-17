@@ -1,6 +1,5 @@
 import React from 'react'
 import { View, Button } from 'react-native'
-
 import { Text, FAB, Paragraph, Title } from 'react-native-paper'
 import styles from '../../theme/theme'
 import Header from '../../components/header/Header'
@@ -10,7 +9,6 @@ const Environment=require('./../../../environment.js')
 
 
 const Recap = ({ navigation }) => {
-
   const items = navigation.getParam('recap')
 
   const itemFromChecklist = items.map((item) => {
@@ -92,9 +90,6 @@ const Recap = ({ navigation }) => {
         label='Modifier'
         onPress={() => navigation.navigate('CheckList')}
       />
-
-
-
     </>
   )
 }
