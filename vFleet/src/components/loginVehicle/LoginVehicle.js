@@ -73,7 +73,7 @@ const LoginVehicle = ({ updateCheckButtonImmat }) => {
 
           <FAB
             disabled={disabled}
-            style={styles.fabvalid}
+            style={styles.validButton}
             icon='check'
             label='Valider'
             onPress={() => handleClick()}        

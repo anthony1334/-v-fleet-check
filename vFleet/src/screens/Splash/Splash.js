@@ -103,7 +103,7 @@ const Splash = ({ navigation }) => {
     <>
       <Header titleText="vFleetCheck" navigation={navigation} />
       <View style={styles.container}>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View>
           {loginErrorMessage}
           {immatErrorMessage}
         </View>
@@ -113,10 +113,11 @@ const Splash = ({ navigation }) => {
               loop={true}
               autoPlay={true}
             /> */}
-      </View>
       {loginView}
       {addVehicle}
       {welcomeMess}
+      </View>
+
       <View style={styles.container}>
         <FAB
           style={styles.fabvalid}
