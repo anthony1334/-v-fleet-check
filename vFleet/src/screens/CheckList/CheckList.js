@@ -184,7 +184,8 @@ const CheckList = ({ navigation }) => {
   useEffect(() => {
     switch (item.controle) {
       case "textInput":
-        if (value >= item.previous) {
+        const valueAsnumber = +value
+        if (valueAsnumber >= +item.previous ) {
           setButtonDisabledState(false)
         }
         else {
