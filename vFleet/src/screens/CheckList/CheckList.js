@@ -19,7 +19,7 @@ import {
   Rating
 } from 'react-native-elements';
 import RNSpeedometer from 'react-native-speedometer'
-const Environment=require('./../../../environment.js')
+const Environment = require('./../../../environment.js')
 
 /**
  * main function
@@ -91,16 +91,12 @@ const CheckList = ({ navigation }) => {
 
   //active button kilometre + mise a jour de la valeur saisie
   const handleChange = (text) => {
-    if (item.validator != "") {
-      if (value > item.previous) {
-        setButtonDisabledState(false)
-      }
-      else {
-        setButtonDisabledState(true)
-      }
+
+    if (text > item.previous) {
+      setButtonDisabledState(false)
     }
     else {
-      setButtonDisabledState(false)
+      setButtonDisabledState(true)
     }
     setValue(text)
   }
