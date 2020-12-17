@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Component } from 'react'
 import { StyleSheet, View, SafeAreaView, Platform, Alert, TouchableOpacity } from 'react-native'
 import { Text, Appbar, TextInput, IconButton, Colors, Paragraph, Button, Headline, Subheading, List } from 'react-native-paper'
-/* import {Camera} from './../Camera/Camera' */
+
 
 import { colors } from '../../theme/theme'
 import Header from './../../components/header/Header'
@@ -81,16 +81,7 @@ const CheckList = ({ navigation }) => {
 
   }
 
-  const numberGranted2 = (value) => {
-    console.log("fuck", value)
-    if (value != "") {
-      if (value >= 0 && value <= 5) {
-        setButtonDisabledState(false)
-      }
-      else {
-        setButtonDisabledState(true)
-      }
-    }
+ 
 
     setMeterValue(value)
     setPrevious(value)
@@ -213,7 +204,6 @@ const CheckList = ({ navigation }) => {
     }
   }
 
-
   // Remarque : le tableau vide de dépendances [] indique
   // que useEffect ne s’exécutera qu’une fois, un peu comme
   // componentDidMount()
@@ -263,7 +253,6 @@ const CheckList = ({ navigation }) => {
         <View>
           {controle()}
         </View>
-
         <View style={styles.container}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>
@@ -287,7 +276,7 @@ const CheckList = ({ navigation }) => {
 
   }
 
-}
+
 
 
 
@@ -361,7 +350,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-evenly',
     padding: 10,
-  },
+  }
 
 
 })
