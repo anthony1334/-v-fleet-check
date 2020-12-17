@@ -57,22 +57,39 @@ const CheckList = ({ navigation }) => {
 
   //methode qui accede a l item suivant
   const handleClick = () => {
-    console.log("je suis la", [indice])
     const itemCourant = item
     itemCourant.value = value
     items[indice] = itemCourant
     setItems(items)
-    console.log(JSON.stringify(items))
+    
+
     const newIndice = (indice + 1)
     if (newIndice < items.length) {
       setIndice(newIndice)
       setItem(items[newIndice])
+      setValue(items[newIndice].value)
     }
     if (newIndice >= items.length) {
       navigation.navigate('Recap', { recap: items })
-
     }
-    setValue("")
+  }
+
+   /**
+   * permet de revenir a l item precedent
+   */
+  const handleBack = () => {
+    console.log(JSON.stringify(items))
+    const newIndice = (indice - 1)
+    if (newIndice < items.length) {
+      setIndice(newIndice)
+      setItem(items[newIndice])
+      setValue(items[newIndice].value)
+    }
+    //revient a splash le cas echeant
+    //@todo    if (indice < 1) stay indice 1
+    if (indice < 1) {
+      navigation.navigate('Splash')
+    }
   }
 
   //active button fuel
@@ -160,27 +177,7 @@ const CheckList = ({ navigation }) => {
     }
   }
 
-  /**
-   * permet de revenir a l item precedent
-   */
-  const handleBack = () => {
-    const itemCourant = item
-    itemCourant.value = value
-    items[indice] = itemCourant
-    setItems(items)
-
-    const newIndice = (indice - 1)
-    if (newIndice < items.length) {
-      setIndice(newIndice)
-      setItem(items[newIndice])
-      setValue(item.value)
-    }
-    //revient a splash le cas echeant
-    //@todo    if (indice < 1) stay indice 1
-    if (indice < 1) {
-      navigation.navigate('Splash')
-    }
-  }
+ 
   useEffect(() => {
     switch (item.controle) {
       case "textInput":
