@@ -19,6 +19,7 @@ import {
   Rating
 } from 'react-native-elements';
 import RNSpeedometer from 'react-native-speedometer'
+const Environment=require('./../../../environment.js')
 
 /**
  * main function
@@ -197,11 +198,11 @@ const CheckList = ({ navigation }) => {
     }
   }
 
-  /**
-    *permet de récupérer l ensemble des items a verifier depuis l API
-    */
+  // Remarque : le tableau vide de dépendances [] indique
+  // que useEffect ne s’exécutera qu’une fois, un peu comme
+  // componentDidMount()
   useEffect(() => {
-    fetch("http://192.168.0.50:3000/api/v1/items")
+    fetch(`${Environment.API}items`)
       .then(res => res.json())
       .then(
         (result) => {

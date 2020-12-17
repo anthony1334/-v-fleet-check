@@ -8,7 +8,7 @@ import Login from './../../components/login/Login'
 import LoginVehicle from './../../components/loginVehicle/LoginVehicle'
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
-
+const Environment=require('./../../../environment.js')
 
 const Splash = ({ navigation }) => {
 
@@ -27,9 +27,10 @@ const Splash = ({ navigation }) => {
    */
 
   const receivedFromLogin = (user, rememberMe) => {
-    axios.post(`http://192.168.0.50:3000/api/v1/user`, user)
+    axios.post(`${Environment.API}user`, user)
       // Si utilisateur connu
       .then( (response) => {
+        console.log(response)
         setAddLoginVehicle(false)
         setUnknownUser(false)
         setIsUserLoad(false)
@@ -37,16 +38,17 @@ const Splash = ({ navigation }) => {
         if (rememberMe) {
           AsyncStorage.setItem("vFleetUser", JSON.stringify(user))
         }
-        // erreur = donc utilisateur inconnu
-      }).catch(() => {
-        if (user = unknownUser) {
+      // erreur = donc utilisateur inconnu
+      }).catch((error) => {
+        console.log(error)
+        if (user==unknownUser){
           setIsUserLoad(true)
         }
       })
   }
 
   const receivedFromImmat = (immat) => {
-    axios.post(`http://192.168.0.50:3000/api/v1/vehicle`, immat)
+    axios.post(`${Environment.API}vehicle`, immat)
       .then((response) => {
         setDisabledStatus(false)
         setAddLoginVehicle(true)
