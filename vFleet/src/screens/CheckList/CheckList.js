@@ -194,6 +194,7 @@ const CheckList = ({ navigation }) => {
     }
   }
 
+
   // Remarque : le tableau vide de dépendances [] indique
   // que useEffect ne s’exécutera qu’une fois, un peu comme
   // componentDidMount()
