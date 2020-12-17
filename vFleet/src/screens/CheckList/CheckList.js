@@ -77,14 +77,7 @@ const CheckList = ({ navigation }) => {
 
   //active button fuel
   const numberGranted = (value) => {
-    if (value != "") {
-      if (value >= 0 && value <= 100) {
-        setButtonDisabledState(false)
-      }
-      else {
-        setButtonDisabledState(true)
-      }
-    }
+
     setMeterValue(value)
     setValue(value)
   }
@@ -92,12 +85,7 @@ const CheckList = ({ navigation }) => {
   //active button kilometre + mise a jour de la valeur saisie
   const handleChange = (text) => {
 
-    if (text > item.previous) {
-      setButtonDisabledState(false)
-    }
-    else {
-      setButtonDisabledState(true)
-    }
+
     setValue(text)
   }
 
@@ -193,7 +181,32 @@ const CheckList = ({ navigation }) => {
       navigation.navigate('Splash')
     }
   }
+  useEffect(() => {
+    switch (item.controle) {
+      case "textInput":
+        if (value >= item.previous) {
+          setButtonDisabledState(false)
+        }
+        else {
+          setButtonDisabledState(true)
+        }
+        break
+      case "progressBar":
+        if (value != "") {
+          if (value >= 0 && value <= 100) {
+            setButtonDisabledState(false)
+          }
+          else {
+            setButtonDisabledState(true)
+          }
+        }
+        break 
+        default: setButtonDisabledState(false)
 
+    }
+
+
+  })
   // Remarque : le tableau vide de dépendances [] indique
   // que useEffect ne s’exécutera qu’une fois, un peu comme
   // componentDidMount()
