@@ -78,17 +78,12 @@ const CheckList = ({ navigation }) => {
     setMeterValue(value)
     console.log("toto", value)
     setValue(value)
-
   }
 
- 
 
-    setMeterValue(value)
-    setPrevious(value)
-    console.log("toto", value)
-    setValue(value)
 
-  }
+
+
 
   //active button kilometre
   const handleChange = (text) => {
@@ -288,71 +283,72 @@ const CheckList = ({ navigation }) => {
 
 
 
-/**
- * Update Item value for the current Rating Item
- * @param {*} rating 
- */
+  /**
+   * Update Item value for the current Rating Item
+   * @param {*} rating 
+   */
 
 
 
-const styles = StyleSheet.create({
-  containerss: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  textInputs: {
-    height: 25,
-    fontSize: 16,
-    marginTop: 30,
-    borderBottomWidth: 0.3,
-    borderBottomColor: 'black',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingHorizontal: 10,
-    paddingVertical: 20
-  },
-  titleContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1
-  },
-  title: {
-    fontSize: 20
-  },
-  Headline: {
-    marginTop: 30
+  const styles = StyleSheet.create({
+    containerss: {
+      flex: 1,
+      alignItems: 'center',
+    },
+    textInputs: {
+      height: 25,
+      fontSize: 16,
+      marginTop: 30,
+      borderBottomWidth: 0.3,
+      borderBottomColor: 'black',
+    },
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      paddingHorizontal: 10,
+      paddingVertical: 20
+    },
+    titleContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex: 1
+    },
+    title: {
+      fontSize: 20
+    },
+    Headline: {
+      marginTop: 30
 
-  },
+    },
 
-  checkPoint: {
-    marginTop: 30,
-    backgroundColor: '#fff'
+    checkPoint: {
+      marginTop: 30,
+      backgroundColor: '#fff'
 
-  },
+    },
 
-  para: {
-    marginTop: 16,
-    paddingVertical: 8,
-    borderWidth: 4,
-    borderColor: "#ebae34",
-    backgroundColor: "#61dafb",
-    color: "#20232a",
-    textAlign: "center",
-    fontSize: 30,
-    margin: 40,
-    fontWeight: "bold",
-    padding: 8
-  },
+    para: {
+      marginTop: 16,
+      paddingVertical: 8,
+      borderWidth: 4,
+      borderColor: "#ebae34",
+      backgroundColor: "#61dafb",
+      color: "#20232a",
+      textAlign: "center",
+      fontSize: 30,
+      margin: 40,
+      fontWeight: "bold",
+      padding: 8
+    },
 
-  containers: {
-    flex: 1,
-    justifyContent: 'space-evenly',
-    padding: 10,
-  }
+    containers: {
+      flex: 1,
+      justifyContent: 'space-evenly',
+      padding: 10,
+    }
 
 
-})
+  })
+}
 
 export default CheckList
