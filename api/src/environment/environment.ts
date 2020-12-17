@@ -1,6 +1,5 @@
 import { ConnectionOptions } from "typeorm";
 import * as cors from 'cors';
-// import {Checklist} from './../../../vFleet/src/screens/CheckList/CheckList'
 
 /**
  * environment

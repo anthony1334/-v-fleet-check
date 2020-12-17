@@ -1,8 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, ManyToOne } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
 import {Item} from'./item'
-import {Checking} from './checking'
-
-
+import {Checking} from'./checking'
 
 @Entity('check-item-value')
 export class CheckItemValue   {
@@ -20,7 +18,7 @@ export class CheckItemValue   {
     @ManyToOne(()=>Item,item=>item.itemValues)
     public item:Item
 
-    @ManyToOne(()=>Checking,checking=>checking.checkItemValues)
+    @ManyToOne(()=>Checking, checking => checking.checkItemValues)
     public checking:Checking
 
 }

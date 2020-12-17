@@ -1,7 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
-/* import { CheckItemValue } from './check-item-value' */
-import {CheckItemValue} from './check-item-value'
-
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, Connection } from 'typeorm'
+import { CheckItemValue } from './check-item-value'
+import { Vehicle } from './vehicle'
 
 @Entity('checking')
 
@@ -15,6 +14,12 @@ export class Checking {
     })
     public date: Date
 
+    /*   @Column({
+          type: 'varchar',
+          length: 10,
+          nullable: false,
+      })
+      public time: Time */
     @Column('time', {
         nullable: true,
         name: 'elapsed_time'
@@ -35,7 +40,7 @@ export class Checking {
         srid: 4326
     })
 
-    @OneToMany(() => CheckItemValue, checkItemValues => checkItemValues.checking)
+    @OneToMany(() => CheckItemValue, checkItemValue => checkItemValue.checking)
     public checkItemValues: CheckItemValue[]
 
 }

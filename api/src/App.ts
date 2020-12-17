@@ -13,7 +13,6 @@ import * as cors from 'cors'
 import * as express from 'express'
 import * as logger from 'morgan'
 
-
 /**
  * App core
  *  Create an express app
@@ -52,11 +51,10 @@ class App {
 
         UserRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/vehicle-fleet`, VehicleFleetRouter)
-
+        
         ItemRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/items`, ItemRouter)
      
-
         FormControlRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/form-control`, FormControlRouter)
 
@@ -65,9 +63,6 @@ class App {
 
         CheckingRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/checking`, CheckingRouter)
-
-    
-
     }
 }
 
