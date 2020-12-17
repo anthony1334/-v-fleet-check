@@ -31,7 +31,6 @@ const Splash = ({ navigation }) => {
     axios.post(`${Environment.API}user`, user)
       // Si utilisateur connu
       .then( (response) => {
-        console.log(response)
         setAddLoginVehicle(false)
         setUnknownUser(false)
         setIsUserLoad(false)
@@ -42,7 +41,6 @@ const Splash = ({ navigation }) => {
         }
       // erreur = donc utilisateur inconnu
       }).catch((error) => {
-        console.log(error)
         if (user==unknownUser){
           setIsUserLoad(true)
         }
