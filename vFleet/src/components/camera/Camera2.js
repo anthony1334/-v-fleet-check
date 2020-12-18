@@ -39,7 +39,8 @@ const Camera2 = () => {
         // Assume "photo" is the name of the form field the server expects
         formData.append('photo', { uri: localUri, name: filename, type });
 
-        return await fetch(YOUR_SERVER_URL, {
+        
+ fetch(`${Environment.API}photo`, {
             method: 'POST',
             body: formData,
             headers: {
