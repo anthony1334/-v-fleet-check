@@ -18,8 +18,6 @@ export class CheckItemValue   {
     @ManyToOne(()=>Item,item=>item.itemValues)
     public item:Item
 
-    @ManyToOne(()=>Checking)
-
     @ManyToOne(()=>Checking, checking => checking.checkItemValues)
     public checking:Checking
 

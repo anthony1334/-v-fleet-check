@@ -1,16 +1,14 @@
 import React from 'react'
 import { View, Button } from 'react-native'
-
 import { Text, FAB, Paragraph, Title } from 'react-native-paper'
 import styles from '../../theme/theme'
 import Header from '../../components/header/Header'
 import CheckList from '../CheckList/CheckList'
 import axios from 'axios'
-const Environment=require('./../../../environment.js')
+const Environment = require('./../../../environment.js')
 
 
 const Recap = ({ navigation }) => {
-
   const items = navigation.getParam('recap')
 
   const itemFromChecklist = items.map((item) => {
@@ -26,40 +24,6 @@ const Recap = ({ navigation }) => {
 
     })
 
-  const handleBack = () => {
-    const itemCourant = item
-    itemCourant.value = value
-    items[indice] = itemCourant
-    setItems(items)
-
-    console.log(JSON.stringify(items))
-
-    
-    const handleBack = () => {
-        console.log("je suis la",[indice])
-        const itemCourant = item
-        itemCourant.value = value
-        items[indice] = itemCourant
-        setItems(items)
-      
-        console.log(JSON.stringify(items))
-        const newIndice = (indice - 1)
-        if (newIndice < items.length) {
-          setIndice(newIndice)
-          setItem(items[newIndice])
-          setValue(item.value)
-          setPrevious(value)
-          
-        }
-          if(indice<1){
-            
-                  navigation.navigate('Splash')
-      
-         } 
-          
-        
-      }
-  
 
   return (
     <>
@@ -92,12 +56,9 @@ const Recap = ({ navigation }) => {
         label='Modifier'
         onPress={() => navigation.navigate('CheckList')}
       />
-
-
-
     </>
   )
 }
-}
+
 export default Recap
 

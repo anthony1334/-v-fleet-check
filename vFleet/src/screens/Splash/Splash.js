@@ -54,6 +54,7 @@ const Splash = ({ navigation }) => {
         setAddLoginVehicle(true)
         setImmatLoad (false)
         setWelcomeMessage(true)
+        // si beug retirer setWelcomeMessage
       }).catch(() => {
         if (immat=!isImmatLoad){
         setImmatLoad (true)
@@ -64,6 +65,7 @@ const Splash = ({ navigation }) => {
   /**
    * 
    */
+
   useEffect(() => {
     async function fetchUser() {
       const user = await AsyncStorage.getItem("vFleetUser")
