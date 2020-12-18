@@ -19,7 +19,7 @@ import {
   Rating
 } from 'react-native-elements';
 import RNSpeedometer from 'react-native-speedometer'
-import Camera2 from'./../../components/camera/Camera2'
+import Camera3 from './../../components/camera/camera3'
 const Environment = require('./../../../environment.js')
 
 /**
@@ -62,7 +62,7 @@ const CheckList = ({ navigation }) => {
     itemCourant.value = value
     items[indice] = itemCourant
     setItems(items)
-    
+
 
     const newIndice = (indice + 1)
     if (newIndice < items.length) {
@@ -75,9 +75,9 @@ const CheckList = ({ navigation }) => {
     }
   }
 
-   /**
-   * permet de revenir a l item precedent
-   */
+  /**
+  * permet de revenir a l item precedent
+  */
   const handleBack = () => {
     console.log(JSON.stringify(items))
     const newIndice = (indice - 1)
@@ -178,14 +178,14 @@ const CheckList = ({ navigation }) => {
     }
   }
 
- /**
-  * effet de bord de l activation des boutons pour passer a l item suivant
-  */
+  /**
+   * effet de bord de l activation des boutons pour passer a l item suivant
+   */
   useEffect(() => {
     switch (item.controle) {
       case "textInput":
         const valueAsnumber = +value
-        if (valueAsnumber >= +item.previous ) {
+        if (valueAsnumber >= +item.previous) {
           setButtonDisabledState(false)
         }
         else {
@@ -201,8 +201,8 @@ const CheckList = ({ navigation }) => {
             setButtonDisabledState(true)
           }
         }
-        break 
-        default: setButtonDisabledState(false)
+        break
+      default: setButtonDisabledState(false)
 
     }
 
@@ -259,7 +259,8 @@ const CheckList = ({ navigation }) => {
         <View>
           {controle()}
         </View>
-        <Camera2 />
+        <View><Text>coucou</Text></View>
+        <Camera3 />
         <View style={styles.container}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>
