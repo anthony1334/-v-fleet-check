@@ -28,9 +28,7 @@ export class ItemRouter {
                 this.controller.putIn
 
             )
-
     }
-
 }
 
 const routes: ItemRouter = new ItemRouter()

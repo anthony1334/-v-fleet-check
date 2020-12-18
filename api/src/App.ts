@@ -1,4 +1,7 @@
 import VehicleRouter from './routes/vehicle-router';
+import UserRouter from './routes/user-router';
+import CompanyRouter from './routes/company-router';
+import VehicleFleetRouter from './routes/vehicle-fleet-router';
 import ItemRouter from './routes/item-router';
 import FormControlRouter from './routes/form-control-router';
 import CheckItemValueRouter from './routes/check-item-value-router';
@@ -40,10 +43,18 @@ class App {
         VehicleRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/vehicle`, VehicleRouter)
 
+        UserRouter.use(cors(corsOptions))
+        this.app.use(`${apiVersion}/user`, UserRouter)
+
+        UserRouter.use(cors(corsOptions))
+        this.app.use(`${apiVersion}/company`, CompanyRouter)
+
+        UserRouter.use(cors(corsOptions))
+        this.app.use(`${apiVersion}/vehicle-fleet`, VehicleFleetRouter)
+        
         ItemRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/items`, ItemRouter)
      
-
         FormControlRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/form-control`, FormControlRouter)
 
@@ -52,9 +63,6 @@ class App {
 
         CheckingRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/checking`, CheckingRouter)
-
-    
-
     }
 }
 

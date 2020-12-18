@@ -6,9 +6,9 @@ import LottieView from 'lottie-react-native'
 import Header from './../../components/header/Header'
 import Login from './../../components/login/Login'
 import LoginVehicle from './../../components/loginVehicle/LoginVehicle'
-import axios from 'axios';
-import AsyncStorage from '@react-native/community/async-storage'
-
+import axios from 'axios'
+import AsyncStorage from '@react-native-community/async-storage'
+const Environment=require('./../../../environment.js')
 
 const Splash = ({ navigation }) => {
 
@@ -27,36 +27,34 @@ const Splash = ({ navigation }) => {
    */
 
   const receivedFromLogin = (user, rememberMe) => {
-    axios.post(`http://localhost:3000/api/v1/user`, user)
+    axios.post(`${Environment.API}user`, user)
       // Si utilisateur connu
-      .then( async(response) => {
+      .then( (response) => {
+        console.log(response)
         setAddLoginVehicle(false)
         setUnknownUser(false)
         setIsUserLoad(false)
         // si utilisateur connu + case cochée se souvenir de moi
         if (rememberMe) {
-          await AsyncStorage.setItem("vFleetUser", JSON.stringify(user))
-          // setAddLoginVehicle(false)
+          AsyncStorage.setItem("vFleetUser", JSON.stringify(user))
         }
       // erreur = donc utilisateur inconnu
-      }).catch(() => {
-        if (user=unknownUser){
+      }).catch((error) => {
+        console.log(error)
+        if (user==unknownUser){
           setIsUserLoad(true)
         }
-
-        // setAddLoginVehicle(false)
       })
   }
 
   const receivedFromImmat = (immat) => {
-    axios.post(`http://localhost:3000/api/v1/vehicle`, immat)
+    axios.post(`${Environment.API}vehicle`, immat)
       .then((response) => {
         setDisabledStatus(false)
         setAddLoginVehicle(true)
-        setImmatLoad (false)
+        setImmatLoad(false)
       }).catch(() => {
         if (immat=!isImmatLoad){
-        console.log("coucou234")
         setImmatLoad (true)
       }
       })
@@ -65,13 +63,17 @@ const Splash = ({ navigation }) => {
   /**
    * 
    */
-  useEffect(async() => {
-    const user = await AsyncStorage.getItem("vFleetUser")
-    if (user !== null) {
-      setAddLoginVehicle(false)
-      setUnknownUser(false)
-      setIsUserLoad(false)
+
+  useEffect(() => {
+    async function fetchUser() {
+      const user = await AsyncStorage.getItem("vFleetUser")
+      if (user !== null) {
+        setAddLoginVehicle(false)
+        setUnknownUser(false)
+        setIsUserLoad(false)
+      }
     }
+    fetchUser()
   }, [])
 
   /**
@@ -88,7 +90,6 @@ const Splash = ({ navigation }) => {
   const loginErrorMessage = isUserLoad ? <Text style={styles.errorMsg}> Veuillez entrer un identifiant valide. </Text> : null 
   const immatErrorMessage = isImmatLoad ? <Text style={styles.errorMsg}> Veuillez entrer une immatriculation connue. </Text> : null
     
-
   return (
     <>
       <Header titleText="vFleetCheck" navigation={navigation} />

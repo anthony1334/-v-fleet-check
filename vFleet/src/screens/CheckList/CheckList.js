@@ -1,23 +1,38 @@
-import React, { useState, useEffect, Component } from 'react'
-import { StyleSheet, View, SafeAreaView, Platform, Alert, TouchableOpacity } from 'react-native'
-import { Text, Appbar, TextInput, IconButton, Colors, Paragraph, Button, Headline, Subheading, List } from 'react-native-paper'
-/* import {Camera} from './../Camera/Camera' */
-
-import { colors } from '../../theme/theme'
+import React, { useState, useEffect } from 'react'
+import {
+  StyleSheet,
+  View, SafeAreaView
+} from 'react-native'
+import {
+  Text,
+  Appbar,
+  TextInput,
+  IconButton,
+  Colors,
+  Paragraph,
+  Headline,
+  Subheading,
+  List
+} from 'react-native-paper'
 import Header from './../../components/header/Header'
-import { Rating, AirbnbRating, Slider, Icon } from 'react-native-elements';
+import {
+  Rating
+} from 'react-native-elements';
 import RNSpeedometer from 'react-native-speedometer'
+const Environment = require('./../../../environment.js')
 
-
-
-
+/**
+ * main function
+ * @param {*} navigation 
+ */
 const CheckList = ({ navigation }) => {
-
+  /**
+  * definition des variables d'états
+  */
 
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [indice, setIndice] = useState(0)
-
   const [items, setItems] = useState([])
   const [item, setItem] = useState({})
   const [buttonDisabledState, setButtonDisabledState] = useState(true)
@@ -28,14 +43,10 @@ const CheckList = ({ navigation }) => {
   const title = 'points de contrôles ' + (indice + 1) + "/" + items.length
   const [meterValue, setMeterValue] = useState(20)
 
-  useEffect(() => {
-    if (indice > items.length - 1) {
 
-    }
-    console.log("item courant" + JSON.stringify(item))
-    console.log(indice)
-
-  })
+  /** 
+   * mise a jour de la valeur saisie dans le starRating
+  */
   const ratingCompleted = (rating) => {
     const currentItem = items[indice]
     currentItem.value = rating
@@ -46,82 +57,58 @@ const CheckList = ({ navigation }) => {
 
   //methode qui accede a l item suivant
   const handleClick = () => {
-    console.log("je suis la", [indice])
     const itemCourant = item
     itemCourant.value = value
     items[indice] = itemCourant
     setItems(items)
-    console.log(JSON.stringify(items))
+    
+
     const newIndice = (indice + 1)
     if (newIndice < items.length) {
       setIndice(newIndice)
       setItem(items[newIndice])
+      setValue(items[newIndice].value)
     }
     if (newIndice >= items.length) {
       navigation.navigate('Recap', { recap: items })
-
     }
-    setValue("")
+  }
+
+   /**
+   * permet de revenir a l item precedent
+   */
+  const handleBack = () => {
+    console.log(JSON.stringify(items))
+    const newIndice = (indice - 1)
+    if (newIndice < items.length) {
+      setIndice(newIndice)
+      setItem(items[newIndice])
+      setValue(items[newIndice].value)
+    }
+    //revient a splash le cas echeant
+    //@todo    if (indice < 1) stay indice 1
+    if (indice < 1) {
+      navigation.navigate('Splash')
+    }
   }
 
   //active button fuel
   const numberGranted = (value) => {
-    if (value != "") {
-      if (value >= 0 && value <= 100) {
-        setButtonDisabledState(false)
-      }
-      else {
-        setButtonDisabledState(true)
-      }
-    }
 
     setMeterValue(value)
-    console.log("toto", value)
     setValue(value)
-
   }
 
-  const numberGranted2 = (value) => {
-    console.log("fuck", value)
-    if (value != "") {
-      if (value >= 0 && value <= 5) {
-        setButtonDisabledState(false)
-      }
-      else {
-        setButtonDisabledState(true)
-      }
-    }
-
-    setMeterValue(value)
-    setPrevious(value)
-    console.log("toto", value)
-    setValue(value)
-
-  }
-
-  //active button kilometre
+  //active button kilometre + mise a jour de la valeur saisie
   const handleChange = (text) => {
-    if (item.validator != "") {
-      if (value > item.previous) {
-        setButtonDisabledState(false)
-      }
-      else {
-        setButtonDisabledState(true)
-      }
 
-    }
-    else {
-      setButtonDisabledState(false)
-    }
+
     setValue(text)
-    console.log("check", text)
   }
 
-  /* const ratingCompleted = (rating) => {
-    setValue(rating)
-    console.log("bitch", rating)
-  } */
-
+  /**
+   * definit les differents formControl
+   */
   const controle = () => {
     switch (item.controle) {
       //nbr de kilometre
@@ -137,9 +124,6 @@ const CheckList = ({ navigation }) => {
         return <Rating showRating fractions={1}
           startingValue={0}
           onFinishRating={ratingCompleted} />
-
-
-
 
       case "progressBar":
         return <SafeAreaView style={{ flex: 1 }}>
@@ -187,42 +171,48 @@ const CheckList = ({ navigation }) => {
                 maxLength="3"
                 onChangeText={(value) => numberGranted(value)}
               />
-
             </View>
           </View>
         </SafeAreaView>
     }
   }
 
-  const handleBack = () => {
-    console.log("je suis la", [indice])
-    const itemCourant = item
-    itemCourant.value = value
-    items[indice] = itemCourant
-    setItems(items)
+ 
+  useEffect(() => {
+    switch (item.controle) {
+      case "textInput":
+        const valueAsnumber = +value
+        if (valueAsnumber >= +item.previous ) {
+          setButtonDisabledState(false)
+        }
+        else {
+          setButtonDisabledState(true)
+        }
+        break
+      case "progressBar":
+        if (value != "") {
+          if (value >= 0 && value <= 100) {
+            setButtonDisabledState(false)
+          }
+          else {
+            setButtonDisabledState(true)
+          }
+        }
+        break 
+        default: setButtonDisabledState(false)
 
-    console.log(JSON.stringify(items))
-    const newIndice = (indice - 1)
-    if (newIndice < items.length) {
-      setIndice(newIndice)
-      setItem(items[newIndice])
-      setValue(item.value)
     }
-    if (indice < 1) {
-      navigation.navigate('Splash')
-    }
-  }
 
 
+  })
   // Remarque : le tableau vide de dépendances [] indique
   // que useEffect ne s’exécutera qu’une fois, un peu comme
   // componentDidMount()
   useEffect(() => {
-    fetch("http://127.0.0.1:3000/api/v1/items")
+    fetch(`${Environment.API}items`)
       .then(res => res.json())
       .then(
         (result) => {
-          console.log(JSON.stringify(result))
           setIsLoaded(true);
           setItems(result);
           setItem(result[0]);
@@ -230,7 +220,7 @@ const CheckList = ({ navigation }) => {
           setValue("")
           setButtonDisabledState(item.validator != "" ? true : false)
         },
-        // Remarque : il faut gérer les erreurs ici plutôt que dans
+        // @Todo: il faut gérer les erreurs ici plutôt que dans
         // un bloc catch() afin que nous n’avalions pas les exceptions
         // dues à de véritables bugs dans les composants.
         (error) => {
@@ -239,15 +229,18 @@ const CheckList = ({ navigation }) => {
         }
       )
   }, [])
-
+  /**
+   * affiche un message d erreur en cas de probleme de recuperation des items depuis l API
+   * 
+   */
   if (error) {
-    return <div>Erreur : {error.message}</div>;
+    return <View><Text>Erreur : {error.message}</Text></View>;
   } else if (!isLoaded) {
-    return <div>Chargement...</div>;
+    return <View><Text>Chargement...</Text></View>;
   } else {
+    //render
     return (
       <>
-
         <Header handleBack={handleBack} titleText="Points de contrôles" navigation={navigation} />
         <View style={styles.checkPoint}>
           <Appbar.Header style={styles.checkPoint} >
@@ -263,7 +256,6 @@ const CheckList = ({ navigation }) => {
         <View>
           {controle()}
         </View>
-
         <View style={styles.container}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>
@@ -286,25 +278,12 @@ const CheckList = ({ navigation }) => {
     )
 
   }
-
 }
 
 
-
-
-
-
-
-
-
-
-
 /**
- * Update Item value for the current Rating Item
- * @param {*} rating 
+ * css
  */
-
-
 
 const styles = StyleSheet.create({
   containerss: {
@@ -361,9 +340,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-evenly',
     padding: 10,
-  },
+  }
 
 
 })
+
 
 export default CheckList
