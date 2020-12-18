@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
 
-const Camera3 = () => {
+const App=()=> {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
 
@@ -48,4 +48,3 @@ const Camera3 = () => {
     </View>
   );
 }
-export default Camera3;
