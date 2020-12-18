@@ -1,136 +1,201 @@
-/* import React, {PureComponent} from 'react';
-import {RNCamera} from 'react-native-camera';
-export default class Camera extends PureComponent {  
-    constructor(props) {
-  super(props);}
-render() {
-  return (
-    <RNCamera 
-      ref={ref => {
-        this.camera = ref;
-      }}
-      captureAudio={false}
-      style={{flex: 1}}
-      type={RNCamera.Constants.Type.back}
-      androidCameraPermissionOptions={{
-        title: 'Permission to use camera',
-        message: 'We need your permission to use your camera',
-        buttonPositive: 'Ok',
-        buttonNegative: 'Cancel',
-      }} />
-    );
-  }}
+import React, { useState, useEffect } from 'react'
 
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  Alert,
+  Platform,
+  TouchableHighlight,
+} from 'react-native'
+
+import * as Permissions from 'expo-permissions'
+
+import {
+  CameraKitCameraScreen
+} from 'react-native-camera-kit'
+
+const Camera = ({ navigation }) => {
+  const [isPermitted, setIsPermitted] = useState(false)
+  const [captureImages, setCaptureImages] = useState([])
+
+  /**
+   * Await for permissions OS specifics
    */
-  import {RNCamera} from 'react-native-camera';
-  import   Geolocalisation  from  "@ react-native-community / geolocation" ;
-
-  const geolocation =() => {
-    state = {
-      location: null
-    };
-  
-    findCoordinates = () => {
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          const location = JSON.stringify(position);
-  
-          this.setState({ location });
+  const requestCameraPermission = async () => {
+    try {
+      const granted = await Permissions.askAsync(
+        Permissions.CAMERA,
+        {
+          title: 'Camera Permission',
+          message: 'App needs camera permission',
         },
-        error => Alert.alert(error.message),
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
       );
-    };
-  
-    
-      return (
-        <View style={styles.containerGeolocation}>
-          <TouchableOpacity onPress={this.findCoordinates}>
-            <Text style={styles.welcome}>Find My Coords?</Text>
-            <Text>Location: {this.state.location}</Text>
-          </TouchableOpacity>
-        </View>
-      );
-    
+      // If CAMERA Permission is granted
+      return granted;
+    } catch (err) {
+      console.warn(err);
+      return false;
+    }
   }
-  const camera =() =>{
-    /*    <RNCamera 
-       ref={ref => {
-         this.camera = ref;
-       }}
-       captureAudio={false}
-       style={{flex: 1}}
-       type={RNCamera.Constants.Type.back}
-       androidCameraPermissionOptions={{
-         title: 'Permission to use camera',
-         message: 'We need your permission to use your camera',
-         buttonPositive: 'Ok',
-         buttonNegative: 'Cancel',
-       }} /> */
-       <View style={styles.containerCamera}>
-       <RNCamera
-         style={{ flex: 1, alignItems: 'center' }}
-         ref={ref => {
-           this.camera = ref
-         }}
-       />
-     </View>
-     }
- const geolocation =() => {
-       state = {
-         location: null
-       };
-     
-       findCoordinates = () => {
-         navigator.geolocation.getCurrentPosition(
-           position => {
-             const location = JSON.stringify(position);
-     
-             this.setState({ location });
-           },
-           error => Alert.alert(error.message),
-           { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-         );
-       };
-     
-       
-         return (
-           <View style={styles.containerGeolocation}>
-             <TouchableOpacity onPress={this.findCoordinates}>
-               <Text style={styles.welcome}>Find My Coords?</Text>
-               <Text>Location: {this.state.location}</Text>
-             </TouchableOpacity>
-           </View>
-         );
-       
-     }
 
-     <SafeAreaView styles={{flex:1}}>‍
-     {camera()}‍
-   </SafeAreaView>
-   <View>
-     {geolocation}
-   </View>
- 
+  /**
+   * Await for writing permissions OS dependant
+   */
+  const requestExternalWritePermission = async () => {
+    try {
+      const granted = await Permissions.askAsync(
+        Permissions.WRITE_EXTERNAL_STORAGE,
+        {
+          title: 'External Storage Write Permission',
+          message: 'App needs write permission',
+        },
+      );
+      // If WRITE_EXTERNAL_STORAGE Permission is granted
+      return granted;
+    } catch (err) {
+      console.warn(err);
+      alert('Write permission err', err);
+    }
+    return false;
+  }
 
- containerCamera: {
-  flex: 1,
-  flexDirection: 'column',
-  backgroundColor: 'black'
-},
-containerGeolocation: {
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
-  backgroundColor: "#F5FCFF"
-},
-welcome: {
-  fontSize: 20,
-  textAlign: "center",
-  margin: 10
-},
-instructions: {
-  textAlign: "center",
-  color: "#333333",
-  marginBottom: 5
+  /**
+   * Await for external reading permissions platform dependant
+   */
+  const requestExternalReadPermission = async () => {
+    try {
+      const granted = await Permissions.askAsync(
+        Permissions.READ_EXTERNAL_STORAGE,
+        {
+          title: 'Read Storage Permission',
+          message: 'App needs Read Storage Permission',
+        },
+      );
+      // If READ_EXTERNAL_STORAGE Permission is granted
+      return granted;
+    } catch (err) {
+      console.warn(err);
+      alert('Read permission err', err);
+    }
+    return false;
+  }
+
+  /**
+   * Open APN for the current device
+   */
+  const openCamera = async () => {
+    if (Platform.OS === 'android') {
+      if (await requestCameraPermission()) {
+        if (await requestExternalWritePermission()) {
+          if (await requestExternalReadPermission()) {
+            setIsPermitted(true);
+          } else alert('READ_EXTERNAL_STORAGE permission denied');
+        } else alert('WRITE_EXTERNAL_STORAGE permission denied');
+      } else alert('CAMERA permission denied');
+    } else {
+      setIsPermitted(true);
+    }
+  }
+
+  /**
+   * Manage capture button event
+   */
+  const onBottomButtonPressed = (event) => {
+    const images = JSON.stringify(event.captureImages);
+    if (event.type === 'left') {
+      setIsPermitted(false);
+    } else if (event.type === 'right') {
+      setIsPermitted(false);
+      setCaptureImages(images);
+    } else {
+      Alert.alert(
+        event.type,
+        images,
+        [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+        {cancelable: false},
+      );
+    }
+  }
+
+    /**
+     * Render the final view
+     */
+    return (
+      <SafeAreaView style={{flex: 1}}>
+        {isPermitted ? (
+          <View style={{flex: 1}}>
+            <CameraKitCameraScreen
+              // Buttons to perform action done and cancel
+              actions={{
+                rightButtonText: 'Done',
+                leftButtonText: 'Cancel'
+              }}
+              onBottomButtonPressed={
+                (event) => onBottomButtonPressed(event)
+              }
+              flashImages={{
+                // Flash button images
+                on: require('./../../../assets/flashon.png'),
+                off: require('./../../../assets/flashoff.png'),
+                auto: require('./../../../assets/flashauto.png'),
+              }}
+              cameraFlipImage={require('./../../../assets/flip.png')}
+              captureButtonImage={require('./../../../assets/capture.png')}
+            />
+          </View>
+        ) : (
+          <View style={styles.container}>
+            <Text style={styles.titleText}>React Native Camera</Text>
+            <Text style={styles.textStyle}>{captureImages}</Text>
+            <TouchableHighlight
+              onPress={openCamera}
+              style={styles.buttonStyle}
+            >
+              <Text style={styles.buttonTextStyle}>Open Camera</Text>
+            </TouchableHighlight>
+          </View>
+        )}
+      </SafeAreaView>
+    )
 }
+
+export default Camera
+
+/**
+ * Some stupid React styles...
+ */
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    padding: 10,
+    alignItems: 'center',
+  },
+  titleText: {
+    fontSize: 22,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  textStyle: {
+    color: 'black',
+    fontSize: 16,
+    textAlign: 'center',
+    padding: 10,
+    marginTop: 16,
+  },
+  buttonStyle: {
+    fontSize: 16,
+    color: 'white',
+    backgroundColor: 'green',
+    padding: 5,
+    marginTop: 32,
+    minWidth: 250,
+  },
+  buttonTextStyle: {
+    padding: 5,
+    color: 'white',
+    textAlign: 'center',
+  },
+})

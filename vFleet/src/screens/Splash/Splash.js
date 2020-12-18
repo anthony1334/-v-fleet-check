@@ -120,6 +120,14 @@ const Splash = ({ navigation }) => {
           disabled={disabledStatus}
           onPress={() => navigation.navigate('CheckList')}
         />
+
+        <FAB
+          style={styles.fabvalid}
+          small
+          icon='check'
+          label='Photos'
+          onPress={() => navigation.navigate('Camera')}
+        />
       </View>
     </>
   )
