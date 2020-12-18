@@ -19,7 +19,7 @@ import {
   Rating
 } from 'react-native-elements';
 import RNSpeedometer from 'react-native-speedometer'
-import Camera3 from './../../components/camera/camera3'
+import Camera2 from './../../components/camera/Camera2'
 const Environment = require('./../../../environment.js')
 
 /**
@@ -260,7 +260,7 @@ const CheckList = ({ navigation }) => {
           {controle()}
         </View>
         <View><Text>coucou</Text></View>
-        <Camera3 />
+        <Camera2 />
         <View style={styles.container}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>
