@@ -19,6 +19,7 @@ import {
   Rating
 } from 'react-native-elements';
 import RNSpeedometer from 'react-native-speedometer'
+import Camera2 from'./../../components/camera/Camera2'
 const Environment = require('./../../../environment.js')
 
 /**
@@ -177,7 +178,9 @@ const CheckList = ({ navigation }) => {
     }
   }
 
- 
+ /**
+  * effet de bord de l activation des boutons pour passer a l item suivant
+  */
   useEffect(() => {
     switch (item.controle) {
       case "textInput":
@@ -256,6 +259,7 @@ const CheckList = ({ navigation }) => {
         <View>
           {controle()}
         </View>
+        <Camera2 />
         <View style={styles.container}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>
