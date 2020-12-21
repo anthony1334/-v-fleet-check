@@ -18,7 +18,6 @@ const LoginVehicle = ({ updateCheckButtonImmat }) => {
    */
   const handleClick = () => {
     updateCheckButtonImmat(data)
-    console.log("ok véhicule trouvé, welcome dans la checklist")
   }
   
   /**
