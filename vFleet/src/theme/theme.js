@@ -37,13 +37,15 @@ const styles = StyleSheet.create({
       marginTop: 20,
       right: 0,
       bottom: 10,
-      backgroundColor: colors.warning
+      backgroundColor: colors.warning,
+      justifyContent: 'center',
+      alignItems: 'center'
     },
     validButton: {
       backgroundColor: colors.warning
     },
     idMdp: {
-      margin: 2,
+      marginTop: 10,
       right: 0,
       bottom: 10,
       backgroundColor: colors.secondary
@@ -62,6 +64,8 @@ const styles = StyleSheet.create({
     //   backgroundColor: colors.warning
     // },
     errorMsg: {
+      textAlign: 'center',
+      marginTop: -17,
       color: colors.warning,
       marginBottom: 15,
       fontSize: 8,
@@ -76,6 +80,7 @@ const styles = StyleSheet.create({
       backgroundColor: colors.warning
     },
     loginStyle: {
+      flex: 1,
       marginTop: 40,
       backgroundColor: colors.dark
     },
@@ -91,8 +96,12 @@ const styles = StyleSheet.create({
       backgroundColor: colors.light,
       borderWidth: 2,
       borderColor:colors.warning,
-
     },
+    checkRemember: {
+      right: 0,
+      backgroundColor: colors.warning,
+      padding: 2
+    }
   })
 
   export default styles
