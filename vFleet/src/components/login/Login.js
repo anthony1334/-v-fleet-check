@@ -81,7 +81,8 @@ const Login = ({ updateCheckButton }) => {
 
   return (
     <View style={styles.loginStyle}>
-    {/* <View style={{ flex: 1 }}> */}
+        {validUsername}
+        {validPassword}
         <TextInput
           style={styles.idMdp}
           name="username"
@@ -90,9 +91,6 @@ const Login = ({ updateCheckButton }) => {
           onChangeText={text => handleLogin(text)}
           type='flat'
         />
-
-        {validUsername}
-
         <TextInput
           style={styles.idMdp}
           secureTextEntry
@@ -102,10 +100,8 @@ const Login = ({ updateCheckButton }) => {
           onChangeText={text => handlePassword(text)}
           type='flat'
         />
-
-        {validPassword}
-
-        <CheckBox
+        <CheckBox 
+          style={styles.checkRemember}
           center
           title='Se souvenir de moi'
           iconRight
