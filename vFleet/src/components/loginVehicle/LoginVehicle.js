@@ -18,6 +18,7 @@ const LoginVehicle = ({ updateCheckButtonImmat }) => {
    */
   const handleClick = () => {
     updateCheckButtonImmat(data)
+    // console.log("toto",{user.company})
   }
   
   /**
