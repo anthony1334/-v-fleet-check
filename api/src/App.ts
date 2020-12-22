@@ -3,6 +3,7 @@ import UserRouter from './routes/user-router';
 import CompanyRouter from './routes/company-router';
 import VehicleFleetRouter from './routes/vehicle-fleet-router';
 import ItemRouter from './routes/item-router';
+import PhotoRouter from './routes/photo-router';
 import FormControlRouter from './routes/form-control-router';
 import CheckItemValueRouter from './routes/check-item-value-router';
 import CheckingRouter from './routes/checking-router';
@@ -63,6 +64,9 @@ class App {
 
         CheckingRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/checking`, CheckingRouter)
+
+        PhotoRouter.use(cors(corsOptions))
+        this.app.use(`${apiVersion}/photo`, PhotoRouter)
     }
 }
 

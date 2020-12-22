@@ -36,6 +36,7 @@ const CheckList = ({ navigation }) => {
   const [indice, setIndice] = useState(0)
   const [items, setItems] = useState([])
   const [item, setItem] = useState({})
+  const [photo, setPhoto] = useState({})
   const [buttonDisabledState, setButtonDisabledState] = useState(true)
   const [value, setValue] = useState("")
   const [previous, setPrevious] = useState("")
@@ -259,7 +260,6 @@ const CheckList = ({ navigation }) => {
         <View>
           {controle()}
         </View>
-        <View><Text>coucou</Text></View>
         <Camera2 />
         <View style={styles.container}>
           <View style={styles.titleContainer}>

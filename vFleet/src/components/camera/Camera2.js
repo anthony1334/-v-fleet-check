@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
+const Environment = require('./../../../environment.js')
+
 
 const Camera2 = () => {
     const [hasPermission, setHasPermission] = useState(null);
@@ -27,28 +29,50 @@ const Camera2 = () => {
         if (camera) {
             let photo = await camera.takePictureAsync();
             // ImagePicker saves the taken photo to disk and returns a local URI to it
-        let localUri = photo.uri;
-        let filename = localUri.split('/').pop();
+            let localUri = photo.uri;
+            let filename = localUri.split('/').pop();
 
-        // Infer the type of the image
-        let match = /\.(\w+)$/.exec(filename);
-        let type = match ? `image/${match[1]}` : `image`;
+            // Infer the type of the image
+            let match = /\.(\w+)$/.exec(filename);
+            let type = match ? `image/${match[1]}` : `image`;
 
-        // Upload the image using the fetch and FormData APIs
-        let formData = new FormData();
-        // Assume "photo" is the name of the form field the server expects
-        formData.append('photo', { uri: localUri, name: filename, type });
+            // Upload the image using the fetch and FormData APIs
+            let formData = new FormData();
+            // Assume "photo" is the name of the form field the server expects
+            formData.append('photo', { uri: localUri, name: filename, type });
+            console.log(JSON.stringify(formData))
 
-        
- fetch(`${Environment.API}photo`, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'content-type': 'multipart/form-data',
-            },
-        });
+            /* 
+                        fetch(`${Environment.API}photo`, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'content-type': 'multipart/form-data',
+                            },
+                        }); */
+
+
+            axios.post(`${Environment.API}photo`, { photo }),
+                {
+                    headers: {
+                        'content-type': 'multipart/form-data',
+                    },
+                }
+                    .then((response) => {
+                        setPhoto(photo)
+
+                        
+                    }).catch(() => {
+                        console.log("pas de photo")
+
+                    })
         }
-        
+        else {
+            console.log("pas de camera trouvée")
+        }
+
+
+
     };
 
     return (

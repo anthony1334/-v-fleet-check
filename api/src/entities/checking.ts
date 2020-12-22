@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, Connection } from 'typeorm'
 import { CheckItemValue } from './check-item-value'
+import { Photo } from './photo'
 import { Vehicle } from './vehicle'
 
 @Entity('checking')
@@ -42,5 +43,8 @@ export class Checking {
 
     @OneToMany(() => CheckItemValue, checkItemValue => checkItemValue.checking)
     public checkItemValues: CheckItemValue[]
+
+   @OneToMany(()=>Photo, photo=>photo.checking)
+   public photo: Photo[]
 
 }
