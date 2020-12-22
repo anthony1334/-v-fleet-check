@@ -9,15 +9,15 @@ export class CompanyController {
         this.repository = new CompanyRepository()
     }
 
-    async login(request: Request, response: Response) {
-        this.repository.all().then((result: any) => {
-            if (!result) {
-                response.status(404).send({
-                    message: 'No company available at this time'
-                })
-            } else {
-                response.status(200).send("petit message pour company controller")
-            }
-        })
-    }
+    // async PutInCompany(request: Request, response: Response) {
+    //     console.log(JSON.stringify(request.body))
+    //     repository.findPutInCompany(request.body)
+    //     .then(companys => {
+    //         if (companys.length>0) {
+    //             response.status(200).send(companys[0])
+    //         } else {
+    //             response.status(404).send({message:"aucun véhicule avec cette immat"})
+    //         }
+    //     })
+    // }
 }

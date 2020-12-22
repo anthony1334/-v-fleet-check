@@ -16,10 +16,10 @@ export class CompanyRouter {
 
     private setRoutes() {
         this.router
-            .post(
-                `/company`,
-                this.controller.login
-            )
+            // .post(
+            //     `/company`,
+            //     this.controller.putInCompany
+            // )
     }
 
 }

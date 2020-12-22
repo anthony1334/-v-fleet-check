@@ -10,4 +10,9 @@ export class UserRepository extends Repository<User> {
         console.log(JSON.stringify(user))
         return getManager().getRepository(User).find({where:{userLog:user.username, passwordLog:user.password}})
     }
+    public findPutInCompany(user:any): Promise<User[]> {
+        console.log(JSON.stringify(user))
+        return getManager().getRepository(User).find({where:{name:user.company}})
+        // return getManager().getRepository(Vehicle).find({where:{immatriculation: vehicle.matriculation}})
+    }
 }
