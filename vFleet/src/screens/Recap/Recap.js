@@ -8,19 +8,22 @@ import axios from 'axios'
 const Environment = require('./../../../environment.js')
 
 
+
 const Recap = ({ navigation }) => {
   const items = navigation.getParam('recap')
+  const immat = navigation.getParam('immat')
 
   const itemFromChecklist = items.map((item) => {
     return <Paragraph key={item.id}>{item.title}:{item.value}{item.validator}</Paragraph>
   })
 
   console.log(`Hey, something came from Login component : ${JSON.stringify(items)}`)
-  axios.post(`${Environment.API}items`, { items })
+  axios.post(`${Environment.API}items`, { items, immat })
     .then((response) => {
+      
       setItems(items)
     }).catch(() => {
-      console.log("désolé je ne vous connais pas")
+      console.log("une erreur est survenue")
 
     })
 

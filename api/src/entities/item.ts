@@ -32,6 +32,6 @@ export class Item {
     public itemValues:CheckItemValue[]
 
     @OneToMany(()=>Photo,photo=>photo.item,{eager:true})
-    public photo:Photo[]
+    public photos:Photo[]
 
 }

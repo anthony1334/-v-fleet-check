@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, Connection } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany,ManyToOne } from 'typeorm'
 import { CheckItemValue } from './check-item-value'
 import { Photo } from './photo'
 import { Vehicle } from './vehicle'
@@ -46,5 +46,8 @@ export class Checking {
 
    @OneToMany(()=>Photo, photo=>photo.checking)
    public photo: Photo[]
+
+   @ManyToOne (()=>Vehicle, vehicle => vehicle.checkings)
+   public vehicle: Vehicle
 
 }

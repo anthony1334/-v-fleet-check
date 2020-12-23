@@ -4,7 +4,7 @@ import { Camera } from 'expo-camera';
 const Environment = require('./../../../environment.js')
 
 
-const Camera2 = () => {
+const Camera2 = (idItem) => {
     const [hasPermission, setHasPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
     const [camera, setCamera] = useState({});
@@ -40,69 +40,60 @@ const Camera2 = () => {
             let formData = new FormData();
             // Assume "photo" is the name of the form field the server expects
             formData.append('photo', { uri: localUri, name: filename, type });
+            formData.append('idItem', idItem );
             console.log(JSON.stringify(formData))
 
-            /* 
-                        fetch(`${Environment.API}photo`, {
-                            method: 'POST',
-                            body: formData,
-                            headers: {
-                                'content-type': 'multipart/form-data',
-                            },
-                        }); */
 
-
-            axios.post(`${Environment.API}photo`, { photo }),
-                {
-                    headers: {
-                        'content-type': 'multipart/form-data',
-                    },
+            fetch(`${Environment.API}photo`, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'content-type': 'multipart/form-data'
                 }
-                    .then((response) => {
-                        setPhoto(photo)
+                
+            })
+                .then((response) => {
+                    setPhoto(response)
+                })
+                .catch(() => {
+                    console.log("pas de photo")
+                })
 
-                        
-                    }).catch(() => {
-                        console.log("pas de photo")
-
-                    })
-        }
+    }
         else {
-            console.log("pas de camera trouvée")
-        }
+    console.log("pas de camera trouvée")
+}
 
+    }
 
+return (
+    <View style={{
 
-    };
-
-    return (
-        <View style={{
-
-            flex: 10
+        flex: 10
+    }}>
+        <Camera style={{ flex: 10 }} type={type} ref={ref => {
+            setCamera(ref);
         }}>
-            <Camera style={{ flex: 10 }} type={type} ref={ref => {
-                setCamera(ref);
-            }}>
-                <View
+            <View
+                style={{
+                    flex: 1,
+                    backgroundColor: 'transparent',
+                    flexDirection: 'row',
+                }}>
+                <TouchableOpacity
                     style={{
-                        flex: 1,
-                        backgroundColor: 'transparent',
-                        flexDirection: 'row',
+                        flex: 0.1,
+                        alignSelf: 'flex-end',
+                        alignItems: 'center',
+                    }}
+                    onPress={() => {
+                        snap()
                     }}>
-                    <TouchableOpacity
-                        style={{
-                            flex: 0.1,
-                            alignSelf: 'flex-end',
-                            alignItems: 'center',
-                        }}
-                        onPress={() => {
-                            snap()
-                        }}>
-                        <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>push</Text>
-                    </TouchableOpacity>
-                </View>
-            </Camera>
-        </View>
-    );
+                    <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>push</Text>
+                </TouchableOpacity>
+            </View>
+        </Camera>
+    </View>
+);
 }
 export default Camera2

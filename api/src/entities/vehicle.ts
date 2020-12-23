@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
+import {Checking} from './checking'
 
 @Entity('vehicle')
 export class Vehicle {
@@ -20,4 +21,6 @@ export class Vehicle {
     })
     public puttingCirculationDate: Date
 
+    @OneToMany(()=>Checking, checking=>checking.vehicle)
+   public checkings: Checking[]
 }

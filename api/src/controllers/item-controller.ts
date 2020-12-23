@@ -7,6 +7,7 @@ import { CheckItemValue } from './../entities/check-item-value';
 import { Checking } from './../entities/checking';
 import { CheckingRepository } from './../repositories/checking-repository';
 import { CheckItemValueRepository } from './../repositories/check-item-value-repository';
+import { Vehicle } from './../entities/vehicle';
 
 
 let repository: ItemRepository
@@ -58,6 +59,7 @@ export class ItemController {
 
     async putIn(request: Request, response: Response): Promise<void> {
         const itemsRecup = request.body.items
+        const immatRecup: Vehicle = request.body.immat
 
         const entities: CheckItemValue[] = []
 
@@ -65,6 +67,7 @@ export class ItemController {
         const checking: Checking = new Checking()
         let savedChecking: Checking
         checking.date = new Date()
+        checking.vehicle = immatRecup
        /*  checking.geometry = new Geolocation() */
 
 

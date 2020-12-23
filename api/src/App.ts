@@ -14,12 +14,16 @@ import * as cors from 'cors'
 import * as express from 'express'
 import * as logger from 'morgan'
 
+
+
 /**
  * App core
  *  Create an express app
  *  Configure rules at startup
  *  Gather routers
  */
+""
+
 class App {
     public app: express.Application
 

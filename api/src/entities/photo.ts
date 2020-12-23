@@ -9,7 +9,7 @@ export class Photo {
 
     @Column({
         type:'varchar',
-        length: 10,
+        length: 255,
         nullable: true,
         unique: true,
         name: 'photo'
@@ -17,10 +17,10 @@ export class Photo {
     
     public photo: string
 
-    @ManyToOne(()=>Checking, checking => checking.photo)
+    @ManyToOne(()=>Checking, checking => checking.photo,{ nullable: true })
     public checking:Checking
 
-    @ManyToOne(()=>Item, item => item.photo)
+    @ManyToOne(()=>Item, item => item.photos)
     public item:Item
 
 

@@ -12,6 +12,8 @@ const Environment=require('./../../../environment.js')
 
 const Splash = ({ navigation }) => {
 
+  let immat = {}
+
   const anim = require('./../../../assets/animations/3970-scanning-animation.json')
   const [unknownUser, setUnknownUser] = React.useState(true)
   const [disabledStatus, setDisabledStatus] = useState(true)
@@ -50,6 +52,7 @@ const Splash = ({ navigation }) => {
   const receivedFromImmat = (immat) => {
     axios.post(`${Environment.API}vehicle`, immat)
       .then((response) => {
+        immat = response.data
         setDisabledStatus(false)
         setAddLoginVehicle(true)
         setImmatLoad(false)
@@ -118,7 +121,8 @@ const Splash = ({ navigation }) => {
           icon='check'
           label='Accéder à la checklist'
           disabled={disabledStatus}
-          onPress={() => navigation.navigate('CheckList')}
+          onPress={() => navigation.navigate('CheckList', { immat: immat })}
+      
         />
       </View>
     </>

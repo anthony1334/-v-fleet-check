@@ -1,6 +1,9 @@
 import { PhotoController } from '../controllers/photo-controller';
 import { apiVersion } from '../environment/environment';
 import { NextFunction, Request, Response, Router } from 'express'
+import * as multer from 'multer'
+
+const upLoad = multer({dest:"upload/"})
 
 export class PhotoRouter {
     public router: Router
@@ -18,6 +21,7 @@ export class PhotoRouter {
            
             .post(
                 `/`,
+                upLoad.single("photo"),
                 this.controller.putInPhoto
 
             )

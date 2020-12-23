@@ -44,6 +44,7 @@ const CheckList = ({ navigation }) => {
   const [number, setNumber] = React.useState('');
   const title = 'points de contrôles ' + (indice + 1) + "/" + items.length
   const [meterValue, setMeterValue] = useState(20)
+  const immat = navigation.getParam('immat')
 
 
   /** 
@@ -72,7 +73,7 @@ const CheckList = ({ navigation }) => {
       setValue(items[newIndice].value)
     }
     if (newIndice >= items.length) {
-      navigation.navigate('Recap', { recap: items })
+      navigation.navigate('Recap', { recap: items, immat:immat })
     }
   }
 
@@ -260,7 +261,9 @@ const CheckList = ({ navigation }) => {
         <View>
           {controle()}
         </View>
-        <Camera2 />
+        <Camera2 
+        idItem= {item.id}
+        />
         <View style={styles.container}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>
