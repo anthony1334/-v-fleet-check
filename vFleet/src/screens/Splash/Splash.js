@@ -19,6 +19,20 @@ const Splash = ({ navigation }) => {
   const [isUserLoad, setIsUserLoad] = useState(false)
   const [isImmatLoad, setImmatLoad] = useState(false)
   const [welcomeMessage, setWelcomeMessage] = useState(false)
+  const [doLogOut, setDoLogOut] = useState(false)
+  const [user, setUser] = useState({})
+  const [immat, setImmat] = useState({})
+
+  const processLogOut= () => {
+    AsyncStorage.removeItem("vFleetUser")
+    setDoLogOut(false)
+    setImmatLoad(false)
+    setUnknownUser(true)
+    setIsUserLoad(false)
+    setWelcomeMessage(false)
+    setAddLoginVehicle(true)
+    setUser({})
+  }
 
   /**
    * receivedFromLogin => Sert à faire correspondre le front avec le back grâce à Axios, 
@@ -34,14 +48,16 @@ const Splash = ({ navigation }) => {
         setAddLoginVehicle(false)
         setUnknownUser(false)
         setIsUserLoad(false)
-        
+        setUser(response)
+        setDoLogOut(true)
+
         // si utilisateur connu + case cochée se souvenir de moi
         if (rememberMe) {
           AsyncStorage.setItem("vFleetUser", JSON.stringify(user))
         }
       // erreur = donc utilisateur inconnu
       }).catch((error) => {
-        if (user==unknownUser){
+        if (user=unknownUser){
           setIsUserLoad(true)
         }
       })
@@ -54,7 +70,8 @@ const Splash = ({ navigation }) => {
         setAddLoginVehicle(true)
         setImmatLoad (false)
         setWelcomeMessage(true)
-        // si beug retirer setWelcomeMessage
+        setImmat(response.data)
+        console.log(JSON.stringify(immat))
       }).catch(() => {
         if (immat=!isImmatLoad){
         setImmatLoad (true)
@@ -70,9 +87,12 @@ const Splash = ({ navigation }) => {
     async function fetchUser() {
       const user = await AsyncStorage.getItem("vFleetUser")
       if (user !== null) {
+        setDoLogOut(true)
         setAddLoginVehicle(false)
         setUnknownUser(false)
         setIsUserLoad(false)
+        setUser(user)
+        setImmat(immat)
       }
     }
     fetchUser()
@@ -91,13 +111,25 @@ const Splash = ({ navigation }) => {
    */
   const loginErrorMessage = isUserLoad ? <Text style={styles.errorMsg}> Veuillez entrer un identifiant valide. </Text> : null 
   const immatErrorMessage = isImmatLoad ? <Text style={styles.errorMsg}> Veuillez entrer une immatriculation connue. </Text> : null
+
   const welcomeMess = welcomeMessage ? 
   <View style={styles.welcomeMsg}>
-    <Text > Bonjour [utilisateur] </Text>
-    <Text > Vous allez checker le véhicule [immatriculation] </Text>
-    <Text > Qui appartient à [entreprise] </Text>
+    <Text > Bonjour {JSON.stringify(user.data.userLog)} </Text>
+    <Text > Vous allez checker le véhicule {(immat.matriculation)} </Text>
+    <Text > Qui appartient à {JSON.stringify(user.data.company.name)} </Text>
   </View>
    : null
+
+   const logOut = doLogOut ? 
+   <FAB
+   style={styles.fabvalid}
+   small
+   icon='plus'
+   label="Deconnexion"
+  //  disabled={disabledStatus}
+   onPress={() => processLogOut()}
+   /> : null
+
 
   return (
     <>
@@ -114,6 +146,7 @@ const Splash = ({ navigation }) => {
               autoPlay={true}
             /> */}
       {loginView}
+      {logOut}
       {addVehicle}
       {welcomeMess}
       </View>
