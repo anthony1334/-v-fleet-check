@@ -1,7 +1,6 @@
 import VehicleRouter from './routes/vehicle-router';
 import UserRouter from './routes/user-router';
 import CompanyRouter from './routes/company-router';
-import VehicleFleetRouter from './routes/vehicle-fleet-router';
 import ItemRouter from './routes/item-router';
 import PhotoRouter from './routes/photo-router';
 import FormControlRouter from './routes/form-control-router';
@@ -54,8 +53,7 @@ class App {
         UserRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/company`, CompanyRouter)
 
-        UserRouter.use(cors(corsOptions))
-        this.app.use(`${apiVersion}/vehicle-fleet`, VehicleFleetRouter)
+      
         
         ItemRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/items`, ItemRouter)

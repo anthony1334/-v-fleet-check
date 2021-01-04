@@ -34,7 +34,7 @@ export class ItemController {
     async findAll(request: Request, response: Response): Promise<void> {
         // Call the findAll method of the repository
         /* repository.all().then((result: Item[]) => { */
-        let result: Item[] = await repository.all()
+        const result: Item[] = await repository.all()
         if (result.length === 0) {
             response.status(404).send({
                 message: 'No item available at this time'
@@ -56,28 +56,29 @@ export class ItemController {
         }
 
     }
-
+/**
+ * met a jours les checkItemValues
+ * @param request 
+ * @param response 
+ */
     async putIn(request: Request, response: Response): Promise<void> {
         const itemsRecup = request.body.items
-        const immatRecup: Vehicle = request.body.immat
-
-        const entities: CheckItemValue[] = []
+        const vehicleRecup: Vehicle = request.body.immat
 
 
         const checking: Checking = new Checking()
         let savedChecking: Checking
         checking.date = new Date()
-        checking.vehicle = immatRecup
+        checking.vehicle = vehicleRecup
        /*  checking.geometry = new Geolocation() */
 
 
         /*  checkingRepository.save(checking).then((persistentChecking: Checking) => */
         let persistentChecking: Checking = await checkingRepository.save(checking)
-        savedChecking = persistentChecking
         itemsRecup.forEach(async( element: any) => {
             const checkItemValue: CheckItemValue = new CheckItemValue()
             checkItemValue.value = element.value
-            checkItemValue.checking = savedChecking
+            checkItemValue.checking = persistentChecking
 
             // Cherche l'Item correspondant
 

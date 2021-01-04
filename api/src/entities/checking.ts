@@ -15,12 +15,7 @@ export class Checking {
     })
     public date: Date
 
-    /*   @Column({
-          type: 'varchar',
-          length: 10,
-          nullable: false,
-      })
-      public time: Time */
+   
     @Column('time', {
         nullable: true,
         name: 'elapsed_time'
@@ -34,12 +29,7 @@ export class Checking {
     })
     public created: Date
 
-    @Column({
-        type: 'geometry',
-        nullable: true,
-        spatialFeatureType: 'Point',
-        srid: 4326
-    })
+  
 
     @OneToMany(() => CheckItemValue, checkItemValue => checkItemValue.checking)
     public checkItemValues: CheckItemValue[]

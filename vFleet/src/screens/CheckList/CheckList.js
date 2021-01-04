@@ -73,7 +73,7 @@ const CheckList = ({ navigation }) => {
       setValue(items[newIndice].value)
     }
     if (newIndice >= items.length) {
-      navigation.navigate('Recap', { recap: items, immat:immat })
+      navigation.navigate('Recap', { recap: items, immat: immat })
     }
   }
 
@@ -97,7 +97,6 @@ const CheckList = ({ navigation }) => {
 
   //active button fuel
   const numberGranted = (value) => {
-
     setMeterValue(value)
     setValue(value)
   }
@@ -207,8 +206,6 @@ const CheckList = ({ navigation }) => {
       default: setButtonDisabledState(false)
 
     }
-
-
   })
   // Remarque : le tableau vide de dépendances [] indique
   // que useEffect ne s’exécutera qu’une fois, un peu comme
@@ -261,8 +258,8 @@ const CheckList = ({ navigation }) => {
         <View>
           {controle()}
         </View>
-        <Camera2 
-        idItem= {item.id}
+        <Camera2
+          idItem={item.id}
         />
         <View style={styles.container}>
           <View style={styles.titleContainer}>
