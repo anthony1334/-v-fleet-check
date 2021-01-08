@@ -1,5 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
+
 import {Checking} from './checking'
+import { Entity, Column, PrimaryGeneratedColumn,ManyToOne, OneToMany } from 'typeorm'
+import { Company } from './company'
 
 @Entity('vehicle')
 export class Vehicle {
@@ -23,4 +25,8 @@ export class Vehicle {
 
     @OneToMany(()=>Checking, checking=>checking.vehicle)
    public checkings: Checking[]
+   
+    @ManyToOne (()=>Company)
+    public company: Company
+
 }

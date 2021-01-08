@@ -24,6 +24,10 @@ export class UserRouter {
                 '/',
                 this.controller.signin
             )
+            .post(
+                `/company`,
+                this.controller.putInCompany
+            )
     }
 
 }

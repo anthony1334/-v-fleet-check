@@ -18,7 +18,7 @@ const LoginVehicle = ({ updateCheckButtonImmat }) => {
    */
   const handleClick = () => {
     updateCheckButtonImmat(data)
-    console.log("ok véhicule trouvé, welcome dans la checklist")
+    // console.log("toto",{user.company})
   }
   
   /**
@@ -59,7 +59,7 @@ const LoginVehicle = ({ updateCheckButtonImmat }) => {
 
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.immatInput}>
         <TextInput
           style={styles.idMdp}
           name="immatriculation"
@@ -73,7 +73,7 @@ const LoginVehicle = ({ updateCheckButtonImmat }) => {
 
           <FAB
             disabled={disabled}
-            style={styles.fabvalid}
+            style={styles.validButton}
             icon='check'
             label='Valider'
             onPress={() => handleClick()}        

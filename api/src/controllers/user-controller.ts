@@ -31,4 +31,16 @@ export class UserController {
             }
         })
     }
+
+    async putInCompany(request: Request, response: Response) {
+        console.log(JSON.stringify(request.body))
+        repository.findPutInCompany(request.body)
+        .then(users => {
+            if (users.length>0) {
+                response.status(200).send(users[0])
+            } else {
+                response.status(404).send({message:"aucun"})
+            }
+        })
+    }
 }

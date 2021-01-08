@@ -20,6 +20,21 @@ const Splash = ({ navigation }) => {
   const [addLoginVehicle, setAddLoginVehicle] = useState(true)
   const [isUserLoad, setIsUserLoad] = useState(false)
   const [isImmatLoad, setImmatLoad] = useState(false)
+  const [welcomeMessage, setWelcomeMessage] = useState(false)
+  const [doLogOut, setDoLogOut] = useState(false)
+  const [user, setUser] = useState({})
+  const [immat, setImmat] = useState({})
+
+  const processLogOut= () => {
+    AsyncStorage.removeItem("vFleetUser")
+    setDoLogOut(false)
+    setImmatLoad(false)
+    setUnknownUser(true)
+    setIsUserLoad(false)
+    setWelcomeMessage(false)
+    setAddLoginVehicle(true)
+    setUser({})
+  }
 
   /**
    * receivedFromLogin => Sert à faire correspondre le front avec le back grâce à Axios, 
@@ -32,18 +47,19 @@ const Splash = ({ navigation }) => {
     axios.post(`${Environment.API}user`, user)
       // Si utilisateur connu
       .then( (response) => {
-        console.log(response)
         setAddLoginVehicle(false)
         setUnknownUser(false)
         setIsUserLoad(false)
+        setUser(response)
+        setDoLogOut(true)
+
         // si utilisateur connu + case cochée se souvenir de moi
         if (rememberMe) {
           AsyncStorage.setItem("vFleetUser", JSON.stringify(user))
         }
       // erreur = donc utilisateur inconnu
       }).catch((error) => {
-        console.log(error)
-        if (user==unknownUser){
+        if (user=unknownUser){
           setIsUserLoad(true)
         }
       })
@@ -55,7 +71,10 @@ const Splash = ({ navigation }) => {
         immat = response.data
         setDisabledStatus(false)
         setAddLoginVehicle(true)
-        setImmatLoad(false)
+        setImmatLoad (false)
+        setWelcomeMessage(true)
+        setImmat(response.data)
+        console.log(JSON.stringify(immat))
       }).catch(() => {
         if (immat=!isImmatLoad){
         setImmatLoad (true)
@@ -71,9 +90,12 @@ const Splash = ({ navigation }) => {
     async function fetchUser() {
       const user = await AsyncStorage.getItem("vFleetUser")
       if (user !== null) {
+        setDoLogOut(true)
         setAddLoginVehicle(false)
         setUnknownUser(false)
         setIsUserLoad(false)
+        setUser(user)
+        setImmat(immat)
       }
     }
     fetchUser()
@@ -92,12 +114,31 @@ const Splash = ({ navigation }) => {
    */
   const loginErrorMessage = isUserLoad ? <Text style={styles.errorMsg}> Veuillez entrer un identifiant valide. </Text> : null 
   const immatErrorMessage = isImmatLoad ? <Text style={styles.errorMsg}> Veuillez entrer une immatriculation connue. </Text> : null
-    
+
+  const welcomeMess = welcomeMessage ? 
+  <View style={styles.welcomeMsg}>
+    <Text > Bonjour {JSON.stringify(user.data.userLog)} </Text>
+    <Text > Vous allez checker le véhicule {(immat.matriculation)} </Text>
+    <Text > Qui appartient à {JSON.stringify(user.data.company.name)} </Text>
+  </View>
+   : null
+
+   const logOut = doLogOut ? 
+   <FAB
+   style={styles.fabvalid}
+   small
+   icon='plus'
+   label="Deconnexion"
+  //  disabled={disabledStatus}
+   onPress={() => processLogOut()}
+   /> : null
+
+
   return (
     <>
       <Header titleText="vFleetCheck" navigation={navigation} />
       <View style={styles.container}>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View>
           {loginErrorMessage}
           {immatErrorMessage}
         </View>
@@ -107,14 +148,13 @@ const Splash = ({ navigation }) => {
               loop={true}
               autoPlay={true}
             /> */}
-      </View>
       {loginView}
+      {logOut}
       {addVehicle}
+      {welcomeMess}
+      </View>
+
       <View style={styles.container}>
-        <Text
-          style={styles.welcome}
-          Bonjour machinbidule il est temps de checker votre véhicule machinbidule
-        />
         <FAB
           style={styles.fabvalid}
           small
