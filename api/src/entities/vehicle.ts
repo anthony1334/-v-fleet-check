@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn,ManyToOne, OneToMany } from 'typeorm'
+import { Company } from './company'
 
 @Entity('vehicle')
 export class Vehicle {
@@ -19,5 +20,8 @@ export class Vehicle {
         name: 'putting_circulation_date'
     })
     public puttingCirculationDate: Date
+
+    @ManyToOne (()=>Company)
+    public company: Company
 
 }

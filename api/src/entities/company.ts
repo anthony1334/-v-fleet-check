@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm'
 import { User } from './user'
+import { Vehicle } from './vehicle'
 
 @Entity('company')
 export class Company {
@@ -17,4 +18,7 @@ export class Company {
 
     @OneToMany (()=>User, user=>user.company)
     public users: User[]
+
+    @OneToMany (()=>Vehicle, vehicle=>vehicle.company)
+    public vehicles: Vehicle[]
 }
