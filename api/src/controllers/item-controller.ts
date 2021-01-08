@@ -40,6 +40,7 @@ export class ItemController {
                 message: 'No item available at this time'
             })
         } else {
+            //DTO
             const api: any[] = result.map((item: any) => {
                 return {
                     id: item.id,

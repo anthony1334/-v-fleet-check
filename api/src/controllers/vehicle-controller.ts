@@ -49,7 +49,6 @@ export class VehicleController {
     }
 
     async controlByImmat(request: Request, response: Response) {
-        console.log(JSON.stringify(request.body))
         repository.findControlByImmat(request.body)
         .then(immats => {
             if (immats.length>0) {
