@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm'
 import { CheckItemValue } from './check-item-value'
 import { FormControl } from './form-control'
+import {Photo} from './photo'
 // type de controle
 @Entity('item')
 
@@ -29,5 +30,8 @@ export class Item {
 
     @OneToMany(()=>CheckItemValue,itemValues=>itemValues.item,{eager:true})
     public itemValues:CheckItemValue[]
+
+    @OneToMany(()=>Photo,photo=>photo.item,{eager:true})
+    public photos:Photo[]
 
 }

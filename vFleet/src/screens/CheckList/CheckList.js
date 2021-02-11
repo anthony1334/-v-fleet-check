@@ -10,6 +10,7 @@ import {
   IconButton,
   Colors,
   Paragraph,
+  FAB,
   Headline,
   Subheading,
   List
@@ -19,6 +20,8 @@ import {
   Rating
 } from 'react-native-elements';
 import RNSpeedometer from 'react-native-speedometer'
+import Camera2 from './../../components/camera/Camera2'
+import { Button, Overlay } from 'react-native-elements';
 const Environment = require('./../../../environment.js')
 
 /**
@@ -35,6 +38,7 @@ const CheckList = ({ navigation }) => {
   const [indice, setIndice] = useState(0)
   const [items, setItems] = useState([])
   const [item, setItem] = useState({})
+  const [photo, setPhoto] = useState({})
   const [buttonDisabledState, setButtonDisabledState] = useState(true)
   const [value, setValue] = useState("")
   const [previous, setPrevious] = useState("")
@@ -42,6 +46,10 @@ const CheckList = ({ navigation }) => {
   const [number, setNumber] = React.useState('');
   const title = 'points de contrôles ' + (indice + 1) + "/" + items.length
   const [meterValue, setMeterValue] = useState(20)
+  const immat = navigation.getParam('immat')
+  const [cameraOn, setCameraOn] = useState(false)
+
+
 
 
   /** 
@@ -60,8 +68,7 @@ const CheckList = ({ navigation }) => {
     const itemCourant = item
     itemCourant.value = value
     items[indice] = itemCourant
-    setItems(items)
-    
+    setItems(items)//stock la valeur courante
 
     const newIndice = (indice + 1)
     if (newIndice < items.length) {
@@ -70,13 +77,16 @@ const CheckList = ({ navigation }) => {
       setValue(items[newIndice].value)
     }
     if (newIndice >= items.length) {
-      navigation.navigate('Recap', { recap: items })
+      navigation.navigate('Recap', { recap: items, immat: immat })
     }
   }
 
-   /**
-   * permet de revenir a l item precedent
-   */
+
+
+
+  /**
+  * permet de revenir a l item precedent
+  */
   const handleBack = () => {
     console.log(JSON.stringify(items))
     const newIndice = (indice - 1)
@@ -94,7 +104,6 @@ const CheckList = ({ navigation }) => {
 
   //active button fuel
   const numberGranted = (value) => {
-
     setMeterValue(value)
     setValue(value)
   }
@@ -168,7 +177,6 @@ const CheckList = ({ navigation }) => {
                 style={styles.textInputs}
                 keyboardType={'numeric'}
                 value={value}
-                maxLength="3"
                 onChangeText={(value) => numberGranted(value)}
               />
             </View>
@@ -177,12 +185,28 @@ const CheckList = ({ navigation }) => {
     }
   }
 
- 
+  
+
+
+
+
+  const toggleOverlay = () => {
+    /*  setVisible(!visible); */
+    setCameraOn(!cameraOn)
+  };
+
+
+
+
+  /**
+   * effet de bord de l activation des boutons pour passer a l item suivant
+   */
+
   useEffect(() => {
     switch (item.controle) {
       case "textInput":
         const valueAsnumber = +value
-        if (valueAsnumber >= +item.previous ) {
+        if (valueAsnumber >= +item.previous) {
           setButtonDisabledState(false)
         }
         else {
@@ -198,12 +222,10 @@ const CheckList = ({ navigation }) => {
             setButtonDisabledState(true)
           }
         }
-        break 
-        default: setButtonDisabledState(false)
+        break
+      default: setButtonDisabledState(false)
 
     }
-
-
   })
   // Remarque : le tableau vide de dépendances [] indique
   // que useEffect ne s’exécutera qu’une fois, un peu comme
@@ -256,13 +278,26 @@ const CheckList = ({ navigation }) => {
         <View>
           {controle()}
         </View>
+        <View>
+          <IconButton
+            icon="camera"
+            color={Colors.grey500}
+            size={50}
+            onPress={toggleOverlay}
+          />
+        </View>
+
+        <Overlay fullScreen={true} isVisible={cameraOn} onBackdropPress={toggleOverlay}>
+          <Camera2 idItem={item.id} />
+        </Overlay>
+
         <View style={styles.container}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>
               <IconButton
                 disabled={buttonDisabledState}
                 icon="check-underline-circle"
-                color={Colors.grey300}
+                color={Colors.blue500}
                 size={100}
                 onPress={() => handleClick()}
               /></Text>
@@ -340,7 +375,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-evenly',
     padding: 10,
-  }
+  },
+  /*  containerOverlay: {
+     flex: 1,
+     justifyContent: 'center',
+     alignItems: 'center',
+     backgroundColor: '#F5FCFF',
+   },
+   overlay: {
+     flex: 1,
+     position: 'absolute',
+     left: 0,
+     top: 0,
+     opacity: 0.5,
+     backgroundColor: 'black',
+     width: '100%'
+   }   */
 
 
 })

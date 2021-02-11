@@ -11,38 +11,41 @@ export const colors = {
 
 const styles = StyleSheet.create({
     container: {
-    // flex: 1,
+    flex: 1,
     backgroundColor: colors.dark,
     paddingHorizontal: 10,
     paddingVertical: 20
-  },
-
-    titleContainer: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      flex: 1
     },
- 
+    // titleContainer: {
+    //   alignItems: 'center',
+    //   justifyContent: 'center',
+    //   flex: 1
+    // },
     lottieView: {
         position: 'absolute',
         top: -60
     },
-
-    fab: {
-      position: 'absolute',
-      margin: 20,
-      right: 0,
-      bottom: 10,
-      backgroundColor: colors.warning
-    },
+    // fab: {
+    //   position: 'absolute',
+    //   margin: 20,
+    //   right: 0,
+    //   bottom: 10,
+    //   backgroundColor: colors.warning
+    // },
     fabvalid: {
+      position: 'absolute',
       marginTop: 20,
       right: 0,
       bottom: 10,
+      backgroundColor: colors.warning,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    validButton: {
       backgroundColor: colors.warning
     },
     idMdp: {
-      margin: 2,
+      marginTop: 10,
       right: 0,
       bottom: 10,
       backgroundColor: colors.secondary
@@ -53,14 +56,16 @@ const styles = StyleSheet.create({
     headerContainerTitle: {
         color: colors.light
     },
-    buttonfab: {
-      position: 'relative',
-      margin: 20,
-      right: 0,
-      bottom: 10,
-      backgroundColor: colors.warning
-    },
+    // buttonfab: {
+    //   position: 'relative',
+    //   margin: 20,
+    //   right: 0,
+    //   bottom: 10,
+    //   backgroundColor: colors.warning
+    // },
     errorMsg: {
+      textAlign: 'center',
+      marginTop: -17,
       color: colors.warning,
       marginBottom: 15,
       fontSize: 8,
@@ -75,7 +80,27 @@ const styles = StyleSheet.create({
       backgroundColor: colors.warning
     },
     loginStyle: {
-      marginTop: 40
+      flex: 1,
+      marginTop: 40,
+      backgroundColor: colors.dark
+    },
+    immatInput: {
+      marginTop: 60,
+      backgroundColor: colors.dark
+    },
+    welcomeMsg: {
+      padding: 10,
+      margin: 8,
+      marginTop: 200,
+      color: colors.light,
+      backgroundColor: colors.light,
+      borderWidth: 2,
+      borderColor:colors.warning,
+    },
+    checkRemember: {
+      right: 0,
+      backgroundColor: colors.warning,
+      padding: 2
     }
   })
 

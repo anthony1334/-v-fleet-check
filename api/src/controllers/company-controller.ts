@@ -13,10 +13,10 @@ export class CompanyController {
         this.repository.all().then((result: any) => {
             if (!result) {
                 response.status(404).send({
-                    message: 'No company available at this time'
+                    message: 'No picture available at this time'
                 })
             } else {
-                response.status(200).send("petit message pour company controller")
+                response.status(200).send("la photo est envoyée")
             }
         })
     }

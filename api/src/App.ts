@@ -1,8 +1,8 @@
 import VehicleRouter from './routes/vehicle-router';
 import UserRouter from './routes/user-router';
 import CompanyRouter from './routes/company-router';
-import VehicleFleetRouter from './routes/vehicle-fleet-router';
 import ItemRouter from './routes/item-router';
+import PhotoRouter from './routes/photo-router';
 import FormControlRouter from './routes/form-control-router';
 import CheckItemValueRouter from './routes/check-item-value-router';
 import CheckingRouter from './routes/checking-router';
@@ -13,12 +13,16 @@ import * as cors from 'cors'
 import * as express from 'express'
 import * as logger from 'morgan'
 
+
+
 /**
  * App core
  *  Create an express app
  *  Configure rules at startup
  *  Gather routers
  */
+""
+
 class App {
     public app: express.Application
 
@@ -46,11 +50,10 @@ class App {
         UserRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/user`, UserRouter)
 
-        UserRouter.use(cors(corsOptions))
+        CompanyRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/company`, CompanyRouter)
 
-        UserRouter.use(cors(corsOptions))
-        this.app.use(`${apiVersion}/vehicle-fleet`, VehicleFleetRouter)
+      
         
         ItemRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/items`, ItemRouter)
@@ -63,6 +66,9 @@ class App {
 
         CheckingRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/checking`, CheckingRouter)
+
+        PhotoRouter.use(cors(corsOptions))
+        this.app.use(`${apiVersion}/photo`, PhotoRouter)
     }
 }
 

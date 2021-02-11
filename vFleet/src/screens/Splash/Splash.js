@@ -8,9 +8,11 @@ import Login from './../../components/login/Login'
 import LoginVehicle from './../../components/loginVehicle/LoginVehicle'
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
-const Environment=require('./../../../environment.js')
+const Environment = require('./../../../environment.js')
 
 const Splash = ({ navigation }) => {
+
+  /*  let immat = {} */
 
   const anim = require('./../../../assets/animations/3970-scanning-animation.json')
   const [unknownUser, setUnknownUser] = React.useState(true)
@@ -18,6 +20,21 @@ const Splash = ({ navigation }) => {
   const [addLoginVehicle, setAddLoginVehicle] = useState(true)
   const [isUserLoad, setIsUserLoad] = useState(false)
   const [isImmatLoad, setImmatLoad] = useState(false)
+  const [welcomeMessage, setWelcomeMessage] = useState(false)
+  const [doLogOut, setDoLogOut] = useState(false)
+  const [user, setUser] = useState({})
+  const [immat, setImmat] = useState({})
+
+  const processLogOut = () => {
+    AsyncStorage.removeItem("vFleetUser")
+    setDoLogOut(false)
+    setImmatLoad(false)
+    setUnknownUser(true)
+    setIsUserLoad(false)
+    setWelcomeMessage(false)
+    setAddLoginVehicle(true)
+    setUser({})
+  }
 
   /**
    * receivedFromLogin => Sert à faire correspondre le front avec le back grâce à Axios, 
@@ -29,19 +46,21 @@ const Splash = ({ navigation }) => {
   const receivedFromLogin = (user, rememberMe) => {
     axios.post(`${Environment.API}user`, user)
       // Si utilisateur connu
-      .then( (response) => {
-        console.log(response)
+      .then((response) => {
+        console.log("titi", JSON.stringify(response))
         setAddLoginVehicle(false)
         setUnknownUser(false)
         setIsUserLoad(false)
+        setUser(response)
+        setDoLogOut(true)
+
         // si utilisateur connu + case cochée se souvenir de moi
         if (rememberMe) {
           AsyncStorage.setItem("vFleetUser", JSON.stringify(user))
         }
-      // erreur = donc utilisateur inconnu
+        // erreur = donc utilisateur inconnu
       }).catch((error) => {
-        console.log(error)
-        if (user==unknownUser){
+        if (user = unknownUser) {
           setIsUserLoad(true)
         }
       })
@@ -50,13 +69,16 @@ const Splash = ({ navigation }) => {
   const receivedFromImmat = (immat) => {
     axios.post(`${Environment.API}vehicle`, immat)
       .then((response) => {
+        immat = response.data
         setDisabledStatus(false)
         setAddLoginVehicle(true)
         setImmatLoad(false)
+        setWelcomeMessage(true)
+        setImmat(response.data)
       }).catch(() => {
-        if (immat=!isImmatLoad){
-        setImmatLoad (true)
-      }
+        if (immat = !isImmatLoad) {
+          setImmatLoad(true)
+        }
       })
   }
 
@@ -68,9 +90,20 @@ const Splash = ({ navigation }) => {
     async function fetchUser() {
       const user = await AsyncStorage.getItem("vFleetUser")
       if (user !== null) {
-        setAddLoginVehicle(false)
-        setUnknownUser(false)
-        setIsUserLoad(false)
+        axios.post(`${Environment.API}user`, user)
+          // Si utilisateur connu
+          .then((response) => {
+            setAddLoginVehicle(false)
+            setUnknownUser(false)
+            setIsUserLoad(false)
+            setUser(response)
+            setDoLogOut(true)
+          })
+          .catch((error) => {
+            if (user = unknownUser) {
+              setIsUserLoad(true)
+            }
+          })
       }
     }
     fetchUser()
@@ -80,21 +113,40 @@ const Splash = ({ navigation }) => {
    * Si utilisateur inconnu, alors on passe dans la méthode receivedFromLogin
    */
   const loginView = unknownUser ? <Login navigation={navigation} updateCheckButton={receivedFromLogin}></Login> : null
-    /**
-   * Si ça passe pas à l'input immat, alors on passe dans la methode receivedFromLogin
-   */
+  /**
+ * Si ça passe pas à l'input immat, alors on passe dans la methode receivedFromLogin
+ */
   const addVehicle = !addLoginVehicle ? <LoginVehicle navigation={navigation} updateCheckButtonImmat={receivedFromImmat}></LoginVehicle> : null
-   /**
-   * Si utilisateur inconnu, rien, sinon message erreur s'affiche
-   */
-  const loginErrorMessage = isUserLoad ? <Text style={styles.errorMsg}> Veuillez entrer un identifiant valide. </Text> : null 
+  /**
+  * Si utilisateur inconnu, rien, sinon message erreur s'affiche
+  */
+  const loginErrorMessage = isUserLoad ? <Text style={styles.errorMsg}> Veuillez entrer un identifiant valide. </Text> : null
   const immatErrorMessage = isImmatLoad ? <Text style={styles.errorMsg}> Veuillez entrer une immatriculation connue. </Text> : null
-    
+
+  const welcomeMess = welcomeMessage ?
+    <View style={styles.welcomeMsg}>
+      <Text > Bonjour {JSON.stringify(user.data.userLog)} </Text>
+      <Text > Vous allez checker le véhicule {(immat.matriculation)} </Text>
+      <Text > Qui appartient à {JSON.stringify(user.data.company.name)} </Text>
+    </View>
+    : null
+
+  const logOut = doLogOut ?
+    <FAB
+      style={styles.fabvalid}
+      small
+      icon='plus'
+      label="Deconnexion"
+      //  disabled={disabledStatus}
+      onPress={() => processLogOut()}
+    /> : null
+
+
   return (
     <>
       <Header titleText="vFleetCheck" navigation={navigation} />
       <View style={styles.container}>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View>
           {loginErrorMessage}
           {immatErrorMessage}
         </View>
@@ -104,21 +156,21 @@ const Splash = ({ navigation }) => {
               loop={true}
               autoPlay={true}
             /> */}
+        {loginView}
+        {logOut}
+        {addVehicle}
+        {welcomeMess}
       </View>
-      {loginView}
-      {addVehicle}
+
       <View style={styles.container}>
-        <Text
-          style={styles.welcome}
-          Bonjour machinbidule il est temps de checker votre véhicule machinbidule
-        />
         <FAB
           style={styles.fabvalid}
           small
           icon='check'
           label='Accéder à la checklist'
           disabled={disabledStatus}
-          onPress={() => navigation.navigate('CheckList')}
+          onPress={() => navigation.navigate('CheckList', { immat: immat })}
+
         />
 
         <FAB

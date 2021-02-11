@@ -21,13 +21,23 @@ export class UserController {
     }
     
     async signin(request: Request, response: Response) {
-        console.log(JSON.stringify(request.body))
         repository.findUser(request.body)
         .then(users => {
             if (users.length>0) {
                 response.status(200).send(users[0])
             } else {
                 response.status(403).send({message:"aucun utilisateur"})
+            }
+        })
+    }
+
+    async putInCompany(request: Request, response: Response) {
+        repository.findPutInCompany(request.body)
+        .then(users => {
+            if (users.length>0) {
+                response.status(200).send(users[0])
+            } else {
+                response.status(404).send({message:"aucun"})
             }
         })
     }

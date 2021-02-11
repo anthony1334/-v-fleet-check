@@ -7,6 +7,7 @@ import { CheckItemValue } from './../entities/check-item-value';
 import { Checking } from './../entities/checking';
 import { CheckingRepository } from './../repositories/checking-repository';
 import { CheckItemValueRepository } from './../repositories/check-item-value-repository';
+import { Vehicle } from './../entities/vehicle';
 
 
 let repository: ItemRepository
@@ -33,12 +34,13 @@ export class ItemController {
     async findAll(request: Request, response: Response): Promise<void> {
         // Call the findAll method of the repository
         /* repository.all().then((result: Item[]) => { */
-        let result: Item[] = await repository.all()
+        const result: Item[] = await repository.all()
         if (result.length === 0) {
             response.status(404).send({
                 message: 'No item available at this time'
             })
         } else {
+            //DTO
             const api: any[] = result.map((item: any) => {
                 return {
                     id: item.id,
@@ -55,38 +57,40 @@ export class ItemController {
         }
 
     }
-
+/**
+ * met a jours les checkItemValues
+ * @param request 
+ * @param response 
+ */
     async putIn(request: Request, response: Response): Promise<void> {
         const itemsRecup = request.body.items
+        const vehicleRecup: Vehicle = request.body.immat
 
-        const entities: CheckItemValue[] = []
-
-
+        //crée un nouvel objet checking de type checking(entity)
         const checking: Checking = new Checking()
         let savedChecking: Checking
         checking.date = new Date()
+        checking.vehicle = vehicleRecup
        /*  checking.geometry = new Geolocation() */
 
 
         /*  checkingRepository.save(checking).then((persistentChecking: Checking) => */
+        // met a jours la db
+        //.save = requête SQL INSERT INTO checking (date, vehicleId) VALUES()
         let persistentChecking: Checking = await checkingRepository.save(checking)
-        savedChecking = persistentChecking
         itemsRecup.forEach(async( element: any) => {
             const checkItemValue: CheckItemValue = new CheckItemValue()
             checkItemValue.value = element.value
-            checkItemValue.checking = savedChecking
+            checkItemValue.checking = persistentChecking
 
             // Cherche l'Item correspondant
-
-
             const checkItem: Item = await repository.byId(element.id)
             checkItemValue.item = checkItem
             itemValueRepository.save(checkItemValue)
-            
+            //.save = requête SQL INSERT INTO check-item-value(checkingId,value,itemId) VALUES() 
         });
 
-        response.status(200).send(itemsRecup.length.toString())
-        
+        response.status(200).send(itemsRecup.length.toString())   
     }
     //
 
