@@ -50,7 +50,7 @@ class App {
         UserRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/user`, UserRouter)
 
-        UserRouter.use(cors(corsOptions))
+        CompanyRouter.use(cors(corsOptions))
         this.app.use(`${apiVersion}/company`, CompanyRouter)
 
       

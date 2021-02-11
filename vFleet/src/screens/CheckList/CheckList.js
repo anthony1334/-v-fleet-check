@@ -10,6 +10,7 @@ import {
   IconButton,
   Colors,
   Paragraph,
+  FAB,
   Headline,
   Subheading,
   List
@@ -20,6 +21,7 @@ import {
 } from 'react-native-elements';
 import RNSpeedometer from 'react-native-speedometer'
 import Camera2 from './../../components/camera/Camera2'
+import { Button, Overlay } from 'react-native-elements';
 const Environment = require('./../../../environment.js')
 
 /**
@@ -45,6 +47,9 @@ const CheckList = ({ navigation }) => {
   const title = 'points de contrôles ' + (indice + 1) + "/" + items.length
   const [meterValue, setMeterValue] = useState(20)
   const immat = navigation.getParam('immat')
+  const [cameraOn, setCameraOn] = useState(false)
+
+
 
 
   /** 
@@ -63,8 +68,7 @@ const CheckList = ({ navigation }) => {
     const itemCourant = item
     itemCourant.value = value
     items[indice] = itemCourant
-    setItems(items)
-
+    setItems(items)//stock la valeur courante
 
     const newIndice = (indice + 1)
     if (newIndice < items.length) {
@@ -76,6 +80,9 @@ const CheckList = ({ navigation }) => {
       navigation.navigate('Recap', { recap: items, immat: immat })
     }
   }
+
+
+
 
   /**
   * permet de revenir a l item precedent
@@ -170,7 +177,6 @@ const CheckList = ({ navigation }) => {
                 style={styles.textInputs}
                 keyboardType={'numeric'}
                 value={value}
-                maxLength="3"
                 onChangeText={(value) => numberGranted(value)}
               />
             </View>
@@ -179,9 +185,23 @@ const CheckList = ({ navigation }) => {
     }
   }
 
+  
+
+
+
+
+  const toggleOverlay = () => {
+    /*  setVisible(!visible); */
+    setCameraOn(!cameraOn)
+  };
+
+
+
+
   /**
    * effet de bord de l activation des boutons pour passer a l item suivant
    */
+
   useEffect(() => {
     switch (item.controle) {
       case "textInput":
@@ -258,16 +278,26 @@ const CheckList = ({ navigation }) => {
         <View>
           {controle()}
         </View>
-        <Camera2
-          idItem={item.id}
-        />
+        <View>
+          <IconButton
+            icon="camera"
+            color={Colors.grey500}
+            size={50}
+            onPress={toggleOverlay}
+          />
+        </View>
+
+        <Overlay fullScreen={true} isVisible={cameraOn} onBackdropPress={toggleOverlay}>
+          <Camera2 idItem={item.id} />
+        </Overlay>
+
         <View style={styles.container}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>
               <IconButton
                 disabled={buttonDisabledState}
                 icon="check-underline-circle"
-                color={Colors.grey300}
+                color={Colors.blue500}
                 size={100}
                 onPress={() => handleClick()}
               /></Text>
@@ -345,7 +375,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-evenly',
     padding: 10,
-  }
+  },
+  /*  containerOverlay: {
+     flex: 1,
+     justifyContent: 'center',
+     alignItems: 'center',
+     backgroundColor: '#F5FCFF',
+   },
+   overlay: {
+     flex: 1,
+     position: 'absolute',
+     left: 0,
+     top: 0,
+     opacity: 0.5,
+     backgroundColor: 'black',
+     width: '100%'
+   }   */
 
 
 })

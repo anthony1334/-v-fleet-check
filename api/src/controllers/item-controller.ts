@@ -66,7 +66,7 @@ export class ItemController {
         const itemsRecup = request.body.items
         const vehicleRecup: Vehicle = request.body.immat
 
-
+        //crée un nouvel objet checking de type checking(entity)
         const checking: Checking = new Checking()
         let savedChecking: Checking
         checking.date = new Date()
@@ -75,6 +75,8 @@ export class ItemController {
 
 
         /*  checkingRepository.save(checking).then((persistentChecking: Checking) => */
+        // met a jours la db
+        //.save = requête SQL INSERT INTO checking (date, vehicleId) VALUES()
         let persistentChecking: Checking = await checkingRepository.save(checking)
         itemsRecup.forEach(async( element: any) => {
             const checkItemValue: CheckItemValue = new CheckItemValue()
@@ -82,16 +84,13 @@ export class ItemController {
             checkItemValue.checking = persistentChecking
 
             // Cherche l'Item correspondant
-
-
             const checkItem: Item = await repository.byId(element.id)
             checkItemValue.item = checkItem
             itemValueRepository.save(checkItemValue)
-            
+            //.save = requête SQL INSERT INTO check-item-value(checkingId,value,itemId) VALUES() 
         });
 
-        response.status(200).send(itemsRecup.length.toString())
-        
+        response.status(200).send(itemsRecup.length.toString())   
     }
     //
 

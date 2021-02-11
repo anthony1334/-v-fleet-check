@@ -20,6 +20,7 @@ const StackNavigator = createSwitchNavigator(
         }
         
     },
+    
     {
         initialRouteName: 'Splash',
         headerMode: 'none',

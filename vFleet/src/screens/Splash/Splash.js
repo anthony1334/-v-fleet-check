@@ -8,11 +8,11 @@ import Login from './../../components/login/Login'
 import LoginVehicle from './../../components/loginVehicle/LoginVehicle'
 import axios from 'axios'
 import AsyncStorage from '@react-native-community/async-storage'
-const Environment=require('./../../../environment.js')
+const Environment = require('./../../../environment.js')
 
 const Splash = ({ navigation }) => {
 
-  let immat = {}
+  /*  let immat = {} */
 
   const anim = require('./../../../assets/animations/3970-scanning-animation.json')
   const [unknownUser, setUnknownUser] = React.useState(true)
@@ -25,7 +25,7 @@ const Splash = ({ navigation }) => {
   const [user, setUser] = useState({})
   const [immat, setImmat] = useState({})
 
-  const processLogOut= () => {
+  const processLogOut = () => {
     AsyncStorage.removeItem("vFleetUser")
     setDoLogOut(false)
     setImmatLoad(false)
@@ -46,7 +46,8 @@ const Splash = ({ navigation }) => {
   const receivedFromLogin = (user, rememberMe) => {
     axios.post(`${Environment.API}user`, user)
       // Si utilisateur connu
-      .then( (response) => {
+      .then((response) => {
+        console.log("titi", JSON.stringify(response))
         setAddLoginVehicle(false)
         setUnknownUser(false)
         setIsUserLoad(false)
@@ -57,9 +58,9 @@ const Splash = ({ navigation }) => {
         if (rememberMe) {
           AsyncStorage.setItem("vFleetUser", JSON.stringify(user))
         }
-      // erreur = donc utilisateur inconnu
+        // erreur = donc utilisateur inconnu
       }).catch((error) => {
-        if (user=unknownUser){
+        if (user = unknownUser) {
           setIsUserLoad(true)
         }
       })
@@ -71,14 +72,13 @@ const Splash = ({ navigation }) => {
         immat = response.data
         setDisabledStatus(false)
         setAddLoginVehicle(true)
-        setImmatLoad (false)
+        setImmatLoad(false)
         setWelcomeMessage(true)
         setImmat(response.data)
-        console.log(JSON.stringify(immat))
       }).catch(() => {
-        if (immat=!isImmatLoad){
-        setImmatLoad (true)
-      }
+        if (immat = !isImmatLoad) {
+          setImmatLoad(true)
+        }
       })
   }
 
@@ -90,12 +90,20 @@ const Splash = ({ navigation }) => {
     async function fetchUser() {
       const user = await AsyncStorage.getItem("vFleetUser")
       if (user !== null) {
-        setDoLogOut(true)
-        setAddLoginVehicle(false)
-        setUnknownUser(false)
-        setIsUserLoad(false)
-        setUser(user)
-        setImmat(immat)
+        axios.post(`${Environment.API}user`, user)
+          // Si utilisateur connu
+          .then((response) => {
+            setAddLoginVehicle(false)
+            setUnknownUser(false)
+            setIsUserLoad(false)
+            setUser(response)
+            setDoLogOut(true)
+          })
+          .catch((error) => {
+            if (user = unknownUser) {
+              setIsUserLoad(true)
+            }
+          })
       }
     }
     fetchUser()
@@ -105,33 +113,33 @@ const Splash = ({ navigation }) => {
    * Si utilisateur inconnu, alors on passe dans la méthode receivedFromLogin
    */
   const loginView = unknownUser ? <Login navigation={navigation} updateCheckButton={receivedFromLogin}></Login> : null
-    /**
-   * Si ça passe pas à l'input immat, alors on passe dans la methode receivedFromLogin
-   */
+  /**
+ * Si ça passe pas à l'input immat, alors on passe dans la methode receivedFromLogin
+ */
   const addVehicle = !addLoginVehicle ? <LoginVehicle navigation={navigation} updateCheckButtonImmat={receivedFromImmat}></LoginVehicle> : null
-   /**
-   * Si utilisateur inconnu, rien, sinon message erreur s'affiche
-   */
-  const loginErrorMessage = isUserLoad ? <Text style={styles.errorMsg}> Veuillez entrer un identifiant valide. </Text> : null 
+  /**
+  * Si utilisateur inconnu, rien, sinon message erreur s'affiche
+  */
+  const loginErrorMessage = isUserLoad ? <Text style={styles.errorMsg}> Veuillez entrer un identifiant valide. </Text> : null
   const immatErrorMessage = isImmatLoad ? <Text style={styles.errorMsg}> Veuillez entrer une immatriculation connue. </Text> : null
 
-  const welcomeMess = welcomeMessage ? 
-  <View style={styles.welcomeMsg}>
-    <Text > Bonjour {JSON.stringify(user.data.userLog)} </Text>
-    <Text > Vous allez checker le véhicule {(immat.matriculation)} </Text>
-    <Text > Qui appartient à {JSON.stringify(user.data.company.name)} </Text>
-  </View>
-   : null
+  const welcomeMess = welcomeMessage ?
+    <View style={styles.welcomeMsg}>
+      <Text > Bonjour {JSON.stringify(user.data.userLog)} </Text>
+      <Text > Vous allez checker le véhicule {(immat.matriculation)} </Text>
+      <Text > Qui appartient à {JSON.stringify(user.data.company.name)} </Text>
+    </View>
+    : null
 
-   const logOut = doLogOut ? 
-   <FAB
-   style={styles.fabvalid}
-   small
-   icon='plus'
-   label="Deconnexion"
-  //  disabled={disabledStatus}
-   onPress={() => processLogOut()}
-   /> : null
+  const logOut = doLogOut ?
+    <FAB
+      style={styles.fabvalid}
+      small
+      icon='plus'
+      label="Deconnexion"
+      //  disabled={disabledStatus}
+      onPress={() => processLogOut()}
+    /> : null
 
 
   return (
@@ -148,10 +156,10 @@ const Splash = ({ navigation }) => {
               loop={true}
               autoPlay={true}
             /> */}
-      {loginView}
-      {logOut}
-      {addVehicle}
-      {welcomeMess}
+        {loginView}
+        {logOut}
+        {addVehicle}
+        {welcomeMess}
       </View>
 
       <View style={styles.container}>
@@ -162,7 +170,7 @@ const Splash = ({ navigation }) => {
           label='Accéder à la checklist'
           disabled={disabledStatus}
           onPress={() => navigation.navigate('CheckList', { immat: immat })}
-      
+
         />
       </View>
     </>

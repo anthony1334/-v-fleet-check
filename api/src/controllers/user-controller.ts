@@ -21,7 +21,6 @@ export class UserController {
     }
     
     async signin(request: Request, response: Response) {
-        console.log(JSON.stringify(request.body))
         repository.findUser(request.body)
         .then(users => {
             if (users.length>0) {
@@ -33,7 +32,6 @@ export class UserController {
     }
 
     async putInCompany(request: Request, response: Response) {
-        console.log(JSON.stringify(request.body))
         repository.findPutInCompany(request.body)
         .then(users => {
             if (users.length>0) {

@@ -21,7 +21,7 @@ export class PhotoRouter {
            
             .post(
                 `/`,
-                upLoad.single("photo"),
+                upLoad.single("photo"),//viens de multer(middleware)(crée l objet de type file dans le controller)
                 this.controller.putInPhoto
 
             )

@@ -6,7 +6,7 @@ import { StackNavigator } from 'react-navigation'
 
 
 
-const Header = ({ navigation, titleText,handleBack }) => {
+const Header = ({ navigation, titleText, handleBack }) => {
   const backButton = navigation.state.routeName !== 'Splash' ? <Appbar.BackAction
     onPress={() => {
       handleBack()
