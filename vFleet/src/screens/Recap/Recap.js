@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { View, StyleSheet } from 'react-native'
-import { FAB, Paragraph, Title } from 'react-native-paper'
+import { FAB, Paragraph, Title, Snackbar } from 'react-native-paper'
 import styles, {colors} from '../../theme/theme'
 import Header from '../../components/header/Header'
 
@@ -10,6 +10,9 @@ const Environment = require('./../../../environment.js')
 
 
 const Recap = ({ navigation }) => {
+  const [isVisible, setIsVisible] = useState(false)
+  const [dismissed, setDismissed] = useState(false)
+
   const items = navigation.getParam('recap')
   const immat = navigation.getParam('immat')
 
@@ -24,19 +27,60 @@ const Recap = ({ navigation }) => {
   const validate = () => {
     axios.post(`${Environment.API}items`, { items, immat })
       .then((response) => {
-         navigation.navigate('Splash')
+         setIsVisible(true)
       }).catch(() => {
         console.log("une erreur est survenue")
 
       })
   }
 
+  const onDismiss = () => {
+    setIsVisible(false)
+    setDismissed(true)
+  }
+
+  const buttons = isVisible ? null : <>
+  <View>
+      <FAB
+        style={styles.fabvalid}
+        small
+        icon='check'
+        label='Valider'
+        hidden={isVisible}
+        onPress={() => validate()}
+      />
+  </View>
+  <View>
+    <FAB
+      style={styles.fabvalid}
+      small
+      icon='page-previous'
+      label='Modifier'
+      onPress={() => navigation.navigate('CheckList')}
+      hidden={isVisible}
+    />
+  </View>
+</>
+
+  useEffect(() => {
+    if (dismissed) {
+      navigation.navigate('Splash')
+    }
+  })
 
   return (
     <>
       <Header titleText="vFleetCheck" navigation={navigation} />
       
       <View style={styles.container}>
+        <Snackbar
+          visible={isVisible}
+          onDismiss={() => onDismiss()}
+          duration={3000}
+        >
+          Les points de contrôles ont bien été mis à jour.... Merci.
+        </Snackbar>
+
         <View>
           <Title style={styles.defaultFontColor}>Vous avez saisi les valeurs suivantes :</Title>
         </View>
@@ -45,24 +89,8 @@ const Recap = ({ navigation }) => {
           {itemFromChecklist}
         </View>
 
-        <View>
-          <FAB
-            style={styles.fabvalid}
-            small
-            icon='check'
-            label='Valider'
-            onPress={() => validate()}
-          />
-        </View>
-
-        <FAB
-          style={styles.fabvalid}
-          small
-          icon='page-previous'
-          label='Modifier'
-          onPress={() => navigation.navigate('CheckList')}
-        />
-      </View>
+        { buttons }
+    </View>
     </>
   )
 }
