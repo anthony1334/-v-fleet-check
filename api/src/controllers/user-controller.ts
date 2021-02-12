@@ -3,6 +3,7 @@ import { CompanyRepository } from './../repositories/company-repository';
 import { connection } from './../database/connection';
 import { UserRepository } from './../repositories/user-repository';
 import { User } from './../entities/user';
+import { UserDto } from './../dto/user-dto';
 
 let repository: UserRepository
 let companyRepository: CompanyRepository
@@ -26,7 +27,7 @@ export class UserController {
         const account: User = await repository.authenticate(user)
 
         if (account) {
-            response.status(200).send(account)
+            response.status(200).send(new UserDto().deserialize(account))
         } else {
             response.status(403).send({message: `L'accès n'est pas autorisé`})
         }
