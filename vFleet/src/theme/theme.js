@@ -26,6 +26,13 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: -60
     },
+    defaultBackground: {
+      backgroundColor: colors.dark,
+      color: colors.light
+    },
+    defaultFontColor: {
+      color: colors.light
+    },
     fabvalid: {
       backgroundColor: colors.warning,
       justifyContent: 'center',
