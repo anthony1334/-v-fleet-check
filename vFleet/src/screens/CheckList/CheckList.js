@@ -22,6 +22,7 @@ import {
 import RNSpeedometer from 'react-native-speedometer'
 import Camera2 from './../../components/camera/Camera2'
 import { Button, Overlay } from 'react-native-elements';
+import styles, { colors } from './../../theme/theme'
 const Environment = require('./../../../environment.js')
 
 /**
@@ -76,6 +77,8 @@ const CheckList = ({ navigation }) => {
       setItem(items[newIndice])
       setValue(items[newIndice].value)
     }
+    setButtonDisabledState(true)
+
     if (newIndice >= items.length) {
       navigation.navigate('Recap', { recap: items, immat: immat })
     }
@@ -110,8 +113,6 @@ const CheckList = ({ navigation }) => {
 
   //active button kilometre + mise a jour de la valeur saisie
   const handleChange = (text) => {
-
-
     setValue(text)
   }
 
@@ -123,11 +124,13 @@ const CheckList = ({ navigation }) => {
       //nbr de kilometre
       case "textInput":
         return <TextInput
+          style={customStyles.textInputs}
           keyboardType={'numeric'}
           placeholder={item.title}
           value={value}
           onChangeText={(text) => handleChange(text)}
         />
+
       //STARRATING
       case "starRating":
         return <Rating showRating fractions={1}
@@ -135,10 +138,9 @@ const CheckList = ({ navigation }) => {
           onFinishRating={ratingCompleted} />
 
       case "progressBar":
-        return <SafeAreaView style={{ flex: 1 }}>
-          <View style={styles.containerss}>
+        return <>
             <RNSpeedometer
-              value={meterValue}
+              value={+meterValue}
               //value for Speedometer
               size={200}
               //Size of Speedometer
@@ -167,36 +169,24 @@ const CheckList = ({ navigation }) => {
               ]}
             //Labels for the different steps of Speedometer
             />
-            <View style={{ marginTop: 70, padding: 20 }}>
               <Text style={{ fontSize: 20 }}>
-                Veuillez entrez le niveau de carburant{' '}
-              de 0 à 100
-            </Text>
+                { item.hinting } de 0 à 100
+              </Text>
               <TextInput
                 placeholder={item.hinting}
-                style={styles.textInputs}
+                style={customStyles.textInputs}
                 keyboardType={'numeric'}
                 value={value}
                 onChangeText={(value) => numberGranted(value)}
               />
-            </View>
-          </View>
-        </SafeAreaView>
+            </>
     }
   }
-
-  
-
-
-
 
   const toggleOverlay = () => {
     /*  setVisible(!visible); */
     setCameraOn(!cameraOn)
   };
-
-
-
 
   /**
    * effet de bord de l activation des boutons pour passer a l item suivant
@@ -205,14 +195,15 @@ const CheckList = ({ navigation }) => {
   useEffect(() => {
     switch (item.controle) {
       case "textInput":
-        const valueAsnumber = +value
-        if (valueAsnumber >= +item.previous) {
+        const valueAsNumber = +value
+        if (valueAsNumber > +item.previous) {
           setButtonDisabledState(false)
         }
         else {
           setButtonDisabledState(true)
         }
         break
+
       case "progressBar":
         if (value != "") {
           if (value >= 0 && value <= 100) {
@@ -223,6 +214,7 @@ const CheckList = ({ navigation }) => {
           }
         }
         break
+
       default: setButtonDisabledState(false)
 
     }
@@ -235,12 +227,17 @@ const CheckList = ({ navigation }) => {
       .then(res => res.json())
       .then(
         (result) => {
-          setIsLoaded(true);
-          setItems(result);
-          setItem(result[0]);
-          setPrevious(result[0].previous);
-          setValue("")
-          setButtonDisabledState(item.validator != "" ? true : false)
+          setIsLoaded(true)
+          setItems(result)
+          setItem(result[0])
+          setPrevious(result[0].previous)
+          setValue(result[0].previous.toString())
+          if (result[0].controle === 'textInput') {
+            console.log(`Sets button as disabled if textInput`)
+            setButtonDisabledState(true)
+          } else {
+            setButtonDisabledState(item.validator != "" ? true : false)
+          }
         },
         // @Todo: il faut gérer les erreurs ici plutôt que dans
         // un bloc catch() afin que nous n’avalions pas les exceptions
@@ -264,24 +261,29 @@ const CheckList = ({ navigation }) => {
     return (
       <>
         <Header handleBack={handleBack} titleText="Points de contrôles" navigation={navigation} />
-        <View style={styles.checkPoint}>
-          <Appbar.Header style={styles.checkPoint} >
+        
+        <View style={customStyles.checkPoint}>
+          <Appbar.Header style={customStyles.checkPoint} >
             <Appbar.Content title={title} />
           </Appbar.Header>
         </View>
-        <View style={styles.Headline}>
-          <Headline>{item.title}</Headline>
+        
+        <View style={customStyles.Headline}>
+          <Headline style={customStyles.Headline}>{item.title}</Headline>
         </View>
-        <View>
-          <Subheading>Valeur précédente :{item.previous} </Subheading>
+        
+        <View style={styles.defaultBackground}>
+          <Subheading style={styles.defaultFontColor}>Valeur précédente :{item.previous} </Subheading>
         </View>
-        <View>
+        
+        <View style={styles.defaultBackground}>
           {controle()}
         </View>
-        <View>
+        
+        <View style={styles.defaultBackground}>
           <IconButton
             icon="camera"
-            color={Colors.grey500}
+            color={colors.secondary}
             size={50}
             onPress={toggleOverlay}
           />
@@ -291,23 +293,21 @@ const CheckList = ({ navigation }) => {
           <Camera2 idItem={item.id} />
         </Overlay>
 
-        <View style={styles.container}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>
+        <View style={customStyles.container}>
+          <View style={customStyles.titleContainer}>
+            <Text style={customStyles.title}>
               <IconButton
                 disabled={buttonDisabledState}
                 icon="check-underline-circle"
-                color={Colors.blue500}
+                color={colors.warning}
                 size={100}
                 onPress={() => handleClick()}
               /></Text>
-
           </View>
         </View>
-        <View style={styles.para}>
 
-          <Paragraph><List.Icon color={Colors.dark} icon="alert" /> {item.hinting}</Paragraph>
-
+        <View style={styles.defaultBackground}>
+          <Paragraph style={customStyles.para}><List.Icon color={Colors.dark} icon="alert" /> {item.detail}</Paragraph>
         </View>
       </>
     )
@@ -320,23 +320,26 @@ const CheckList = ({ navigation }) => {
  * css
  */
 
-const styles = StyleSheet.create({
+const customStyles = StyleSheet.create({
   containerss: {
     flex: 1,
     alignItems: 'center',
+    backgroundColor: colors.dark
   },
   textInputs: {
     height: 25,
     fontSize: 16,
     marginTop: 30,
     borderBottomWidth: 0.3,
+    backgroundColor: colors.secondary,
     borderBottomColor: 'black',
+    padding: 10
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     paddingHorizontal: 10,
-    paddingVertical: 20
+    paddingVertical: 20,
+    backgroundColor: colors.dark
   },
   titleContainer: {
     alignItems: 'center',
@@ -347,28 +350,26 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   Headline: {
-    marginTop: 30
+    padding: 30,
+    backgroundColor: colors.dark,
+    color: colors.light
 
   },
 
   checkPoint: {
-    marginTop: 30,
-    backgroundColor: '#fff'
-
+    backgroundColor: colors.dark
   },
 
   para: {
-    marginTop: 16,
-    paddingVertical: 8,
+    padding: 8,
     borderWidth: 4,
     borderColor: "#ebae34",
-    backgroundColor: "#61dafb",
-    color: "#20232a",
-    textAlign: "center",
-    fontSize: 30,
-    margin: 40,
+    backgroundColor: colors.secondary,
+    color: colors.light,
+    textAlign: "left",
+    fontSize: 16,
+    margin: 20,
     fontWeight: "bold",
-    padding: 8
   },
 
   containers: {
@@ -376,23 +377,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     padding: 10,
   },
-  /*  containerOverlay: {
-     flex: 1,
-     justifyContent: 'center',
-     alignItems: 'center',
-     backgroundColor: '#F5FCFF',
-   },
-   overlay: {
-     flex: 1,
-     position: 'absolute',
-     left: 0,
-     top: 0,
-     opacity: 0.5,
-     backgroundColor: 'black',
-     width: '100%'
-   }   */
-
-
 })
 
 
