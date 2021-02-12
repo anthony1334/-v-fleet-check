@@ -44,7 +44,7 @@ const Splash = ({ navigation }) => {
    */
 
   const receivedFromLogin = (user, rememberMe) => {
-    axios.post(`${Environment.API}user`, user)
+    axios.get(`${Environment.API}user/${user.username}/${user.password}`)
       // Si utilisateur connu
       .then((response) => {
         setAddLoginVehicle(false)
@@ -89,7 +89,7 @@ const Splash = ({ navigation }) => {
     async function fetchUser() {
       const user = await AsyncStorage.getItem("vFleetUser")
       if (user !== null) {
-        axios.post(`${Environment.API}user`, user)
+        axios.get(`${Environment.API}user/${user.username}/${user.password}`)
           // Si utilisateur connu
           .then((response) => {
             setAddLoginVehicle(false)

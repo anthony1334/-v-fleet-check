@@ -25,7 +25,6 @@ const Login = ({ updateCheckButton }) => {
    * HandleClick => Bouton valider, correspond à la méthode ReceivedFromLogin, dans Splash
    */
   const handleClick = () => {
-    console.log(`Send ${JSON.stringify(user)} to callback`)
     updateCheckButton(user, checked)
   }
  
