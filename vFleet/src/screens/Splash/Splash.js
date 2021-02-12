@@ -66,7 +66,9 @@ const Splash = ({ navigation }) => {
   }
 
   const receivedFromImmat = (immat) => {
-    axios.post(`${Environment.API}vehicle`, immat)
+    immat = immat.immatriculation.replace(' ', '').toUpperCase()
+    
+    axios.get(`${Environment.API}vehicle/${immat}`)
       .then((response) => {
         immat = response.data
         setDisabledStatus(false)

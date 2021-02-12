@@ -14,7 +14,7 @@ const LoginVehicle = ({ updateCheckButtonImmat }) => {
    * handleClick => Bouton valider, correspond à la méthode ReceivedFromLogin passé en props, dans Splash
    */
   const handleClick = () => {
-    updateCheckButtonImmat(data)
+    updateCheckButtonImmat(matriculation)
   }
   
   /**
@@ -24,7 +24,8 @@ const LoginVehicle = ({ updateCheckButtonImmat }) => {
    */
 
   const handleMatriculation = (text) => {
-    setData(matriculation => ({...matriculation, immatriculation: text}))
+
+    setMatriculation(matriculation => ({...matriculation, immatriculation: text}))
 
     if(text.trim().length === 7){
       setIsValidImmatriculation(true)
