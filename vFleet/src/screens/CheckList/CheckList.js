@@ -77,6 +77,8 @@ const CheckList = ({ navigation }) => {
       setItem(items[newIndice])
       setValue(items[newIndice].value)
     }
+    setButtonDisabledState(true)
+
     if (newIndice >= items.length) {
       navigation.navigate('Recap', { recap: items, immat: immat })
     }
@@ -111,8 +113,6 @@ const CheckList = ({ navigation }) => {
 
   //active button kilometre + mise a jour de la valeur saisie
   const handleChange = (text) => {
-
-
     setValue(text)
   }
 
@@ -130,6 +130,7 @@ const CheckList = ({ navigation }) => {
           value={value}
           onChangeText={(text) => handleChange(text)}
         />
+
       //STARRATING
       case "starRating":
         return <Rating showRating fractions={1}
@@ -137,10 +138,9 @@ const CheckList = ({ navigation }) => {
           onFinishRating={ratingCompleted} />
 
       case "progressBar":
-        return <SafeAreaView style={{ flex: 1 }}>
-          <View style={customStyles.containerss}>
+        return <>
             <RNSpeedometer
-              value={meterValue}
+              value={+meterValue}
               //value for Speedometer
               size={200}
               //Size of Speedometer
@@ -169,11 +169,9 @@ const CheckList = ({ navigation }) => {
               ]}
             //Labels for the different steps of Speedometer
             />
-            <View style={{ marginTop: 70, padding: 20 }}>
               <Text style={{ fontSize: 20 }}>
-                Veuillez entrez le niveau de carburant{' '}
-              de 0 à 100
-            </Text>
+                { item.hinting } de 0 à 100
+              </Text>
               <TextInput
                 placeholder={item.hinting}
                 style={customStyles.textInputs}
@@ -181,24 +179,14 @@ const CheckList = ({ navigation }) => {
                 value={value}
                 onChangeText={(value) => numberGranted(value)}
               />
-            </View>
-          </View>
-        </SafeAreaView>
+            </>
     }
   }
-
-  
-
-
-
 
   const toggleOverlay = () => {
     /*  setVisible(!visible); */
     setCameraOn(!cameraOn)
   };
-
-
-
 
   /**
    * effet de bord de l activation des boutons pour passer a l item suivant
@@ -207,14 +195,15 @@ const CheckList = ({ navigation }) => {
   useEffect(() => {
     switch (item.controle) {
       case "textInput":
-        const valueAsnumber = +value
-        if (valueAsnumber >= +item.previous) {
+        const valueAsNumber = +value
+        if (valueAsNumber > +item.previous) {
           setButtonDisabledState(false)
         }
         else {
           setButtonDisabledState(true)
         }
         break
+
       case "progressBar":
         if (value != "") {
           if (value >= 0 && value <= 100) {
@@ -225,6 +214,7 @@ const CheckList = ({ navigation }) => {
           }
         }
         break
+
       default: setButtonDisabledState(false)
 
     }
@@ -237,12 +227,17 @@ const CheckList = ({ navigation }) => {
       .then(res => res.json())
       .then(
         (result) => {
-          setIsLoaded(true);
-          setItems(result);
-          setItem(result[0]);
-          setPrevious(result[0].previous);
-          setValue("")
-          setButtonDisabledState(item.validator != "" ? true : false)
+          setIsLoaded(true)
+          setItems(result)
+          setItem(result[0])
+          setPrevious(result[0].previous)
+          setValue(result[0].previous.toString())
+          if (result[0].controle === 'textInput') {
+            console.log(`Sets button as disabled if textInput`)
+            setButtonDisabledState(true)
+          } else {
+            setButtonDisabledState(item.validator != "" ? true : false)
+          }
         },
         // @Todo: il faut gérer les erreurs ici plutôt que dans
         // un bloc catch() afin que nous n’avalions pas les exceptions
@@ -304,7 +299,7 @@ const CheckList = ({ navigation }) => {
               <IconButton
                 disabled={buttonDisabledState}
                 icon="check-underline-circle"
-                color={Colors.blue500}
+                color={colors.warning}
                 size={100}
                 onPress={() => handleClick()}
               /></Text>
