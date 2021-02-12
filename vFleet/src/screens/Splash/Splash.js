@@ -126,23 +126,20 @@ const Splash = ({ navigation }) => {
 
   const welcomeMess = welcomeMessage ?
     <View style={styles.welcomeMsg}>
-      <Text > Bonjour {JSON.stringify(user.data.userLog)} </Text>
-      <Text > Vous allez checker le véhicule {(immat.matriculation)} </Text>
-      <Text > Qui appartient à {user.data.company.name} </Text>
+      <Text > Bonjour <Text style={styles.boldText}>{user.data.userLog}</Text> </Text>
+      <Text > Cliquez sur le bouton ci-dessous pour contrôler le véhicule <Text style={styles.boldText}>{(immat.matriculation)}</Text> </Text>
     </View>
     : null
 
   const logOut = doLogOut ?
-  <View style={styles.bottomLocked}>
     <FAB
        style={styles.fabvalid}
       small
-      icon='plus'
+      icon='account-remove'
       label="Deconnexion"
-      //  disabled={disabledStatus}
       onPress={() => processLogOut()}
     />
-  </View> : null
+  : null
 
 
   return (
@@ -154,12 +151,12 @@ const Splash = ({ navigation }) => {
           {loginErrorMessage}
           {immatErrorMessage}
         </View>
-        {/*  <LottieView
+        <LottieView
               style={styles.lottieView}
               source={anim}
               loop={true}
               autoPlay={true}
-            /> */}
+        />
 
       </View>
       
@@ -168,10 +165,10 @@ const Splash = ({ navigation }) => {
       {addVehicle}
       
       {welcomeMess}
-      
-      {logOut}
 
-      <View style={styles.container}>
+      <View style={styles.bottomLocked}>
+        {logOut}
+
         <FAB
           style={styles.fabvalid}
           small

@@ -30,11 +30,12 @@ const styles = StyleSheet.create({
       backgroundColor: colors.warning,
       justifyContent: 'center',
       alignItems: 'center',
+      marginBottom: 20
     },
     bottomLocked: {
-      position: 'absolute',
-      bottom: 50,
-      left: '55%'
+      backgroundColor: colors.dark,
+      flex: 1,
+      justifyContent: 'flex-end'
     },
     validButton: {
       backgroundColor: colors.warning
@@ -81,7 +82,6 @@ const styles = StyleSheet.create({
     welcomeMsg: {
       padding: 10,
       margin: 8,
-      marginTop: 200,
       color: colors.light,
       backgroundColor: colors.light,
       borderWidth: 2,
@@ -89,6 +89,9 @@ const styles = StyleSheet.create({
     },
     checkRemember: {
       backgroundColor: colors.secondary,
+    },
+    boldText: {
+      fontWeight: 'bold'
     }
   })
 
