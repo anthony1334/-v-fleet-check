@@ -65,7 +65,6 @@ const Login = ({ updateCheckButton }) => {
 
 
   const changeFieldTouchState = (field, state) => {
-    console.log(`Field ${field} was touched`);
     if (field === 'username') {
       setFieldsTouched(fieldsTouched => ({...fieldsTouched, username: state}))
     } else {
