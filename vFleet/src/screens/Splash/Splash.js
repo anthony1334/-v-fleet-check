@@ -39,7 +39,7 @@ const Splash = ({ navigation }) => {
   /**
    * receivedFromLogin => Sert à faire correspondre le front avec le back grâce à Axios, 
    * est utilisé grâce à une props dans 'Login' sous le nom handleClick
-   * @param {objet comprenant login+password récupéré de data de Login} user 
+   * @param {objet comprenant username+password récupéré de data de Login} user 
    * @param {correspond au checked, et checkbox (de Login), booléen de "se souvenir de moi" } rememberMe 
    */
 

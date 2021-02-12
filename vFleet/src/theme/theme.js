@@ -90,9 +90,7 @@ const styles = StyleSheet.create({
       borderColor:colors.warning,
     },
     checkRemember: {
-      right: 0,
-      backgroundColor: colors.warning,
-      padding: 2
+      backgroundColor: colors.secondary,
     }
   })
 

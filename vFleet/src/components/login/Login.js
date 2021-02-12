@@ -7,16 +7,15 @@ import styles, { colors } from './../../theme/theme'
 
 const Login = ({ updateCheckButton }) => {
 
-  const [username, setUsername] = React.useState('')
-  const [password, setPassword] = React.useState('')
+  const [user, setUser] = useState({
+    username: '',
+    password: ''
+  })
   const [disabled, setDisabled] = React.useState(true)
   const [isValidUsername, setIsValidUsername] = React.useState(false)
   const [isValidPassword, setIsValidPassword] = React.useState(false)
   const [checked, setChecked] = React.useState(false);
-  const [data, setData] = React.useState({
-    username:'',
-    password:'',
-  })
+
   const [fieldsTouched, setFieldsTouched] = useState({
     username: false,
     password: false
@@ -26,20 +25,20 @@ const Login = ({ updateCheckButton }) => {
    * HandleClick => Bouton valider, correspond à la méthode ReceivedFromLogin, dans Splash
    */
   const handleClick = () => {
-    updateCheckButton(data, checked)
+    console.log(`Send ${JSON.stringify(user)} to callback`)
+    updateCheckButton(user, checked)
   }
  
   
   /////////// Gestion de l'identifiant 
   const handleLogin = (text) => {
-    setUsername(text)
+    setUser((user) => ({...user, username: text}))
     if(text.trim().length === 0){
       setIsValidUsername(false)
       changeFieldTouchState('username', true)
     }
     else{
       setIsValidUsername(true)
-      setData(data => ({...data, username:text}))
       changeFieldTouchState('username', false)
     }
   }
@@ -51,14 +50,13 @@ const Login = ({ updateCheckButton }) => {
    */
 
   const handlePassword = (text) => {
-    setPassword(text)
+    setUser((user) => ({...user, password: text}))
     if(text.trim().length === 0){
       setIsValidPassword(false)
       changeFieldTouchState('password', true)
     } 
     else {
       setIsValidPassword(true)
-      setData(data => ({...data, password:text}))
       changeFieldTouchState('password', false)
     } 
   }
@@ -112,7 +110,7 @@ const Login = ({ updateCheckButton }) => {
           style={styles.idMdp}
           name="username"
           label="Votre identifiant"
-          value={username}
+          value={user.username}
           onChangeText={text => handleLogin(text)}
           type='flat'
         />
@@ -123,7 +121,7 @@ const Login = ({ updateCheckButton }) => {
           secureTextEntry
           name="password"
           label="Votre mot de passe"
-          value={password}
+          value={user.password}
           onChangeText={text => handlePassword(text)}
           type='flat'
         />
@@ -131,6 +129,7 @@ const Login = ({ updateCheckButton }) => {
         
         <CheckBox 
           style={styles.checkRemember}
+          containerStyle={styles.checkRemember}
           center
           title='Se souvenir de moi'
           iconRight
