@@ -131,14 +131,16 @@ const Splash = ({ navigation }) => {
     : null
 
   const logOut = doLogOut ?
+  <View style={styles.bottomLocked}>
     <FAB
-      style={styles.fabvalid}
+       style={styles.fabvalid}
       small
       icon='plus'
       label="Deconnexion"
       //  disabled={disabledStatus}
       onPress={() => processLogOut()}
-    /> : null
+    />
+  </View> : null
 
 
   return (
@@ -161,12 +163,12 @@ const Splash = ({ navigation }) => {
       
       {loginView}
       
-      {logOut}
-      
       {addVehicle}
       
       {welcomeMess}
       
+      {logOut}
+
       <View style={styles.container}>
         <FAB
           style={styles.fabvalid}
