@@ -16,7 +16,11 @@ const Login = ({ updateCheckButton }) => {
   const [data, setData] = React.useState({
     username:'',
     password:'',
-  });
+  })
+  const [fieldsTouched, setFieldsTouched] = useState({
+    username: false,
+    password: false
+  })
 
   /**
    * HandleClick => Bouton valider, correspond à la méthode ReceivedFromLogin, dans Splash
@@ -29,13 +33,14 @@ const Login = ({ updateCheckButton }) => {
   /////////// Gestion de l'identifiant 
   const handleLogin = (text) => {
     setUsername(text)
-    setData(data => ({...data, username:text}))
-
-    if(text.trim().length <= 4){
+    if(text.trim().length === 0){
       setIsValidUsername(false)
+      changeFieldTouchState('username', true)
     }
     else{
       setIsValidUsername(true)
+      setData(data => ({...data, username:text}))
+      changeFieldTouchState('username', false)
     }
   }
   
@@ -47,16 +52,26 @@ const Login = ({ updateCheckButton }) => {
 
   const handlePassword = (text) => {
     setPassword(text)
-    setData(data => ({...data, password:text}))
-
-    if(text.trim().length <= 8){
+    if(text.trim().length === 0){
       setIsValidPassword(false)
+      changeFieldTouchState('password', true)
     } 
     else {
       setIsValidPassword(true)
+      setData(data => ({...data, password:text}))
+      changeFieldTouchState('password', false)
     } 
   }
 
+
+  const changeFieldTouchState = (field, state) => {
+    console.log(`Field ${field} was touched`);
+    if (field === 'username') {
+      setFieldsTouched(fieldsTouched => ({...fieldsTouched, username: state}))
+    } else {
+      setFieldsTouched(fieldsTouched => ({...fieldsTouched, password: state}))
+    }
+  }
 
   /**
   * NEED MORE EXPLICATIONS
@@ -72,17 +87,28 @@ const Login = ({ updateCheckButton }) => {
   /**
    * Ternaires qui ajoutent des messages d'erreurs dépendants des methodes handleLogin et handlePassword
    */
-  const validUsername = isValidUsername ? null:
-  <Text style={styles.errorMsg}>Le nom d'utilisateur doit contenir minimum 4 caractères.</Text>
+  const validUsername = () => {
+    if (fieldsTouched.username) {
+      if (!isValidUsername) {
+        return <Text style={styles.errorMsg}>Le nom d'utilisateur ne peut pas être vide</Text>
+      }
+    }
+    return null
+  }
+
+  const validPassword = () => {
+    if (fieldsTouched.password) {
+      if (!isValidPassword) {
+        return <Text style={styles.errorMsg}>Le mot de passe ne peut pas être vide</Text>
+      }
+    }
+    return null    
+  }
   
-  const validPassword = isValidPassword ? null :  
-  <Text style={styles.errorMsg}>Le mot de passe doit contenir minimum 8 caractères.</Text>
 
 
   return (
     <View style={styles.loginStyle}>
-        {validUsername}
-        {validPassword}
         <TextInput
           style={styles.idMdp}
           name="username"
@@ -91,6 +117,8 @@ const Login = ({ updateCheckButton }) => {
           onChangeText={text => handleLogin(text)}
           type='flat'
         />
+        {validUsername()}
+        
         <TextInput
           style={styles.idMdp}
           secureTextEntry
@@ -100,6 +128,8 @@ const Login = ({ updateCheckButton }) => {
           onChangeText={text => handlePassword(text)}
           type='flat'
         />
+        {validPassword()}
+        
         <CheckBox 
           style={styles.checkRemember}
           center
@@ -108,13 +138,13 @@ const Login = ({ updateCheckButton }) => {
           onPress={() => {setChecked(!checked)}}
           checked={checked}
         />
-          <FAB
-            disabled={disabled}
-            style={styles.fabvalid}
-            icon='check'
-            label='Identifier mon véhicule'
-            onPress={() => handleClick()}        
-          />
+        <FAB
+          disabled={disabled}
+          style={styles.fabvalid}
+          icon='check'
+          label='Identifier mon véhicule'
+          onPress={() => handleClick()}        
+        />
     </View>
   );
 };

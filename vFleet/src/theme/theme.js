@@ -33,10 +33,6 @@ const styles = StyleSheet.create({
     //   backgroundColor: colors.warning
     // },
     fabvalid: {
-      position: 'absolute',
-      marginTop: 20,
-      right: 0,
-      bottom: 10,
       backgroundColor: colors.warning,
       justifyContent: 'center',
       alignItems: 'center'
@@ -65,10 +61,8 @@ const styles = StyleSheet.create({
     // },
     errorMsg: {
       textAlign: 'center',
-      marginTop: -17,
-      color: colors.warning,
-      marginBottom: 15,
-      fontSize: 8,
+      color: colors.danger,
+      fontSize: 16,
     },
     textRemember: {
       color: colors.dark,
@@ -80,8 +74,6 @@ const styles = StyleSheet.create({
       backgroundColor: colors.warning
     },
     loginStyle: {
-      flex: 1,
-      marginTop: 40,
       backgroundColor: colors.dark
     },
     immatInput: {

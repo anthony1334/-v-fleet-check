@@ -4,7 +4,6 @@ import { createStackNavigator } from 'react-navigation-stack'
 import CheckList from '../screens/CheckList/CheckList'
 import Splash from './../screens/Splash/Splash'
 import Recap from '../screens/Recap/Recap'
-import Camera from './../screens/Camera/Camera'
 
 const StackNavigator = createSwitchNavigator(
     {
@@ -18,11 +17,7 @@ const StackNavigator = createSwitchNavigator(
 
         Recap:{
             screen: Recap
-        },
-        Camera: {
-            screen: Camera
         }
-        
     },
     
     {

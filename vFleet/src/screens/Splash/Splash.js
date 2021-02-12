@@ -47,7 +47,6 @@ const Splash = ({ navigation }) => {
     axios.post(`${Environment.API}user`, user)
       // Si utilisateur connu
       .then((response) => {
-        console.log("titi", JSON.stringify(response))
         setAddLoginVehicle(false)
         setUnknownUser(false)
         setIsUserLoad(false)
@@ -127,7 +126,7 @@ const Splash = ({ navigation }) => {
     <View style={styles.welcomeMsg}>
       <Text > Bonjour {JSON.stringify(user.data.userLog)} </Text>
       <Text > Vous allez checker le véhicule {(immat.matriculation)} </Text>
-      <Text > Qui appartient à {JSON.stringify(user.data.company.name)} </Text>
+      <Text > Qui appartient à {user.data.company.name} </Text>
     </View>
     : null
 
@@ -145,6 +144,7 @@ const Splash = ({ navigation }) => {
   return (
     <>
       <Header titleText="vFleetCheck" navigation={navigation} />
+      
       <View style={styles.container}>
         <View>
           {loginErrorMessage}
@@ -156,12 +156,17 @@ const Splash = ({ navigation }) => {
               loop={true}
               autoPlay={true}
             /> */}
-        {loginView}
-        {logOut}
-        {addVehicle}
-        {welcomeMess}
-      </View>
 
+      </View>
+      
+      {loginView}
+      
+      {logOut}
+      
+      {addVehicle}
+      
+      {welcomeMess}
+      
       <View style={styles.container}>
         <FAB
           style={styles.fabvalid}
@@ -171,14 +176,6 @@ const Splash = ({ navigation }) => {
           disabled={disabledStatus}
           onPress={() => navigation.navigate('CheckList', { immat: immat })}
 
-        />
-
-        <FAB
-          style={styles.fabvalid}
-          small
-          icon='check'
-          label='Photos'
-          onPress={() => navigation.navigate('Camera')}
         />
       </View>
     </>
