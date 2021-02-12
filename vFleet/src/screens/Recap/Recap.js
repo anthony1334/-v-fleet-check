@@ -1,9 +1,9 @@
 import React from 'react'
-import { View, Button } from 'react-native'
-import { Text, FAB, Paragraph, Title } from 'react-native-paper'
-import styles from '../../theme/theme'
+import { View, StyleSheet } from 'react-native'
+import { FAB, Paragraph, Title } from 'react-native-paper'
+import styles, {colors} from '../../theme/theme'
 import Header from '../../components/header/Header'
-import CheckList from '../CheckList/CheckList'
+
 import axios from 'axios'
 const Environment = require('./../../../environment.js')
 
@@ -14,14 +14,16 @@ const Recap = ({ navigation }) => {
   const immat = navigation.getParam('immat')
 
   const itemFromChecklist = items.map((item) => {
-    return <Paragraph key={item.id}>{item.title}:{item.value}{item.validator}</Paragraph>
+    return <Paragraph 
+      key={item.id} 
+      style={styles.defaultFontColor}>
+        {item.title} : {item.value}
+      </Paragraph>
   })
+
   const validate = () => {
-  
     axios.post(`${Environment.API}items`, { items, immat })
       .then((response) => {
-
-        setItems(items)
          navigation.navigate('Splash')
       }).catch(() => {
         console.log("une erreur est survenue")
@@ -33,38 +35,45 @@ const Recap = ({ navigation }) => {
   return (
     <>
       <Header titleText="vFleetCheck" navigation={navigation} />
+      
       <View style={styles.container}>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        </View>
         <View>
-          <Title>Vous avez saisi les valeurs suivantes :</Title>
+          <Title style={styles.defaultFontColor}>Vous avez saisi les valeurs suivantes :</Title>
         </View>
-        <View >
+
+        <View style={customStyles.list}>
           {itemFromChecklist}
         </View>
+
         <View>
           <FAB
-            style={styles.fab}
+            style={styles.fabvalid}
             small
             icon='check'
             label='Valider'
-            onPress={() => validate}
-
+            onPress={() => validate()}
           />
         </View>
 
-
+        <FAB
+          style={styles.fabvalid}
+          small
+          icon='page-previous'
+          label='Modifier'
+          onPress={() => navigation.navigate('CheckList')}
+        />
       </View>
-      <FAB
-        style={styles.fab}
-        small
-        icon='check'
-        label='Modifier'
-        onPress={() => navigation.navigate('CheckList')}
-      />
     </>
   )
 }
+
+const customStyles = StyleSheet.create({
+  list: {
+    flex: 1,
+    backgroundColor: colors.dark,
+    padding: 20
+  }
+})
 
 export default Recap
 

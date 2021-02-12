@@ -45,7 +45,7 @@ const CheckList = ({ navigation }) => {
   const [previous, setPrevious] = useState("")
   const [text, setText] = React.useState('');
   const [number, setNumber] = React.useState('');
-  const title = 'points de contrôles ' + (indice + 1) + "/" + items.length
+  const title = 'Points de contrôles ' + (indice + 1) + "/" + items.length
   const [meterValue, setMeterValue] = useState(20)
   const immat = navigation.getParam('immat')
   const [cameraOn, setCameraOn] = useState(false)
@@ -233,7 +233,6 @@ const CheckList = ({ navigation }) => {
           setPrevious(result[0].previous)
           setValue(result[0].previous.toString())
           if (result[0].controle === 'textInput') {
-            console.log(`Sets button as disabled if textInput`)
             setButtonDisabledState(true)
           } else {
             setButtonDisabledState(item.validator != "" ? true : false)
