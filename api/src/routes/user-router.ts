@@ -17,7 +17,7 @@ export class UserRouter {
     private setRoutes() {
         this.router
             .get(
-                `/`,
+                `/:username/:password`,
                 this.controller.login
             )
             .post(

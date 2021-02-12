@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { CompanyRepository } from './../repositories/company-repository';
 import { connection } from './../database/connection';
 import { UserRepository } from './../repositories/user-repository';
+import { User } from './../entities/user';
 
 let repository: UserRepository
 let companyRepository: CompanyRepository
@@ -17,7 +18,18 @@ export class UserController {
     }
 
     async login(request: Request, response: Response) {
-        response.status(403).send("Coucou")
+        const user: any = { 
+            username: request.params.username,
+            password: request.params.password
+        }
+
+        const account: User = await repository.authenticate(user)
+
+        if (account) {
+            response.status(200).send(account)
+        } else {
+            response.status(403).send({message: `L'accès n'est pas autorisé`})
+        }
     }
     
     async signin(request: Request, response: Response) {
