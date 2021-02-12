@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.dark,
     paddingHorizontal: 10,
-    paddingVertical: 20
+    paddingVertical: 20,
+    height: '100%'
     },
     // titleContainer: {
     //   alignItems: 'center',
@@ -25,17 +26,16 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: -60
     },
-    // fab: {
-    //   position: 'absolute',
-    //   margin: 20,
-    //   right: 0,
-    //   bottom: 10,
-    //   backgroundColor: colors.warning
-    // },
     fabvalid: {
       backgroundColor: colors.warning,
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      marginBottom: 20
+    },
+    bottomLocked: {
+      backgroundColor: colors.dark,
+      flex: 1,
+      justifyContent: 'flex-end'
     },
     validButton: {
       backgroundColor: colors.warning
@@ -77,13 +77,11 @@ const styles = StyleSheet.create({
       backgroundColor: colors.dark
     },
     immatInput: {
-      marginTop: 60,
       backgroundColor: colors.dark
     },
     welcomeMsg: {
       padding: 10,
       margin: 8,
-      marginTop: 200,
       color: colors.light,
       backgroundColor: colors.light,
       borderWidth: 2,
@@ -91,6 +89,9 @@ const styles = StyleSheet.create({
     },
     checkRemember: {
       backgroundColor: colors.secondary,
+    },
+    boldText: {
+      fontWeight: 'bold'
     }
   })
 

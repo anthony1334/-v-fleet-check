@@ -9,8 +9,8 @@ export class VehicleRepository extends Repository<Vehicle> {
         // SELECT * FROM vehicle
     }
 
-    public byImmat(matriculation: string): Promise<Vehicle[]> {
-        return this.find(
+    public byImmat(matriculation: string): Promise<Vehicle> {
+        return this.findOne(
             {
                 where: {matriculation}
             }

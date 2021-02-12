@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import {  View, TouchableOpacity } from 'react-native';
 import { Text, FAB, Button, TextInput, IconButton, Colors } from 'react-native-paper'
-import { CheckBox } from 'react-native-elements'
 import styles, { colors } from './../../theme/theme'
 
 const LoginVehicle = ({ updateCheckButtonImmat }) => {
-
-    const [immatriculation, setImmatriculation] = React.useState('')
-    const [disabled, setDisabled] = React.useState(true)
-    const [isValidImmatriculation, setIsValidImmatriculation] = React.useState(false)
-    const [data, setData] = React.useState({
-      immatriculation:''
+    const [disabled, setDisabled] = useState(true)
+    const [isValidImmatriculation, setIsValidImmatriculation] = useState(false)
+    const [matriculation, setMatriculation] = useState({
+      immatriculation: ''
     })
 
    /**
    * handleClick => Bouton valider, correspond à la méthode ReceivedFromLogin passé en props, dans Splash
    */
   const handleClick = () => {
-    updateCheckButtonImmat(data)
-    // console.log("toto",{user.company})
+    updateCheckButtonImmat(matriculation)
   }
   
   /**
@@ -27,9 +23,9 @@ const LoginVehicle = ({ updateCheckButtonImmat }) => {
    * @param {texte tapé dans le login} text 
    */
 
-  const handleLogin = (text) => {
-    setImmatriculation(text)
-    setData(data => ({...data, immatriculation:text}))
+  const handleMatriculation = (text) => {
+
+    setMatriculation(matriculation => ({...matriculation, immatriculation: text}))
 
     if(text.trim().length === 7){
       setIsValidImmatriculation(true)
@@ -48,7 +44,6 @@ const LoginVehicle = ({ updateCheckButtonImmat }) => {
     } else {
       setDisabled(true)
     }
-    console.log(JSON.stringify(data))
   })
   
   /**
@@ -64,8 +59,8 @@ const LoginVehicle = ({ updateCheckButtonImmat }) => {
           style={styles.idMdp}
           name="immatriculation"
           label="Immatriculation du véhicule"
-          value={immatriculation}
-          onChangeText={text => handleLogin(text)}
+          value={matriculation.immatriculation}
+          onChangeText={text => handleMatriculation(text)}
           type='flat'
         />
 

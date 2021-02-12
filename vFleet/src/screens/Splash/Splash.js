@@ -66,7 +66,9 @@ const Splash = ({ navigation }) => {
   }
 
   const receivedFromImmat = (immat) => {
-    axios.post(`${Environment.API}vehicle`, immat)
+    immat = immat.immatriculation.replace(' ', '').toUpperCase()
+    
+    axios.get(`${Environment.API}vehicle/${immat}`)
       .then((response) => {
         immat = response.data
         setDisabledStatus(false)
@@ -124,21 +126,20 @@ const Splash = ({ navigation }) => {
 
   const welcomeMess = welcomeMessage ?
     <View style={styles.welcomeMsg}>
-      <Text > Bonjour {JSON.stringify(user.data.userLog)} </Text>
-      <Text > Vous allez checker le véhicule {(immat.matriculation)} </Text>
-      <Text > Qui appartient à {user.data.company.name} </Text>
+      <Text > Bonjour <Text style={styles.boldText}>{user.data.userLog}</Text> </Text>
+      <Text > Cliquez sur le bouton ci-dessous pour contrôler le véhicule <Text style={styles.boldText}>{(immat.matriculation)}</Text> </Text>
     </View>
     : null
 
   const logOut = doLogOut ?
     <FAB
-      style={styles.fabvalid}
+       style={styles.fabvalid}
       small
-      icon='plus'
+      icon='account-remove'
       label="Deconnexion"
-      //  disabled={disabledStatus}
       onPress={() => processLogOut()}
-    /> : null
+    />
+  : null
 
 
   return (
@@ -150,24 +151,24 @@ const Splash = ({ navigation }) => {
           {loginErrorMessage}
           {immatErrorMessage}
         </View>
-        {/*  <LottieView
+        <LottieView
               style={styles.lottieView}
               source={anim}
               loop={true}
               autoPlay={true}
-            /> */}
+        />
 
       </View>
       
       {loginView}
       
-      {logOut}
-      
       {addVehicle}
       
       {welcomeMess}
-      
-      <View style={styles.container}>
+
+      <View style={styles.bottomLocked}>
+        {logOut}
+
         <FAB
           style={styles.fabvalid}
           small
